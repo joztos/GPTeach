@@ -1,10 +1,10 @@
-import PyPDF2
+import PdfReader 
 
 # Open the PDF file
-pdf_file = open('path/to/your/file.pdf', 'rb')
+pdf_file = open('python/pdfs/9781785040207.pdf', 'rb')
 
 # Create a PDF reader object
-pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+pdf_reader = PdfReader.PdfFileReader(pdf_file)
 
 # Get the total number of pages
 num_pages = pdf_reader.numPages
