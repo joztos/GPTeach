@@ -19,7 +19,7 @@ logging.getLogger("haystack").setLevel(logging.WARNING)
 doc_dir = "data/tutorial7/"
 
 # Read PDF files from a local directory
-pdf_dir = Path("pdf_files/")
+pdf_dir = Path("/pdfs")
 pdf_paths = list(pdf_dir.glob("*.pdf"))
 
 # Convert PDFs to text and create documents
