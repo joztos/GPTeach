@@ -2,21 +2,12 @@ import logging
 import os
 from pathlib import Path
 
-import pandas as pd
-
-from haystack.document_stores import ElasticsearchDocumentStore
-from haystack.nodes import EmbeddingRetriever, OpenAIAnswerGenerator
-from haystack.pipelines import GenerativeQAPipeline
-from haystack.utils import launch_es
-from haystack.nodes.file_converter.pdf import PDFToTextConverter
-from haystack import Document
-
+from haystack import Pipeline, Document
+from haystack.nodes import PDFToTextConverter, TextConverter
 
 logging.basicConfig(format="%(levelname)s - %(name)s -  %(message)s", level=logging.WARNING)
 logging.getLogger("haystack").setLevel(logging.WARNING)
 
-
-doc_dir = "data/tutorial7/"
 
 # Read PDF files from a local directory
 pdf_dir = Path("/pdfs")
@@ -30,6 +21,7 @@ for pdf_path in pdf_paths:
     document = Document(content=text, meta={"name": pdf_path.stem})
     documents.append(document)
 
+print(f"Number of documents: {len(documents)}")
 
 # Initialize ElasticsearchDocumentStore
 launch_es()
