@@ -1,0 +1,1300 @@
+ 
+ 
+ 
+ 
+ 
+ 
+© The author; licensee Universidad Nacional de Colombia.  
+Revista DYNA, 89(222), pp. 9-17, special engineering education July, 2022, ISSN 0012-7353 
+DOI:  https://doi.org/10.15446/dyna.v89n222.100547 
+Teaching control theory: a selection of methodology based on 
+learning styles• 
+ 
+Cinthia Viviana Rojas-Palacio, Eliana Isabel Arango-Zuluaga & Héctor Antonio Botero-Castro  
+ 
+Universidad Nacional de Colombia, Sede Medellín, Facultad de Minas, Medellín, Colombia. cvrojasp@unal.edu.co, eiarangoz@unal.edu.co, 
+habotero@unal.edu.co 
+ 
+Received: January 18th, 2022. Received in revised form: March 28th, 2022. Accepted: April 18th, 2022. 
+ 
+Abstract 
+This research results from the need to establish a connection between educational methodologies and students’ learning styles so that 
+students can understand concepts with a high level of abstraction, such as control concepts. For this, definitions for learning, learning styles 
+and active educational methodology from an engineering perspective were proposed. Then, a review of the literature on the use of learning 
+styles in engineering, specifically in the area of systems control, is also presented. Finally, a methodology with a laboratory approach, 
+integrating active methodologies and a learning style model, to teach control concepts was proposed. 
+ 
+Keywords: active methodology; control systems; engineering education; learning styles. 
+ 
+ 
+Enseñando teoría de control: una selección de metodología basada 
+en estilos de aprendizaje 
+ 
+Resumen 
+El objetivo de esta investigación fue establecer una conexión entre metodologías educativas y los estilos de aprendizaje de los estudiantes, 
+para que estos mejorarán la comprensión conceptos de alto nivel de abstracción como los conceptos de control. Para ello, se propusieron 
+definiciones de aprendizaje, estilos de aprendizaje y metodología educativa activa desde una perspectiva de educación en ingeniería. Luego, 
+se presenta una revisión de la literatura sobre el uso de los estilos de aprendizaje en ingeniería, específicamente en el área de control de 
+sistemas. Finalmente, se propone una metodología con un enfoque de laboratorio para enseñar conceptos de control, integrando 
+metodologías educativas activas y un modelo de estilos de aprendizaje.  
+ 
+Palabras clave: metodología educativa activa; control de sistemas; educación en ingeniería; estilos de aprendizaje. 
+ 
+ 
+ 
+1. Introduction 
+ 
+Currently, there are several educational methodologies, 
+which are transformed according to the job skills in each 
+profession, to teach in any subject. For example, the training 
+of 
+professionals 
+in 
+engineering 
+careers 
+requires 
+methodologies that combine the teaching of theoretical 
+concepts and practical skills [1-4]. Specifically, the topic of 
+dynamic system control has a high level of abstraction, which 
+complicates the understanding of concepts by students 
+because of the diversity of the mathematical content, such as 
+the Laplace transform, differential equations, and complex 
+ 
+How to cite: Rojas-Palacio, C.V., Eliana Isabel Arango-Zuluaga, E.I. and Botero-Castro, H.A., Teaching control theory: a selection of methodology based on learning styles.. 
+DYNA, 89(222), pp. 9-17, special engineering education July, 2022. 
+numbers, that are used to explain the concepts. Therefore, in 
+this case, it is necessary to implement methodologies that 
+combine theory and practice in order to facilitate correct 
+understanding by students [5-7].  
+In addition, it is necessary for students to acquire not only 
+technical skills but also soft skills in their training process. 
+These skills, such as the skills to work in multidisciplinary 
+teams, to communicate effectively, to understand the ethical 
+implications of their professional performance and to develop 
+long-term self-learning capacities, among others, will enable 
+students to integrally practice their professions. Therefore, it 
+is necessary to use teaching methodologies that facilitate the 
+acquisition of human and technical skills for students [8-10].  
+Rojas-Palacio et al / Revista DYNA, 89(222), pp. 9-17, special engineering education July, 2022. 
+10 
+For this reason, an adequate educational methodology 
+with a theoretical-practical approach, which allows students 
+to consolidate theoretical knowledge and acquire skills to 
+apply their knowledge in the real world, must be proposed 
+[11]. In addition, human beings have different ways of 
+learning, as stated by Kolb, Felder and Silverman [12,13]. 
+Then, professors must establish a connection between 
+educational methodologies and the different learning styles 
+of students so that everyone can understand the concepts and 
+develop soft skills. 
+Based on the above, the following question was asked: 
+What learning styles are used in dynamic system control? 
+This question was addressed using a large literature review 
+of approximately two hundred studies that were classified 
+in order to identify only the studies in the control area. The 
+eight studies selected employ the following active 
+educational methodologies: learning by doing, problem-
+based learning, project-based learning, collaborative 
+learning, and STEM (Science, Technology, Engineering 
+and Mathematics) [7,14-20]. In summary, the previous 
+bibliographic review concluded on the importance of 
+updating the didactic and methodological strategies for 
+teaching control theory due to its high level of abstraction 
+and suggested establishing a relationship with the learning 
+styles of students in order to effectively connect the theory 
+with practice and to improve the understanding of control 
+concepts. However, there is currently no review on how to 
+relate learning styles with active methodologies for 
+engineering education that allows improving the teaching 
+of control concepts. 
+Therefore, the present work addresses the selection of 
+methodologies that integrate a learning style model and active 
+methodology to improve the understanding of basic control 
+concepts under a laboratory practice approach. In summary, the 
+objective of this article is to demonstrate the use of learning 
+styles in the area of control engineering and propose the 
+construction of a methodology for teaching control theory. 
+This article is organized as follows. Section 2 presents the 
+definition of the concept of learning. Section 3 presents the 
+definition of active educational methodology and a literature 
+review of the methodologies used in the control area. In 
+Section 4, three learning style models are detailed: the Kolb 
+model, the Felder and Silverman model, and the VARK 
+(Visual, Auditory, Reading, Kinesthetic) model. In addition, 
+the use of these models in the area of system control is 
+explained. Section 5 presents the relationship between 
+control concepts and laboratory control objectives using the 
+learning styles of Felder and Silverman. Section 6 proposes a 
+methodology 
+based 
+on 
+three 
+active 
+educational 
+methodologies and the Felder and Silverman learning style 
+model to improve the teaching of control concepts. Finally, 
+in Section 7, the conclusions are presented. 
+ 
+2. Learning concept in engineering education 
+ 
+First, it is necessary to define learning. The concept of 
+learning is difficult to define because it is abstract. However, 
+there are several theories and authors that explain it from 
+different perspectives. As described in [21], there is no exact 
+definition of learning, even in specialized books on the 
+subject. Although learning is defined as "acquiring 
+knowledge of something through study or experience" 
+according to the Royal Spanish Academy [22], this definition 
+falls short according to the specific needs of engineering 
+training and generating a didactic strategy. Thus, it is 
+necessary to understand learning concept from an 
+engineering perspective.  
+For that, it is necessary to consider some aspects: 
+• What is the most relevant information? 
+• How is the information given? 
+• What is the best alternative to connect theory with the real 
+world? 
+Hence, in [23] presented three definitions of learning 
+from three psychopedagogical paradigms: behaviorism, 
+cognitivism and constructivism. For behaviorism, learning is 
+a change in behavior in the face of environmental stimuli; for 
+cognitivism, learning is a change in mental processes when a 
+link is established between the new knowledge and the prior 
+knowledge of the individual; and for constructivism learning, 
+learning means building lifelong knowledge over time from 
+the development of social and cognitive skills. 
+However, in [24] learning is defined as “the process of 
+acquiring a relatively long-lasting disposition to change 
+perception or behavior as a result of an experience”. In [25] 
+learning is defined as "a relatively permanent change in 
+behavior generated by experience". In [12] learning is a two-
+step process that involves receiving and processing 
+information. Therefore, the definition of learning has 
+changed in accordance with the psychopedagogical trends 
+and the needs of society. Thus, the definition of the Royal 
+Spanish Academy is the most recent according to the 
+literature analyzed. 
+Based on the definitions found in the literature and in 
+accordance with the purposes of this work, a definition of 
+learning is structured from a didactic approach framed in 
+engineering education. Thus, learning is a process that 
+consists of acquiring, processing, understanding and 
+applying new information in a given context. 
+ 
+3. Active methodology to teach control systems 
+ 
+After learning concept was defined, it was necessary to 
+define an active methodology. There are different 
+educational methodologies for engineering education that 
+have been used to improve the learning process. 
+An analysis of the methodologies that are used in engineering 
+education is presented in [3]. According to the authors, it is not 
+pertinent to use a single teaching method because engineers need 
+to not only learn theory but also develop their practical and social 
+skills. Thus, it is necessary to establish an educational 
+methodology to link a methodology with the learning process. 
+This is possible through active methodologies because they are 
+alternatives to solve the current requirements of our society, for 
+example leadership, critical thinking and adaptability, such as 
+those analyzed in [1].  
+Then, what is an active methodology? According to the 
+literature review conducted by [1], active methodologies are 
+any instructional method that involves students in the 
+learning process. Therefore, active methodologies are 
+characterized 
+by 
+constant 
+student 
+intervention; 
+Rojas-Palacio et al / Revista DYNA, 89(222), pp. 9-17, special engineering education July, 2022. 
+11 
+Table 1. 
+Benefits of active methodologies 
+Methodology 
+Benefits 
+Learning by doing 
+This methodology encourages the 
+observation and application of 
+theory based on experimentation.  
+Problem-based learning 
+This methodology encourages 
+problem detection, frustration 
+tolerance, and problem solving. 
+Project-based learning 
+This methodology encourages 
+critical thinking, creativity, 
+flexibility and innovation. 
+Collaborative learning 
+This methodology encourages 
+group reflection, teamwork, and 
+leadership. 
+STEM 
+This methodology encourages 
+training in engineering areas in 
+elementary and middle school 
+students. 
+Source: The authors.  
+ 
+ 
+hence, they are fundamental in engineers’ education. 
+Furthermore, authors agree that more than one educational 
+methodology should be used for engineering education to ensure 
+that students acquire both the technical and human competencies 
+required by an engineer today [1,3,8-10]. 
+Among the active methodologies, the most prominent in 
+the area of system control are project-based learning, 
+problem-based learning, learning by doing, collaborative 
+learning and STEM according to [7,15-20]. The benefits 
+associated with these five active methodologies are presented 
+in Table 1 according to [23,26-43].  
+ 
+4. Learning styles in control engineering 
+ 
+Once the learning concept is defined and what are the most 
+common active methodologies in the area of control systems 
+are identified, it is necessary to define learning styles. 
+There are different models and definitions of learning 
+styles, such as those in [12,13,44-49]. Learning styles are the 
+cognitive, affective and physiological traits that serve as 
+indicators of the way in which individuals perceive, interact 
+and respond to their learning environments [44]. [13] defines 
+that learning styles are individual differences in learning 
+based on a student's preference for using various phases of 
+the learning cycle. And [49] establishes that learning styles 
+are the methods that a person uses to learn and study. 
+Based on these definitions, the following definition of 
+learning styles was structured from a didactic and 
+engineering 
+education 
+perspective: 
+an 
+individual's 
+preferences regarding the way in which person acquires, 
+processes, understands and retains information. 
+With the definition of learning styles, it is necessary to 
+find what learning style models are the most appropriate for 
+system control. Therefore, the 26 learning style models 
+described in [48] were analyzed, and a literature search was 
+conducted with one criterion: the model must be used in 
+control engineering. As a result, three learning style models 
+are selected according to [7,14-20]: the Kolb model, the 
+Felder and Silverman model, and the VARK model. 
+ 
+Table 2. 
+Activities and methodologies according to Kolb’s learning styles model. 
+Learning Style 
+Activities 
+Methodologies 
+Diverging style 
+Experiments 
+Simulations 
+Conceptual maps 
+Learning by doing 
+Collaborative learning 
+Assimilating style 
+Take notes 
+Reading texts 
+Written reports 
+Lecture 
+Autonomous learning 
+Flipped classroom 
+Converging style 
+Charts and Maps 
+Practical projects 
+Memorization 
+exercises 
+Learning by doing 
+Project-based learning 
+Flipped classroom 
+Accommodating 
+style 
+Experiments 
+Practical 
+demonstrations 
+Discussion 
+Collaborative 
+learning 
+Learning by doing 
+ 
+Source: The authors. 
+ 
+ 
+4.1 Kolb model 
+ 
+Based on the experiential learning theory in [13,50], Kolb 
+conceives learning as a four-stage process: concrete experience, 
+abstract conceptualization, active experimentation and reflective 
+observation. Kolb establishes four learning styles from the 
+combinations of the learning cycle: diverging style, assimilating style, 
+converging style and accommodating style. 
+So, Table 2 was generated by relating the needs of each Kolb’s 
+learning styles, the activities required for each learning style and an 
+active methodology that fits with both. 
+ 
+4.2 VARK model 
+ 
+This model is based on the neurolinguistic programming model of 
+Bandler and Grinder [45], which considers three major systems for mentally 
+representing information: visual, auditory and kinesthetic. However, 
+Fleming & Mills add one more system to de Bandler and Grinder model: 
+the reading-writing system. Therefore, this VARK model consists of four 
+learning styles: visual, auditory, reading and kinesthetic [46]. 
+This learning style model focuses mainly on how a student 
+receives information; thus, it is possible to establish a relationship 
+between the sensory modality of the human body and the VARK 
+learning styles. For sight is the visual style, hearing is the auditory 
+style, motor skills are kinesthetic style, and sight with motor skills 
+are reading style. Table 3 shows the activities and the most 
+appropriate active methodologies for each VARK’s learning style 
+ 
+Table 3. 
+Activities and methodologies according to the VARK learning styles model. 
+Learning Style 
+Activities 
+Methodologies 
+Visual 
+Charts and Maps 
+Flowcharts 
+Photos and videos 
+Learning by doing 
+Lecture 
+with 
+multimedia resources. 
+Auditory 
+Exhibitions 
+Discussion  
+Out loud reading 
+Collaborative learning 
+Lecture 
+Seminars and forums 
+Reading-Writing 
+Take notes 
+Reading texts 
+Written reports 
+Lecture 
+Autonomous learning 
+Flipped classroom 
+Kinesthetic 
+Experiments 
+Practical 
+demonstrations 
+Teamwork 
+Learning by doing 
+Collaborative learning 
+Problem-based learning 
+Source: The authors. 
+Rojas-Palacio et al / Revista DYNA, 89(222), pp. 9-17, special engineering education July, 2022. 
+12 
+4.3 Felder and Silverman model 
+ 
+Based on Kolb’s model, Felder and Silverman provide a 
+vision of how students learn and how to generate material to 
+easily reach each type of student in [12]. This model has four 
+dimensions for learning: perception, input, processing, and 
+understanding. For each dimension, two opposite categories, 
+such as active and reflective, was established; thus, in this 
+model, there are eight learning styles: 
+Perception dimension: 
+• Sensitive: Sensitive people are people who prefer to 
+observe. They like practical work and activities oriented 
+toward facts and procedures. 
+• Intuitive: Intuitive people are conceptual people oriented 
+toward theories and demonstrations. 
+• Processing dimension: 
+• Reflective: Reflective people are analytical and reflective 
+people; therefore, they require spaces to think and 
+meditate. 
+• Active: Active people are people who need to apply, 
+experiment on and conduct practical activities. 
+Input dimension: 
+• Visual: Visual people are people who better 
+remember what they see. They prefer figures or 
+demonstrations. 
+• Verbal: Verbal people are people who prefer to receive 
+information verbally or in writing. 
+Understanding dimension: 
+• Sequential: Sequential people are people who learn 
+incrementally. 
+• Global: Global people are people with a comprehensive 
+vision of things. 
+Additionally, four dimensions directly related to the 
+learning dimensions, which are content, presentation, 
+student participation and perspective, are established 
+for teaching. Thus, there are two opposite styles for 
+each teaching dimension, resulting in eight teaching 
+styles. In Fig. 1, the relationship between the 
+dimensions of learning and teaching is shown 
+according to [12]. 
+Considering the learning styles of Felder and Silverman, 
+their activities and methodologies were analyzed according 
+to the needs of the eight learning styles, as described in Table 
+4. 
+ 
+ 
+Figure 1. Learning styles and teaching styles of the Felder and Silverman 
+model.  
+Source: The authors. 
+Table 4. 
+Activities and methodologies according to Felder and Silverman’s learning 
+styles model. 
+Learning 
+Style 
+Activities 
+Methodologies 
+Sensitive 
+Perform experiments 
+Simulations 
+Observation 
+of 
+phenomena 
+Memorization exercises 
+Learning by doing 
+Collaborative 
+learning 
+Problem-based learning 
+Intuitive 
+Take notes 
+Reading texts 
+Written reports 
+Thought experiments 
+Lecture 
+Autonomous learning 
+Flipped classroom 
+Visual 
+Charts and Maps 
+Practical projects 
+Photos and videos 
+Learning by doing 
+Lecture with multimedia 
+resources. 
+Verbal 
+Exhibitions 
+Discussion 
+Explain to others 
+Out loud reading 
+Collaborative 
+learning 
+Lecture 
+Seminars and forums 
+Active 
+Teamwork 
+Perform experiments 
+Discussion 
+Practical 
+Demonstrations 
+Collaborative 
+learning 
+Learning by doing 
+Problem-based learning 
+Reflective 
+Individual activities 
+Take notes 
+Reading texts 
+Written reports 
+Lecture  
+Autonomous learning 
+Flipped classroom 
+Sequential 
+Take notes 
+Flow charts 
+Simulations 
+Lab guides 
+Lecture 
+Learning by doing 
+Problem-based learning 
+Global 
+Practical demonstrations 
+Practical projects 
+Conceptual maps 
+Elaboration 
+of 
+conclusions 
+Learning by doing 
+Project-based learning 
+Source: The authors. 
+ 
+ 
+Tables 2, 3 and 4 can be used in the design of teaching 
+resources that integrate the learning style models since they 
+facilitate the identification of the methodologies and 
+activities that impact the learning styles of each model. Thus, 
+professors can first select the learning style model and then 
+generate teaching resources according to the activities 
+established for each learning style. 
+ 
+4.4 Selection of learning styles to teach control systems 
+ 
+From the specific search on the use of learning styles in 
+the area of control engineering, eight works that are described 
+in Table 5 were found. Some investigations do not have 
+feedback from students, as in [16-18]. In [18], only partial 
+results are presented; [16,19-20] focus only on simulation 
+and in theory; and [7] focuses only on the practical 
+component. Conversely, only [14] shows the distribution of 
+their students' learning styles. 
+In Table 5, the use of four learning style models, 
+including the Kolb learning style, Felder and Silverman 
+learning style, Gardner multiple intelligences style and 
+VARK learning style, are shown. 
+ 
+Rojas-Palacio et al / Revista DYNA, 89(222), pp. 9-17, special engineering education July, 2022. 
+13 
+Table 5. 
+Learning styles in control area. 
+Authors 
+Learning Style Model 
+Principal Objective 
+[16] 
+Kolb model 
+ 
+Authors 
+design 
+web 
+module for teaching control 
+using Kolb’s experiential 
+learning theory. 
+[17] 
+Kolb model 
+Felder and Silverman 
+model 
+Authors 
+incorporate 
+experiments 
+with 
+an 
+inductive approach into a 
+lecture to teach control 
+system. 
+[19] 
+Authors do not mention 
+a 
+particular 
+learning 
+style 
+Authors include art and 
+storytelling in form of 
+challenges 
+to 
+introduce 
+robotics concepts. 
+[15] 
+Kolb model 
+VARK model 
+Authors design a control 
+laboratory 
+under 
+a 
+constructivist approach. 
+[7] 
+Kolb model. 
+Gardner’s 
+theory 
+of 
+multiple intelligences. 
+Authors design practical 
+activities as a didactic 
+strategy 
+for 
+teaching 
+control concepts. 
+[20] 
+Authors do not mention 
+a 
+particular 
+learning 
+style 
+Authors design an active 
+learning strategy for the 
+control 
+and 
+dynamic 
+processes 
+subject using 
+simulation activities and 
+collaborative learning. 
+[18] 
+Gardner’s 
+theory 
+of 
+multiple intelligences. 
+Authors develop a virtual 
+control 
+subject 
+using 
+project-based learning 
+[14] 
+Kolb model 
+Authors 
+identify 
+the 
+learning styles of students 
+through 
+a 
+robotics 
+workshop. 
+Source: The authors. 
+ 
+ 
+Given that the objective of this work is to find a learning 
+style model that allows proposing an educational 
+methodology for the teaching of control theory, Gardner's 
+multiple intelligences model cannot be framed for the 
+teaching of control concepts since it is not possible to address 
+all the model’s learning styles, especially musical, 
+intrapersonal, naturalistic and interpersonal intelligences. 
+Finally, the advantages and disadvantages of the other 
+learning style models are analyzed. Applications of the Kolb 
+model in teaching, such as those presented in [7,14-16], are 
+found in the bibliography. In addition, as evidenced in Fig. 1, 
+the Felder and Silverman model includes dimensions 
+associated with the didactic field and a correspondence 
+between learning style and teaching style. This allows the 
+Felder and Silverman model to have more direct applications 
+as an educational methodology, although thus far it has not 
+been used as widely as the Kolb model. However, it is 
+possible to compare both models and conclude that the Felder 
+and Silverman model includes the dimensions proposed in 
+the Kolb model.  
+Additionally, comparing the Felder and Silverman model 
+with the VARK model shows that the VARK model focuses 
+on a single dimension of the Felder and Silverman model: the 
+input. There is also a disadvantage in the Kolb and VARK 
+models that their tests are not free. 
+Therefore, the model that has both a cognitive and a 
+didactic perspective is the Felder and Silverman model, 
+which facilitates not only the design of activities but also the 
+structuring of an educational methodology by having a direct 
+relationship with the way it should be taught. 
+Hence, the learning styles model of Felder and Silverman 
+is selected as the appropriate model for the objectives of this 
+work. 
+ 
+5. Selection of the main control concepts 
+ 
+One of the main challenges in teaching automatic control 
+is to provide an adequate balance between theory and 
+practice. Theory requires a high level of abstraction on the 
+part of students due to a large amount of required 
+mathematical background, which makes it difficult to 
+understand the concepts, creating a need to implement 
+different teaching strategies and tools, such as simulations 
+and experimental laboratories, that allow these concepts to be 
+consolidated [51-53]. 
+Although this work is focused on teaching the theory and 
+practice of concepts of control systems, it is necessary to 
+restrict the concepts to a limited number of concepts since the 
+topics of dynamic systems control are too broad to be covered 
+in a single study. To do this, the choice will be limited to the 
+basic concepts of control theory. 
+Two factors were considered to select the control 
+concepts for this work: a review of the literature and a review 
+of the topics in the Input–Output Control subject of the 
+Universidad Nacional de Colombia. 
+Starting from the literature search, which was limited to 
+the basic concepts of control [7,11,21,51,54-57] are 
+condensed into 11 control concepts, considering the concepts 
+taught in the Input–Output Control subject. 
+ 
+Table 6. 
+Relationships between control concepts and learning styles. 
+Control concept 
+Activities 
+Learning style 
+Closed and open 
+loop control 
+Select an everyday example 
+of control loop. 
+Global 
+Transfer 
+functions 
+Perform 
+the 
+Laplace 
+transform of a system. 
+Intuitive 
+and 
+reflective 
+Block diagrams 
+Establish 
+a 
+relationship 
+between the signals of a 
+system. 
+Perform block algebra 
+Global and visual 
+State space 
+Decompose a system into 
+state space. 
+Intuitive 
+Linearization and 
+operating point 
+Perform 
+Taylor 
+series 
+linearization of a system 
+Intuitive and  
+Sequential 
+Frequency 
+response 
+Chart the bode diagram of a 
+system 
+Visual 
+Time response 
+Chart the step response of a 
+system 
+Visual 
+Stability  
+Calculate the Routh Hurwitz 
+criterium 
+Intuitive and 
+reflective 
+Feedback effects 
+Analyze 
+the 
+effects 
+of 
+feedback in a system 
+Intuitive and 
+reflective 
+Effects of PID 
+control actions 
+Chart and mathematically 
+calculate the effects of PID 
+control actions in a system 
+Sensitive, 
+visual 
+and reflective 
+Controller design 
+Design a controller for a real 
+or simulated plant 
+Active, sequential 
+and sensitive 
+Source: The authors. 
+ 
+Rojas-Palacio et al / Revista DYNA, 89(222), pp. 9-17, special engineering education July, 2022. 
+14 
+Table 7. 
+Relationships between control laboratory objectives and learning styles. 
+Objectives of laboratory on control system 
+Learning style 
+Obtain and visualize System inputs and outputs 
+Sensitive, intuitive, 
+visual and global 
+Connect the theory with what is observed in the 
+lab, and identify differences between models and 
+real systems. 
+Global 
+and 
+reflective. 
+Design and verify controllers to desired 
+specifications 
+Active, sequential 
+and sensitive 
+Implement a controller in a real plant 
+Active, sequential 
+and sensitive 
+Identify physical system failures such as sensor 
+noise, interference, saturation, and correct them. 
+Active, global and 
+reflective 
+Write a laboratory report that describes the 
+obtained results. 
+Intuitive 
+and 
+sequential 
+Source: The authors. 
+ 
+ 
+Considering the learning styles model of Felder and 
+Silverman, relationships were established between the most 
+important control concepts and the learning style. To address 
+each topic, Table 4, Fig. 1, and the activities that are proposed 
+throughout the Input–Output Control subject were considered, 
+resulting in the relationships presented in Table 6. 
+Table 6 shows that the topics of control theory are 
+beneficial to students who have visual, intuitive and 
+reflective styles. This makes it difficult for students with 
+other predominant learning styles to understand the concepts, 
+especially those who learn naturally through active 
+experiences, which agrees with [5,7]. Additionally, it is 
+important to mention that the verbal style is present in all 
+sessions since listening to a teacher's explanations and 
+reading guiding material is necessary for this type of style. 
+For this reason, an adequate educational methodology 
+with a theoretical-practical approach that can allow students 
+to consolidate theoretical knowledge and acquire skills to 
+implement the different techniques in the real world must be 
+proposed. 
+To accomplish this, there are some tools that improve the 
+appropriation of concepts by students, such as simulation and 
+experimental practices in laboratories. Laboratories play an 
+important role in engineering training since it is through 
+practical experiences that students connect theory with the 
+real world. Therefore, institutions such as ABET have 
+proposed the inclusion of engineering laboratories in their 
+criteria, which is also in agreement with what was described 
+by Felder and other authors [2,8,9,58-59]. Thus, the 
+connection between theory and practice using a working 
+method, the laboratory, is necessary for teaching control 
+issues by having a working method. 
+Table 7 shows the relationship of the Felder and 
+Silverman learning styles with the first six learning 
+objectives for a control laboratory presented by [11].  
+This relationship is established considering the activities 
+outlined in Table 4 and Fig. 1 for each learning style. 
+From Table 7, it is evident that the students who would 
+benefit from a laboratory in the control area are those with an 
+active, global, sequential, and sensitive learning style. Now, 
+comparing Tables 6 and 7 shows that the practical part 
+complements learning styles that are not covered in the 
+theoretical part, thus covering the eight learning styles 
+proposed in the Felder and Silverman model. 
+Considering this analysis, there is a need to establish a 
+methodology more in line with the other learning styles that 
+allows the design of activities to teach the control concepts, 
+considering the limitations of each concept. 
+ 
+6. Proposed methodology 
+ 
+Considering the conclusion of the previous section, the 
+most appropriate option to meet these needs is a mix of active 
+methodologies. 
+Due to the inclusion of the practical part of control 
+concepts, it is necessary to select an active methodology that 
+adapts easily to the teaching environment in the control 
+laboratory. Regarding the educational methodologies used in 
+the control area, in [7,15-20], the use of learning by doing, 
+project-based learning, collaborative learning and STEM 
+methodologies are illustrated. In this case, the STEM 
+methodology is discarded as it is a methodology focused on 
+K-12 education, and it is supported by learning by doing 
+methodology; thus, the other three active educational 
+methodologies are selected. 
+These three methodologies, learning by doing, project-
+based learning and collaborative learning, are appropriate for 
+generating teaching material in a laboratory environment, as 
+seen in [21,60-66]. In addition, although problem-based 
+learning contains elements of collaborative learning, each 
+concept was considered separately since this method allows 
+for greater flexibility when preparing teaching materials for 
+each particular concept, thus having the possibility of 
+elaborating the material with one, two or all three 
+methodologies as required. 
+For the selected educational methodologies, an analysis 
+was based on the dimensions for teaching presented by Felder 
+and Silverman according to the learning styles, as presented 
+in Fig. 1, and the activities associated with each style 
+described in Table 4 was conducted. The result of this 
+analysis is shown in Fig. 2, which represents the relationships 
+between the selected educational methodologies and the 
+Felder and Silverman learning styles model. 
+The learning by doing methodology focuses on activities 
+in which a student is the main actor and encourages self-
+learning through clear instructions for the student to conduct 
+activities that can strengthen the concepts to be learned. This 
+type of educational methodology is considered pertinent for 
+sensitive, visual, active, and sequential learning styles. 
+Conversely, the problem-based learning methodology 
+focuses more on problem solving. One of its main activities 
+is the case study, allowing the student to analyze the problem 
+and generate solutions. Therefore, the activities within this 
+methodology are suitable for sensitive, intuitive, reflective 
+and global learning styles. 
+The collaborative learning methodology allows for 
+communication between students, teamwork, developing 
+communication and reflection skills, which is ideal for active, 
+verbal and global learning styles. 
+Therefore, the combined use of these three educational 
+methodologies, 
+combining 
+theoretical 
+classes 
+with 
+laboratories, will allow for the generation of activities that 
+impact the eight learning styles of the Felder and Silverman 
+ 
+Rojas-Palacio et al / Revista DYNA, 89(222), pp. 9-17, special engineering education July, 2022. 
+15 
+ 
+Figure 2. Learning styles and teaching styles of the Felder and Silverman 
+model.  
+Source: The authors. 
+ 
+ 
+model. Laboratory practices favor the connection between 
+theory and practice, that is, the association of concepts with 
+a real case study, such as laboratory plants, allowing students 
+to directly appropriate and apply the theoretical concepts that 
+were taught in a lecture. 
+ 
+7. Conclusions 
+ 
+In this work, the inclusion of learning styles as a central 
+component in designing a methodology to teach control 
+theory and practice was addressed. To accomplish this, it was 
+necessary to analyze how students learn in order to facilitate 
+the acquisition of skills related to being and doing for 
+students. 
+The definitions of learning, learning styles and active 
+methodology were adapted with the aim of applying them to 
+research in engineering education under a didactic approach. 
+These definitions can be used in any type of engineering. 
+The specific characteristics of each learning style model 
+were detailed, and then matrices in which the activities and 
+methodology were presented according to the learning styles 
+of each model were constructed. These tables can be used in 
+the design of teaching resources in any engineering context 
+as they facilitate the identification of activities that impact the 
+different styles of each learning style model. Therefore, 
+professors can select a learning style model and teaching 
+resources to use according to the activities for each learning 
+style. 
+In this work, the Felder and Silverman model was 
+selected considering the practical considerations, advantages 
+and disadvantages of each learning style model presented. 
+This model includes dimensions associated with the didactic 
+field and a correspondence between learning style and 
+teaching style, which facilitated its direct application for the 
+design of a methodology for teaching not only control system 
+theory but also any engineering subject. 
+Finally, it is concluded that the proposed methodology is 
+relevant for the teaching of control concepts and is a novel 
+tool to address control systems topics considering the 
+learning styles of the students. 
+ 
+References 
+ 
+[1] 
+Prince, M., Does active learning work: a review of the research. 
+Journal of Engineering Education. 93(3), pp. 223-231, 2004, DOI: 
+https://doi.org/10.1038/nature02568 
+[2] 
+Heywood, J., Engineering education: research and development in 
+curriculum and instruction. Jhon Wiley and Sons, 2005, pp. 353-390. 
+[3] 
+Forcael, E., Garcés, G. and Orozco F., Relationship between 
+professional competencies required by engineering students 
+according to ABET and CDIO and teaching-learning techniques. 
+IEEE Transactions on Education, 65(1), pp. 46-55, 2022. DOI: 
+https://doi.org/10.1109/TE.2021.3086766 
+[4] 
+Coelho, U.M., and Vega, Í.S., The pedagogical formation and the 
+knowledge of teachers in computering in teaching strategies: 
+integration of content, didactic material and interdisciplinary or 
+integrator project. In: 2019 XIV Latin American Conference on 
+Learning Technologies (LACLO), 2019. pp. 24-30, DOI: 
+https://doi.org/10.1109/LACLO49268.2019.00015 
+[5] 
+Rasouli, M., Weissback, R., and Yeung, D., Introducing advanced 
+control methods to undergraduates using a state space model of a 
+synchronous generator. Journal of Engineering Technology, 34(2), 
+2017. 
+[6] 
+Chevalier, A., Dekemele, K., Juchem, J. and Loccufier, M., Student 
+feedback on educational innovation in control engineering: active 
+learning in practice. In: IEEE Transactions on Education, 64(4), pp. 
+432-437, 2021. DOI: https://doi.org/10.1109/TE.2021.3077278 
+[7] 
+Samacá, L.F. and Ramirez, J.M. Learning control concepts in a fun 
+way. International Journal of Engineering Education, 27(1), pp. 1-13, 
+2011. 
+[8] 
+Felder, M.R. and Brent, R., Designing and teaching courses to satisfy 
+the ABET engineering criteria. Journal of Engineering Education, 
+92(1), pp. 7-25, 
+2003. 
+DOI: https://doi.org/10.1111/j.1467-
+8411.1988.tb00200.x 
+[9] 
+Shuman, L., Besterfield-Sacre, M. and McGourty, J., The ABET 
+‘Professional Skills’—Can they be taught? Can they be assessed?. 
+Journal of Engineering Education, 94(1), pp. 41-55, 2005. DOI: 
+https://doi.org/10.1002/j.2168-9830.2005.tb00828.x 
+[10] Vélez-Restrepo, J.M., Benjumea-Hernández, P.N., Castro-Peláez, 
+K.J. y Ríos-Echeverri, D.C., Estrategia de Innovación en Educación 
+en Ingeniería. [Online]. Facultad de Minas, Universidad Nacional de 
+Colombia, 
+2017. 
+Available 
+at: 
+https://minas.medellin.unal.edu.co/descargas/InnovacionenEducacio
+nenIngenieria FM.pdf 
+[11] Reck, R.M., Common learning objectives for undergraduate control 
+systems laboratories. IEEE Transactions on Education, 60(4), pp. 
+257-264, 2017. DOI: https://doi.org/10.1109/TE.2017.2681624 
+[12] Felder, R.M. and Silverman, L.K., Learning and teaching styles in 
+engineering education. Engineering Education, 78(7), pp. 674-681, 
+1998. 
+[13] Kolb, A.Y. and Kolb, D.A., Learning styles and learning spaces: 
+Enhancing experiential learning in higher education. Academy of 
+Management Learning & Education, 4(2), pp. 193–-212, 2005. DOI: 
+https://doi.org/10.5465/AMLE.2005.17268566 
+[14] Budiyanto, C., Fitriyaningsih, R.N., Kamal, F., Ariyuana, R. and 
+Efendi, A., Hands-on learning in STEM: revisiting educational 
+robotics as a learning style precursor. Open Engineering, 10(1), pp. 
+649-657, 2020. DOI: https://doi.org/10.1515/eng-2020-0071 
+[15] Mahmoud, A. and Nagy, Z.K., Applying Kolb’s experiential learning 
+cycle for laboratory education. Journal of Engineering Education, 
+98(3), pp. 283-294, 2009. DOI: https://doi.org/10.1002/j.2168-
+9830.2009.tb01025.x 
+[16] Mastascusa, E.J. and Hoyt, B., Pedagogical and structural 
+considerations in the design of a set of control system lessons. In: 
+ASEE Annual Conference, (ASEE 1999), Charlotte, North Carolina, 
+1999. https://strategy.asee.org/7878 
+[17] Moor, S.S. and Piergiovanni, P., Experiments in the classroom: 
+examples of inductive learning with classroom-friendly laboratory 
+Rojas-Palacio et al / Revista DYNA, 89(222), pp. 9-17, special engineering education July, 2022. 
+16 
+kits. In: ASEE Annual Conference, (ASEE 2003) Nashville, 
+Tennessee, 2003. DOI: https://doi.org/10.18260/1-2--11569 
+[18] Muñoz-Ochoa, P.L., Estrategias de enseñanza y aprendizaje en el área 
+de control de procesos. En: Encuentro Internacional de Educación en 
+Ingeniería (EIEI ACOFI 2018), 2018. 
+[19] Rusk, N., Resnick, M., Berg, R. and Pezalla-Granlund, M., New 
+pathways into robotics: Strategies for broadening participation. 
+Journal of Science Education and Technology, 17(1), pp. 59-69, 2008. 
+DOI: https://doi.org/10.1007/s10956-007-9082-2 
+[20] Staehle, M.M. and Ogunnaike, B.A., Simulation-based guided 
+explorations in process dynamics and control. In: ASEE Annual 
+Conference & Exposition, (ASEE 2014), Indianapolis, Indiana, 2014, 
+DOI: https://doi.org/10.18260/1-2--23017 
+[21] Khan, S., Jaffery, M.H., Hanif, A. and Asif, M.R. Teaching tool for a 
+control systems laboratory using a quadrotor as a plant in MATLAB. 
+IEEE Transactions on Education, 60(4), pp. 249-256, 2017. DOI: 
+https://doi.org/10.1109/TE.2017.2653762 
+[22] Real Academia Española, Diccionario de la lengua española, 23a 
+edition. Espasa Ed., Madrid, España, 2014. 
+[23] Ferreiro-Gravié, 
+R., 
+Estrategias 
+didácticas 
+del 
+aprendizaje 
+cooperativo, 1ra ed., Ed. Trillas, México, 2003. 
+[24] Alonso, C., Gallego, D. and Honey, P., Los estilos de aprendizaje. 
+Procedimientos de diagnóstico y mejora, 7a ed. Ediciones Mensajero, 
+1994. 
+[25] Feldman, R., Psicología con aplicaciones en países de habla hispana, 
+8a ed. McGraw-Hill, 2010. 
+[26] Bedenlier, S., Bond, M., Buntins, K., Zawacki-Richter, O. and Kerres, 
+M., Learning by doing?. Reflections on conducting a systematic 
+review in the field of educational technology. Systematic Reviews in 
+Educational Research. Springer VS, Wiesbaden. pp. 111-127, 2020. 
+DOI: https://doi.org/10.1007/978-3-658-27602-7_7 
+[27] Mahasneh, A.M. and Alwan, A.F., The effect of project-based 
+learning on student teacher self-efficacy and achievement. 
+International Journal of Instruction, 11(3), pp. 511-524, 2018. DOI: 
+https://doi.org/10.12973/iji.2018.11335a 
+[28] Shin, M.H., Effects of project-based learning on students’ motivation 
+and self-efficacy. English Teaching, 73(1), pp. 95-114, 2018. DOI: 
+https://doi.org/10.15858/engtea.73.1.201803.95 
+[29] Apte, M. and Bhave-Gudipudi, A., Cooperative learning techniques 
+to bridge gaps in academia and corporate. Procedia Computer 
+Science, 
+172, 
+pp. 
+289-295, 
+2020. 
+DOI: 
+https://doi.org/10.1016/j.procs.2020.05.046 
+[30] Chang, P.H., A study on the process and effect of using cooperative 
+learning approach into electronics lecture. In: 2018 IEEE 
+International Conference on Teaching, Assessment, and Learning for 
+Engineering 
+(TALE), 
+2018, 
+pp. 
+84-90. 
+DOI: 
+https://doi.org/10.1109/TALE.2018.8615230 
+[31] Kövecses-Gősi, V., Cooperative learning in VR environment.  Acta 
+Polytechica Hungarica, 15(3), pp. 205-224, 2018. 
+[32] Dori, Y.J., Mevarech, Z.R. and Baker, D R., Cognition, 
+metacognition, and culture in STEM education. Innovations in 
+Science Education and Technology. Springer, 2018. DOI: 
+https://doi.org/10.1007/978-3-319-66659-4 
+[33] Gold, Z.S. and Elicker, J., Engineering peer play: a new perspective 
+on science, technology, engineering, and mathematics (STEM) early 
+childhood education. Peer Play and Relationships in Early Childhood, 
+Springer, 2020, pp. 61-75. DOI: https://doi.org/10.1007/978-3-030-
+42331-5_5 
+[34] He, P., Stem education and engineering education in 21st Century. 
+reality and perspectives. Journal of Latex Class Files, January, 2021. 
+DOI: http://dx.doi.org/10.2139/ssrn.3763043 
+[35] Helmi, S.A., Mohd-Yusof, K. and Hisjam, M., Enhancing the 
+implementation of science, technology, engineering and mathematics 
+(STEM) education in the 21st century: a simple and systematic guide. 
+AIP Conference Proceedings, 2097(1), art. 20001, 2010. 
+[36] Quin, M., What is hands-on science, and where can I find it?. Physics 
+Education, 
+25(5), 
+pp. 
+243-246, 
+1990. 
+DOI: 
+https://doi.org/10.1088/0031-9120/25/5/306 
+[37] Schwichow, M., Zimmerman, C., Croker, S. and Härtig, H., What 
+students learn from hands-on activities.  Journal of Research in 
+Science 
+Teaching, 
+53(7), 
+pp. 
+980-1002, 
+2016. 
+DOI: 
+https://doi.org/10.1002/tea.21320 
+[38] Smart, K.L., and Csapo, N., Learning by doing: engaging students 
+through learner-centered activities. Business Communication 
+Quarterly, 
+70(4), 
+pp. 
+451-457, 
+2007. 
+DOI: 
+https://doi.org/10.1177/10805699070700040302 
+[39] Helmi, S.A., El Hassani, S., Yusof, K.M. and Phang, F.A., 
+Enrichment of problem solving skills among engineering students 
+through cooperative problem based learning. In: 7th World 
+Engineering Education Forum (WEEF), 2017, pp. 410-414. DOI: 
+https://doi.org/10.1109/WEEF.2017.8467109 
+[40] LaForce, M., Noble, E. and Blackwell, C., Problem-based learning 
+(PBL) and student interest in STEM careers: the roles of motivation 
+and ability beliefs. Education Sciences, 7(4), art. 92, 2017. DOI: 
+https://doi.org/10.3390/educsci7040092 
+[41] Ramadhani, R., Syamsul, H. and Rofiqul, U., Problem-based learning, 
+its usability and critical view as educational learning tools. Journal of 
+Gifted Education and Creativity, 6(3), pp. 193-208, 2019. 
+[42] Chen, C.H., and Yang, Y.C., Revisiting the effects of project-based 
+learning on students’ academic achievement: a meta-analysis 
+investigating moderators. Educational Research Review, 26, pp. 71-
+81, 2019. DOI: https://doi.org/10.1016/j.edurev.2018.11.001 
+[43] Condliffe, B., Project-based learning: a literature review. Working 
+Paper. MDRC, 2017. 
+[44] Keefe, J.W. and Thompson, S., Learning style: theory and practice. 
+1904 Association Dr., Reston, 1987. 
+[45] Bandler, R., Grinder, J. and O’Stevens, J., Frogs into princes: neuro 
+linguistic programming. Moab, Utah: Real People Press, 1979. 
+[46] Fleming, N.D., and Mills, C., Not another inventory, rather a catalyst 
+for reflection. To Improve the Academy, 11(1), pp. 137-155, 1992. 
+DOI: https://doi.org/10.1002/j.2334-4822.1992.tb00213.x 
+[47] Gardner, H., Arte, mente y cerebro: una aproximación cognitiva a la 
+creatividad, 7a ed. Paidós, 1997. 
+[48] Pantoja-Ospina, M.A., Duque-Salazar, L.I. and Correa-Meneses, J.S., 
+Modelos de estilos de aprendizaje: una actualización para su revisión 
+y análisis. Revista Colombiana de Educación, 1(64), pp. 79-105, 
+2013. DOI: https://doi.org/10.17227/01203916.64rce79.105 
+[49] Woolfolk, A., Psicología educativa. 11a ed. Pearson Educación, 2010. 
+[50] Kolb, D.A., Experiential learning : experience as the source of 
+learning and development. 2nd ed. Pearson Education, 2014. 
+[51] Kheir, N.A., Åström, K.J., Auslander, D., Cheok, K.C., Franklin, 
+G.F., Masten, M. and Rabins, M., Control systems engineering 
+education. 
+Automatica, 
+32(2), 
+pp. 
+147-166, 
+1996. 
+DOI: 
+https://doi.org/10.1016/0005-1098(96)85546-4 
+[52] Leš, M. and Svečko, R., Teaching control systems theory using linear 
+systems education tool. In: 2001 European Control Conference (ECC 
+2001), 
+2001, 
+pp. 
+3326-3331. 
+DOI: 
+https://doi.org/10.23919/ECC.2001.7076446 
+[53] Xing, X. and Jiang, S., The realization of automatic control theory virtual 
+experiment system based on LabVIEW and MATLAB. 2010 
+International Conference on Computer Design and Applications, 2010, pp. 
+V3-47-V3-50. DOI: https://doi.org/10.1109/ICCDA.2010.5541233 
+[54] Rana, K.P.S., Kumar, V. and Mendiratta, J., An educational 
+laboratory virtual instrumentation suite assisted experiment for 
+studying fundamentals of series resistance–inductance–capacitance 
+circuit. European Journal of Engineering Education, 42(6), pp. 1220-
+1239, 2017. DOI: https://doi.org/10.1080/03043797.2017.1284764 
+[55] Méndez, J.A., Lorenzo, C., Acosta, L., Torres, S. and González, E., A 
+web-based tool for control engineering teaching. Computer 
+Applications in Engineering Education, 14(3), pp. 178-187, 2006. 
+DOI: https://doi.org/10.1002/cae.20080 
+[56] Mendez, J.A. and Gonzalez, E.J., Implementing motivational features 
+in reactive blended learning: application to an introductory control 
+engineering course. IEEE Transactions on Education, 54(4), pp. 619-
+627, 2011. DOI: https://doi.org/10.1109/TE.2010.2102028 
+[57] Roubal, J., Husek, P. and Stecha, J., Linearization: students forget the 
+operating point. IEEE Transactions on Education, 53(3), pp. 413-418, 
+2010. DOI: https://doi.org/10.1109/TE.2009.2026427 
+[58] Feisel, L.D., and Rosa, A.J., The role of the laboratory in 
+undergraduate engineering education. Journal of Engineering 
+Education, 
+9(1), 
+pp. 
+121-130, 
+2005. 
+DOI: 
+https://doi.org/10.1002/j.2168-9830.2005.tb00833.x 
+[59] Saavedra-Montes, A.J., Botero-Castro, H.A. and Hernandez-Riveros, 
+J.A., How to motivate students to work in the laboratory: a new 
+Rojas-Palacio et al / Revista DYNA, 89(222), pp. 9-17, special engineering education July, 2022. 
+17 
+approach for an electrical machines laboratory. IEEE Transactions on 
+Education, 
+53(3), 
+pp. 
+490-496, 
+2010. 
+DOI: 
+https://doi.org/10.1109/TE.2009.2030790 
+[60] Hassan, H., Domínguez, C., Martínez, J., Perles, A., Capella, J. and 
+Albaladejo, J., A multidisciplinary PBL robot control project in 
+automation and electronic engineering. IEEE Transactions on Education, 
+58(3), pp. 167-172, 2015. DOI: https://doi.org/10.1109/TE.2014.2348538 
+[61] Kosheleva, O., Villaverde, K. and Cabrera, S.D., Back to the future: 
+advanced control techniques justify-on a new level-traditional 
+education practices. In: 2013 Joint IFSA World Congress and 
+NAFIPS Annual Meeting (IFSA/NAFIPS), 2013, pp. 466-470. DOI: 
+https://doi.org/10.1109/IFSA-NAFIPS.2013.6608445 
+[62] Lee, C.S., Su, J.H., Hsieh, C.C., Lin, K.E., Chang, J.H. and Lin, G.H., 
+A hands-on laboratory for introductory automatic control courses. 
+IFAC Proceedings Volumes, 41(2), pp. 9737-9742, 2008. DOI: 
+https://doi.org/10.3182/20080706-5-KR-1001.01647 
+[63] Matijević, M.S., Jović, N.D., Nedeljković, M.S., and Čantrak, Đ.S., 
+Remote labs and problem oriented engineering education. In: 2017 IEEE 
+Global Engineering Education Conference (EDUCON), 2017, pp. 1391-
+1396. DOI: https://doi.org/10.1109/EDUCON.2017.7943029 
+[64] Ozbek, N.S. and Eker, I., An interactive computer-aided instructional 
+strategy and assessment methods for system identification and 
+adaptive control laboratory. IEEE Transactions on Education, 58(4), 
+pp. 297-302, 2015. DOI: https://doi.org/10.1109/TE.2015.2412512 
+[65] Reck, R.M. and Sreenivas, R.S., Developing an affordable and 
+portable control systems laboratory kit with a raspberry Pi. 
+Electronics, 5(3), art. 36, 2016. DOI: 10.3390/electronics5030036 
+[66] Uyanik, I. and Catalbas, B., A low-cost feedback control systems 
+laboratory setup via Arduino–Simulink interface. Comput. Appl. Eng. 
+Educ., 26(3), pp. 718-726, 2018. DOI: https://doi.org/10.1002/cae.21917 
+ 
+C.V. Rojas-Palacio, is a BSc. Eng. in Control Engineer and MSc. in 
+Engineering – Industrial Automation from the Universidad Nacional de 
+Colombia. She is a facilitator in the Servicio Nacional de Aprendizaje 
+(SENA) and occasional profesor in Universidad Nacional de Colombia. Her 
+main fields of research are engineering education and dynamic control 
+systems. 
+ORCID: 0000-0002-1480-8209 
+ 
+E.I. Arango-Zuluaga, is a BSc. Eng. in Electronic Engineer from the 
+Universidad de Antioquia and PhD. in Electronic Engineering from 
+Universitat Rovira I Virgili, Tarragona, Spain. She is an associate professor 
+of the Electrical Energy and Automatics Department in the Universidad 
+Nacional de Colombia. Her research interests include: engineering 
+education, automatic control systems, dynamic control systems and power 
+electronics. 
+ORCID: 0000-0002-0947-3694 
+ 
+H.A. Botero-Castro, is a BSc. Eng. in Electrical Engineer and Sp. in 
+Industrial Automation from the Universidad de Antioquia, Colombia. MSc. 
+in Engineering from the Universidad del Valle, Colombia, and PhD. in 
+Engineering from the Universidad Nacional de Colombia. He is a professor 
+of the Electrical Energy and Automatics Department in Universidad 
+Nacional de Colombia. His research interests include: state estimation, 
+identification of generation control systems, and engineering education. 
+ORCID: 0000-0003-3567-4550. 

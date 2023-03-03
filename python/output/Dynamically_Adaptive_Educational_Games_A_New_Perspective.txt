@@ -1,0 +1,281 @@
+See discussions, stats, and author profiles for this publication at: https://www.researchgate.net/publication/300275890
+Dynamically Adaptive Educational Games: A New Perspective
+Conference Paper · April 2014
+DOI: 10.1007/978-3-319-05972-3_8
+CITATIONS
+27
+READS
+974
+3 authors:
+Some of the authors of this publication are also working on these related projects:
+Adaptive Persuasive ICT Tools To Tackle School Burnout Among Youngsters In Brussels View project
+Adaptation Techniques for Multimedia Resources inside 3D Virtual Learning Enviornments View project
+Pejman Sajjadi
+Kennesaw State University
+52 PUBLICATIONS   347 CITATIONS   
+SEE PROFILE
+Frederik Van Broeckhoven
+Vrije Universiteit Brussel
+12 PUBLICATIONS   235 CITATIONS   
+SEE PROFILE
+Olga De Troyer
+Vrije Universiteit Brussel
+189 PUBLICATIONS   2,973 CITATIONS   
+SEE PROFILE
+All content following this page was uploaded by Olga De Troyer on 01 May 2016.
+The user has requested enhancement of the downloaded file.
+Dynamically Adaptive Educational Games: A
+New Perspective
+Pejman Sajjadi ‡, Frederik Van Broeckhoven § and Olga De Troyer
+Vrije Universiteit Brussel, WISE Research Group, Pleinlaan 2 1050 Brussels
+BELGIUM
+{ssajjadi,frederik.van.broeckhoven,Olga.DeTroyer}@vub.ac.be
+Abstract. Dynamically adapting educational games seem to be useful
+for sustaining the engagement of the player to the game. Although there
+exist several examples of adaptive educational games, they mostly only
+base the adaptation on the performance of the player, and only adapt
+the diﬃculty level or the learning content of the game. In this paper,
+we propose a model for a richer dynamic adaptation, in which several
+aspects are taken into account for providing a more personalized gaming
+experience to sustain the engagement of the players to the game.
+Keywords: Educational games, Adaptive games, Real-time adaptation
+1
+Introduction
+One of the challenges in designing educational games is to come up with a game
+that is appealing, fun to play, and most importantly engaging; but perhaps
+the greatest challenge is to sustain the engagement of the player. According to
+several authors, e.g., [1,2], a successful game is such that its players experience
+the “ﬂow state”, introduced by Csikszentmihalyi [3] and meaning the state of
+absolute and utter engagement to an activity. It is shown that the ﬂow state has a
+positive impact on learning [4] and should therefore be considered when designing
+educational games. Moreover, in his “Experiential Gaming Model” [2], Kiili also
+uses the ﬂow theory for facilitating a positive user experience of the player,
+but also stresses “the importance of designing and balancing challenges in order
+to generate an optimal learning experience for players” (page 2). Furthermore,
+motivation is also considered as a key factor for reaching the ﬂow state [5]; the
+game must be motivating enough for its players to keep playing it. However,
+in the literature, no consensus about the source of motivation in games can be
+found. For some [6, 7], the key source of motivation is the narrative context of
+the game, whereas for others [5, 8] the system of rewards and goals is the true
+cause of motivation. In either case, motivation seems to plays an important role.
+Similarly, in educational games, it is also recommended that an eﬀective design
+‡Supported by the Vrije Universiteit Brussel, HOA26 project: Towards Cognitive
+Adaptive Edu-Games.
+§Supported by IWT (www.iwt.be), SBO-project: Friendly ATTAC.
+should consider the motivation of the learner, in particular both intrinsic and
+extrinsic motivation [5,8–10]. The two mentioned terms have been diﬀerentiated
+as follow: “Intrinsic motivation pushes us to act freely, on our own, for the sake
+of it; extrinsic motivation pulls us to act due to factors that are external to
+the activity itself, like reward or threat” (page 1) [5]. Also stimulating intrinsic
+motivation (in addition to stimulating extrinsic motivation) could be important
+in sustaining the engagement of the learner (player), especially in the case of
+people with low motivation for learning, since the use of extrinsic motivation may
+not always work for these people. However, as it is evident from its deﬁnition,
+the source of intrinsic motivation can be quite diﬀerent from person to person.
+Thus, adaptation of the educational game to the individual learner could be a
+way to increase the intrinsic motivation. On the other hand, while at the start
+of the game the learner’s intrinsic motivation can be good, it may (quickly)
+decrease during the game for all kind of reasons. Dynamically adapting the
+game, i.e. while the learner is playing the game rather than only adapting the
+game when starting the game or at a new level, could be a way to deal with
+varying motivation. However, achieving eﬀective dynamic adaptation in games
+is quite challenging, and even more challenging in educational games. This is
+mostly due to the need of having a balance between learning and fun in these
+games [11,12], and at the same time providing the correct level of challenge to
+the player (not under challenging but also not overburdening [2]).
+In this paper, we propose a new model for dynamically adaptive educational
+games. The model allows for adapting an educational game based on diﬀerent
+aspects and at diﬀerent moments, in order to provide a rich personalized ex-
+perience, to sustain the engagement of the learner, and thus providing a more
+suitable frame for experiencing the ﬂow state. The rest of the paper is organized
+as follows: section 2 discusses adaptive games, section 3 introduces the proposed
+model, and section 4 provides conclusions and future work.
+2
+Adaptive Games
+In the context of educational games, diﬀerent researches on adaptation have
+been performed, for example, in the ELEKTRA project [13] the notion of micro-
+adaptivity is introduced to guide and support learners in acquiring knowledge
+by informing them, providing hints, or intervening when a misconception occurs.
+There are methods for predicting the actions that the player might take while
+playing the game and then adapting certain aspects of the game accordingly [14].
+There are also methods for generating adaptive game worlds based on the players
+and their experience model [14].
+In educational games, the adaptation of games is mostly in the form of dif-
+ﬁculty adjustments or content adaptations, ranging from its simplest form of
+adjusting the diﬃculty level of exercises or content on each new start based on
+the previous performance, to dynamic adjustments based on the real-time per-
+formance. There are models that use both parameters, performance and content,
+for creating adaptive educational games. For example, “The Competence-based
+Knowledge Space Theory” [15] is a prime example of a model providing dif-
+ferent learning paths for the same learning topic to the players based on their
+competencies. We agree that these type of adaptive games do indeed provide a
+personalized experience, but we wonder whether they also meet one of the re-
+quirements for successful learning, i.e. take into consideration that “people learn
+in diﬀerent ways and at diﬀerent paces”? [1] The current adaptation techniques
+can deal with the aspect “people learn at diﬀerent paces”, but not with the as-
+pect “people learn in diﬀerent ways”. We argue that performance and content,
+although being undoubtedly important factors for adapting games, are merely
+two factors out of a group of factors that can be used for creating an eﬀective
+learning experience in educational games.
+3
+Proposed Model
+We propose a new model for dynamically adapting educational games. The
+overview of our model is given in Figure 1. Our model is roughly built on top
+of the experiential gaming model proposed by Kiili [2], which in turn is based
+on the ﬂow theory [3] and the Kolb’s learning style theory [16]. Based on Kiili’s
+work, the goal of his model is to provide a link between gameplay and experi-
+ential learning. At the heart of his model lie challenges that should be based on
+educational objectives. These challenges should be appropriate for the player to
+sustain motivation and engagement.
+In our model, similar to Kiili’s, challenge is of considerable importance. As
+a structuring framework for deﬁning the challenges, we opt for the learning
+style model of Kolb, which advises to go from concrete experience to reﬂective
+observation, abstract conceptualization and then active experimentation. The
+challenges in the game should be determined based on the educational objective
+of the game and Kolb’s learning style theory. As an example, for a game with the
+educational objective of learning mathematical concepts, the ﬁrst few challenges
+of the game would be deﬁned based on concrete experience, then a reﬂective
+observation on the challenges should be provided to the player, then challenges on
+abstract conceptualization, and ﬁnally on active experimentation. Furthermore,
+the challenges must be tightly coupled with the game.
+As the personality of the player may have an impact on how he can be mo-
+tivated to play, learn, and stay engaged, our model also takes into consideration
+the personal traits of the learner. To model the personality of the player, we cur-
+rently use the big ﬁve personality trait theory [17], one of the most researched and
+accepted theories in describing human personality. In this theory, ﬁve dimensions
+are used to characterize the personality of a person (Neuroticism, Extraversion,
+Openness to experience, Agreeableness, and Conscientiousness). The values of
+the big ﬁve personality traits of the learner will be used as the starting point for
+personalization; for instance if the player is generally an anxious (Neuroticism)
+person, lesser or even no temporal constraints could be considered in the game.
+As we also want to give due consideration to the fact that “people learn in
+diﬀerent ways”, we also consider the learning style of the player. For this, we
+Fig. 1. Dynamic Adaptive Educational Game Model
+use the VARK learning style theory [18], where learners are categorized into
+four groups based on their learning preferences (Visual, Aural, Read/Write, or
+Kinesthetic). The VARK learning style theory is actually an instructional the-
+ory indicating what method of instruction is going to be more appropriate for
+a person. For example, a person might learn better, if the learning material is
+presented to him/her in a more visual way (visual learning style) or if the per-
+son could kinesthetically interact with the learning objectives perhaps through
+gestures using for example Microsoft Kinect (kinesthetic learning style).
+Furthermore, and well-accepted, the knowledge level of the player also plays
+an important role in the adaptation, as the learning challenges should not be too
+easy but also not too diﬃcult. The knowledge level of the player can be assessed
+from the records of the previous performances of the player.
+All three previously mentioned dimensions: knowledge, personal traits, and
+learning style, will be determined before the player commences playing the game,
+e.g., through questionnaires, or they may be predeﬁned if the educational game
+targets a speciﬁc group of people (e.g., kinesthetic learners). This information
+will be saved in the proﬁle of the player and used in each play session. Personal
+traits and learning style are considered to be rather stable during a given period
+of time (although they may change during the lifetime of a person), and therefore
+we consider them to be ﬁxed during the playtime. Knowledge, on the other hand,
+may increase during playtime and thus, updates the proﬁle of the player after
+each session. Since the mentioned three factors are used for adaptation before
+the player actually starts playing the game, we called this oﬄine adaptation.
+On the other hand, performance and player’s behavior can be used in real time
+to dynamically adapt the game, therefore we call this real time adaptation. There
+are several elements that can be measured for determining the performance of
+the learner (e.g., success rate, number of errors, task completion time); similarly,
+there are also diﬀerent elements that can be taken into account to determine the
+player’s behavior or state (e.g., facial expression, eye gazing, speech analysis,
+heat rate, and attention level). Nowadays, a variety of (non-intrusive) devices
+exists to determine the variations in the value of these elements in real-time (e.g.,
+high deﬁnition cameras for detecting heart rate, cameras with thermal lens for
+detecting anxiety, cameras with facial expression recognition). Also some devices
+promise to assess more than one element at the same time, e.g., Microsoft Kinect
+2.0 would measure heart rate, eye gazing, and facial expressions. Based on these
+values, the game can be adapted in real-time to sustain the engagement of the
+player by trying to keep the ﬂow state. To perform the adaptation, the adaptation
+engine (abstracted as part of the game component in the ﬁgure) uses a set of
+adaptation rules. Based on the inputs (oﬄine and real-time) relevant adaptation
+rules will be triggered. The adaptation rules are in the form of CONDITION-
+ACTION rules. An example adaptation rule could be:
+IF(learning_style==‘kinesthetic’ && heart_rate >60 && anxiety==‘High’)
+THEN{ difficulty_level-=1;
+ENVIRONMENT_TEXTURE(Relaxing);
+GAME_MUSIC(Relaxing);
+IF(EXISTS(Temporal_Constraint))
+THEN{ remove(Temporal_Constraint);
+} }
+There are many aspects of a game that can be adapted, (e.g., textures of
+game objects, the environment, the sounds, NPC interactions). What should be
+adapted at a speciﬁc moment is speciﬁed by the adaptation rules. In order to
+determine the conditions (IF-part) and the consequences (THEN-part) of these
+adaptation rules, experiments and research in close collaboration with experts in
+psychology and pedagogy is required. Note that the adaptation of the educational
+material of the game should be done with respect to the Kolb’s theory; Kolb’s
+Learning style theory in fact constraints the possible adaptation rules.
+4
+Conclusion and Future Work
+We started by giving the motivation for having adaptive educational games.
+We noticed that for most educational games the adaptation is limited to the
+level of diﬃculty. However, this does not guarantee that the player stays en-
+gaged. Personality aspects, such as the personal traits and the learning style of
+the player, should also be taken into consideration. Therefore, a new model for
+more eﬀective adaptation of educational games is proposed. The model is based
+on diﬀerent existing and well-accepted theories from diﬀerent domains: the ﬂow
+theory of Csikszentmihalyi, the learning style model of Kolb, the big ﬁve person-
+ality trait theory, and the VARK learning style theory. In addition, we propose
+a distinction between two types of adaptation, oﬄine adaptation and real-time
+adaptation. For oﬄine adaptation, we not only consider the current knowledge
+level of the player but also his personality and learning style. For the real-time
+adaptation, we propose to monitor not only the performance of the learner, but
+also the behavior (or state) of the learner. This latter becomes more and more
+feasible thanks to new non-intrusive technologies. Using this information, the
+game can be dynamically adapted so that the players not only experience the
+ﬂow state, but this experience sustain for longer periods. In future work, we will
+examine how we can do the adaptation in order to achieve this goal and keep
+the perfect balance between playing and learning. This is not straight forward;
+there is always the chance that by performing a certain change, the experience of
+the user is distorted. Furthermore, it is also necessary to evaluate the suitability
+and eﬀectiveness of the diﬀerent theories used (ﬂow model, VARK, Big Five,
+and Kolb’s theory).
+References
+1. Harteveld, C.: Triadic game design. Springer (2010)
+2. Kiili, K.: Digital game-based learning: Towards an experiential gaming model. The
+Internet and higher education 8(1) (2005) 13–24
+3. Csikszentmihalyi, I.S.: Optimal experience: Psychological studies of ﬂow in con-
+sciousness. Cambridge University Press (1992)
+4. Webster, J., Trevino, L.K., Ryan, L.: The dimensionality and correlates of ﬂow in
+human-computer interactions. Computers in human behavior 9(4) (1994) 411–426
+5. Denis, G., Jouvelot, P.: Motivation-driven educational game design: applying best
+practices to music education. In: Proceedings of the 2005 ACM SIGCHI Interna-
+tional Conference on Advances in computer entertainment technology, ACM (2005)
+462–465
+6. Dickey, M.D.: Three-dimensional virtual worlds and distance learning: two case
+studies of active worlds as a medium for distance education. British journal of
+educational technology 36(3) (2005) 439–451
+7. Fisch, S.M.: Making educational computer games educational. In: Proceedings of
+the 2005 conference on Interaction design and children, ACM (2005) 56–61
+8. Amory, A., Naicker, K., Vincent, J., Adams, C.: The use of computer games as
+an educational tool: identiﬁcation of appropriate game types and game elements.
+British Journal of Educational Technology 30(4) (1999) 311–321
+9. Jennings, M.: Best practices in corporate training and the role of aesthetics: Inter-
+views with eight experts. In: Proceedings of the 2001 ACM SIGCPR conference
+on Computer personnel research, ACM (2001) 215–219
+10. Dondlinger, M.J.:
+Educational video game design: A review of the literature.
+Journal of Applied Educational Technology 4(1) (2007) 21–31
+11. Prensky, M.: Digital game-based learning. Computers in Entertainment (CIE)
+1(1) (2003) 21–21
+12. Klopfer, E., Osterweil, S., Salen, K., et al.: Moving learning games forward. Cam-
+bridge, MA: Education Arcade (2009)
+13. Kickmeier-Rust, M.D., Albert, D.: Micro-adaptivity: protecting immersion in di-
+dactically adaptive digital educational games. Journal of Computer Assisted Learn-
+ing 26(2) (2010) 95–105
+14. Erev, I., Roth, A.E.: Predicting how people play games: Reinforcement learning
+in experimental games with unique, mixed strategy equilibria. American economic
+review (1998) 848–881
+15. Kickmeier-Rust, M.D., Peirce, N., Conlan, O., Schwarz, D., Verpoorten, D., Al-
+bert, D.: Immersive digital games: the interfaces for next-generation e-learning?
+In: Universal Access in Human-Computer Interaction. Applications and Services.
+Springer (2007) 647–656
+16. Kolb, D.A.: Learning style inventory. McBer and Company (1999)
+17. Judge, T.A., Higgins, C.A., Thoresen, C.J., Barrick, M.R.: The big ﬁve personality
+traits, general mental ability, and career success across the life span. Personnel
+psychology 52(3) (1999) 621–652
+18. Fleming, N., Baume, D.: Learning styles again: Varking up the right tree! Educa-
+tional Developments 7(4) (2006)
+View publication stats

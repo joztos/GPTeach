@@ -1,0 +1,548 @@
+ 
+An Architecture of Adaptive Online Module System 
+Based on Felder-Silverman Learning Style Model 
+ 
+ 
+Arief Hidayat1 
+Computer Science Department 
+ Universitas Wahid Hasyim 
+Semarang, Indonesia 
+arief.hidayat@unwahas.ac.id 
+Victor Gayuh Utomo2 
+Computer Science Department 
+Universitas Semarang, Indonesia 
+Semarang, Indonesia 
+victor@usm.ac.id 
+ 
+Abstract—Students will get some benefits by knowing their 
+own learning style. The adaptive online module system gives 
+students a learning environment that adapting to their learning 
+style. The architecture of the adaptive online module system 
+consists of a domain model, media space, student model, 
+instruction model, adaptive model and user interface. The 
+system identifies student learning style using a questionnaire 
+based on the Felder-Silverman Learning Style Model 
+(FSLSM). The stereotype of student learning style stored in the 
+student model. The adaptive model delivers the appropriate 
+learning experience based on the student model. The 
+adaptability is delivered in the form of adaptive content and 
+adaptive navigation. 
+Keywords: architecture, adaptive online, module system, 
+Felder-Silverman Learning Model 
+I. INTRODUCTION  
+Students will get some benefits by knowing their own 
+learning style. First, it will raise students’ awareness of their 
+learning styles and the impact of the learning styles into their 
+lesson. Students may also use the awareness to understand 
+the difficulties they met in learning and creating some 
+groundwork to overcome their weakness. Second, student 
+style information can be used to provide learning activities or 
+materials and personalization recommendations according to 
+their learning style [1].  
+The student learning style is the first thing to 
+acknowledge when considering learning styles in education. 
+Brusilovsky [2] mention that there are two kinds of student 
+modeling. The first one is a collaborative approach. In this 
+model, the student explicitly provides feedback that can be 
+used to build and update the student’s model. For example, 
+the student gives data for the student modeling process by 
+declaring the relevancy of content for their learning 
+objectives explicitly. Another form in this modeling is letting 
+the students adapt by themselves and show directly their 
+expectations of the system. For example, students may 
+rearrange link sequence in a page, showing their preference 
+sequence of a system. Another possibility is by allowing the 
+student to change and update directly the student model 
+information. Regarding learning styles, the means frequently 
+used is by asking students to fill a questionnaire which will 
+give the required information about their learning styles. 
+Second, modeling is an automatic approach in which the 
+building and updating process of the model happened 
+automatically based on the students' behavior while using the 
+system for learning. [2].  
+There are two styles in student modeling, i.e. static and 
+dynamic. In the static modeling style, the modeling process 
+takes place at the beginning of the learning process so the 
+information of the student model is stored once. In learning 
+system application, students need to supply the information 
+as a new user. While on dynamic student modeling, the 
+modeling process happened on more than one occasion 
+which allows the system to update information about the 
+student model frequently. The dynamic student modeling, 
+allowing the system to respond appropriately to the changes 
+in the student behavior [1].  
+Several 
+studies 
+on 
+adaptive 
+learning 
+system 
+developments have been made. The studies based on an 
+adaptation of learning style with a questionnaire as the tool 
+(using static and collaborative approach). Some of the studies 
+are CS383 [3], IDEAL [4], LSAS [5], and WHURLE [6]. In 
+this paper, an adaptive system architecture will also be 
+implemented into an adaptive online module system by 
+integrating student modeling within the system. Through 
+static student modeling, which will understand the students 
+learning style using the questionnaire, and store the 
+information into student models, the system may access the 
+needed information to give adaptive and personalized 
+learning material for students. Adaptive system architecture, 
+as well as some support system, integrated into the adaptive 
+online module system to provide students with adaptive 
+support.  
+This study is based on the Felder-Silverman Learning 
+Style Model (FSLSM) [7] which consider that every student 
+has a preference in each of the four dimensions: processing 
+(active/reflective), understanding (sequential/global), input 
+(visual/verbal), and perception (sensing / intuitive). FSLSM 
+is a learning style model that explains the learning style in 
+detail and very well suited to accomplish the adaptability of a 
+learning system [8]. It is the reason FSLSM, on many 
+occasions, acts as a basis in the learning enhancement system. 
+FSLSM, based on the concept of the tendency, consider 
+learning style rather as the main tendency than fixed and 
+static which in return allowed to handle exceptional behavior 
+from the student. While FSLSM considers that the tendency 
+more or less stays the same, it also opened to the possibility 
+that the tendency may change from time to time. The 
+tendency changing is known to be domain-independent.  
+Advances in Social Science, Education and Humanities Research, volume 440
+International Conference on Online and Blended Learning 2019 (ICOBL 2019)
+Copyright © 2020 The Authors. Published by Atlantis Press SARL.
+This is an open access article distributed under the CC BY-NC 4.0 license -http://creativecommons.org/licenses/by-nc/4.0/.
+70
+After the student model stores the information about the
+student, adaptability may be given. Consideration of some
+different aspects is taken when targeting students with
+customized learning for them. One dimension considers what
+may be customized in the system. Different methods are
+available to deliver adaptive learning for students. The
+methods define the appropriate features of the systems for
+the
+specified
+students.
+Brusilovsky
+[9]
+defines
+the
+adaptability of the system, based on the purpose, into two
+areas,
+adaptive
+presentation,
+and
+adaptive
+navigation.
+Adaptive
+presentation
+is
+a
+feature
+that
+changes
+the
+presentation of learning content such as, presenting the
+content in text or multimedia or the modality of content, all
+in
+an
+adaptive
+manner.
+Whereas
+adaptive
+navigation
+conducted by manipulating links which include features like
+a direct guide, adaptive map, adaptive sorting, hiding,
+annotation, and link generator.
+Both features can be used
+together, for
+example,
+changing the navigation using the predetermined rule while
+at the same time changing the presentation, either deliver the
+content in text form or multimedia form, using the rules that
+had been set.
+II. RELATED WORK
+Several other adaptive learning systems which are based on
+learning style adaptation using questionnaire have been done.
+Learning Style Adaptive System (LSAS) by Bajraktarevic et
+al [5] utilizes only one dimension from FSLSM (Felder and
+Silverman Learning Style Model), which is understanding, a
+dimension
+of
+sequential/global.
+In
+order
+to
+gather
+information about student learning styles, the system uses the
+ILS (Index of Learning Style by Felder and Soloman [10])
+questionnaire. The adaptability of the system delivered by
+two different templates of the user interface. Each page for
+the student with sequential preference contains a small part
+of the information in the form of text only. To navigate from
+the page, ‘forward’ and ‘back’ link/buttons provided to
+deliver a linear learning path. Meanwhile, a student with a
+global preference has an advantage in terms of navigation.
+The page contains several elements such as a table of
+contents, page overview, related links in the text as well as a
+section with additional links and a summary at the end of the
+page. The provided elements give students an overview of
+the selected topic and give an opportunity to roam freely
+using a numerous choice of links. An experiment that
+involves
+21
+students
+is
+conducted
+to
+evaluate
+the
+effectiveness and the adaptability of the system. The
+experiment consists of 2 parts. In the first part of the
+experiment,
+students
+use
+the
+system
+which
+behaves
+appropriately to their learning style. In the second part, the
+students use the system which behaves opposite to their
+learning style. Based on the pre-install on post result, the
+students significantly perform better when the system
+behavior suited their learning style.
+Brown et al [6] developed the WHURLE (Web-based
+Hierarchical Universal Reactive Learning Environment).
+WHURLE based on ILS but only utilize the visual/verbal
+dimension (input dimension). Under the condition, the
+questionnaire consists of 11 items only. Brown et al [6]
+successfully integrated the visual/verbal learning style with
+the adaptive learning system. The experiment also held to
+understand
+the
+impact
+of
+the
+adaptive
+system.
+The
+experiment gives results in quantitative and qualitative data.
+Based on quantitative data, there is no significant difference
+from the adaptive system compared to the traditional
+approach. Meanwhile, based on the qualitative data, students
+show their preference for the adaptive system rather than the
+traditional approach. The students think that a personalized
+system shows that need is acknowledged and fulfilled while
+the traditional approach is a ‘one size fits all’. This kind of
+information is often missed on empirical studies while still
+important part when evaluating the system. This study shows
+that learning styles integration into an adaptive hypermedia
+system is possible and the result is promising in motivating
+the student while the academic result itself unaffected.
+III. STUDENT MODEL BASED ON LEARNING STYLE
+The student model is an abstract representation of the
+student in the adaptive online module system. There are two
+important processes of how this adaptive online module
+system realizes its adaptive function. First, the adaptive
+online module system should collect data on students, then
+process the data to regulate the student model, called student
+modeling. Later, the system should apply the student model
+to behave in an adaptive manner.
+The student model designed in this study is composed of
+the profile of the student, the learning history, and the
+learning
+style.
+Student
+profiles
+store
+basic
+individual
+information, such as names, user names, and passwords, as
+well as other individualized information so that the system
+can identify the student. The learning history stores the
+learning process of the learner's students, such as the subjects
+being studied by the students and participation in the
+discussion. This history facilitates the teacher or lecturer to
+understand the student. The learning style of the student is a
+very important dimension in the student model, as it is the
+key to achieving adaptability in the adaptive online module
+system. Researchers use stereotypes to represent student
+learning styles.
+One student has a different learning style compared to the
+others, and the different learning styles correspond to
+different teaching styles as well. For example, some students
+prefer to receive better information through visual sensor
+channels or while others auditory canal channels. In this case,
+the learning process for the first kind of students is better
+adapted with visual materials (such as images) while the
+second students using sound or text (composed of words,
+then connected with auditory information processing).
+Learning styles can be represented in a stereotypical
+model based on the Felder-Silverman Learning Style Model.
+The model consists of four dimensions, perception, input,
+processing and understanding. The dimensions are described
+as follows [11] :
+1. Perception describes the level of abstraction of the
+learning material favored by the student. Consists of
+sensing students and intuitive students. Sensing students
+liked the fact and require more practice case study, while
+the intuitive student usually prefers innovation and dislike
+repetition
+2. Input dimension indicates whether the student prefers
+listening (textual) documents or visual documents. The
+students who fall into the category called the verbal
+student and visual student accordingly.
+Advances in Social Science, Education and Humanities Research, volume 440
+71
+3. Processing dimension indicates the student’s preference
+in processing information. The active students like to
+involve in activities or discussion while reflective students
+prefer to introspect the lesson by themselves.
+4. Understanding
+dimension
+indicates
+which
+progress
+students understand better. Sequential students prefer an
+explanation in the form of sequence. Meanwhile, global
+students prefer an overview of the selected topic and
+shown steps and relationships of the learning material.
+IV. ARCHITECTURE OF ADAPTIVE ONLINE MODULE SYSTEM
+This
+adaptive
+online
+module
+system
+has
+a
+main
+architecture consisting of media space, domain model,
+student model, instruction model, adaptive model and user
+interface, as shown in figure 1.
+Figure 1. Architecture of adaptive online module system
+based on FSLSM
+A. A subsection Domain Model
+The domain model holds information on the learning
+objectives hierarchy. The hierarchy is a structure that
+manages the learning components and their relationships.
+The learning components consist of instructional objectives
+and instructional resources. Such a relationship between the
+components composes domain knowledge. The domain itself
+acts as a repository to store and organize the hierarchy in
+certain areas, like courses.
+B. Media Spaces
+The
+media
+space's
+main
+function
+is
+storage
+for
+instructional resources. Media space uses an instructional
+resources database to fulfill its purpose. Learning materials
+stored in the database take various forms. Basic resource
+available in text form with some images while more
+sophisticated resources may come in the shape of audio,
+video or animation
+C. Student Model
+Student model store learning profile of the student. In the
+adaptive online module system,
+students declare their
+learning profile by filling questionnaire after logged in to the
+system for the first time. While students may take the
+questionnaire again, essentially students only need through
+the process once. Learning profile processed to produce the
+appropriate learning style. The adaptability of the system is
+achieved by analyzing the learning style to customize the
+learning material for each individual
+D. Instruction Model
+The instruction model is used by the teacher. It stores
+content selection rules and media selection rules. The teacher
+determines which content and media will be available for
+specific learning material. In the process, the teacher needs to
+determine multiple media for each content, helped by the
+system, to accommodate the various student learning style.
+Actually, teachers don’t explicitly determine which content
+and media for a student with a particular learning style. The
+customization is done by the system so while the teacher
+simply puts a static / fixed learning material, the student gets
+an adaptive learning material both in the order/navigation of
+the material and the content of the material
+E. Adaptif Model
+The adaptive model is the heart of the whole system. The
+adaptive model brings adaptability to offer a customized and
+personalized learning experience to students. Specifically, in
+the
+adaptive
+online
+module
+system,
+there
+are
+two
+adaptabilities offered to students, adaptive content and
+adaptive navigation.
+The adaptive model used previously stored information in
+the domain model, instruction model, and student model to
+choose the appropriate content from media space and
+delivering the adaptive content to students. Adaptive content
+may vary from choosing the media form (text or picture or
+others), decision to put summary of the material or giving a
+quiz to challenge the student
+Adaptive navigation also uses the information in the
+domain model, instruction model, and student model but not
+from media space. The adaptive navigation determines the
+sequence of the contents or even the absence of the
+sequence. Adaptive navigation also determine the available
+link for each student. While the adaptive content gives
+different
+learning
+material
+to
+the
+student,
+adaptive
+navigation may give a whole different experience in
+exploring the learning material.
+F. User Interface
+The user interface acts as a medium from the system to
+students. The user interface generates an interface based on
+the decision of the adaptive model. If a student makes
+interaction with the user interface, e.g. clicking a button,
+then the user interface will send the information to the
+adaptive model that determines the next content/navigation.
+The user interface uses the adaptive model decision to
+generate the next interface.
+V. CONCLUSION
+The adaptive online module system delivers a learning
+material that gives adaptive learning experience to the
+student. The architecture of the system consists of a domain
+model, media space, student model, instruction model,
+adaptive model and user interface. At system initiation, the
+student needs to fill the questionnaire based on the Felder-
+Silverman Learning Style Model (FSLSM). The information
+is stored in the student model. The information creates the
+learning style stereotype of a particular student. The student
+model is the base for the system to deliver an adaptive
+learning experience. The system delivers adaptability by
+Advances in Social Science, Education and Humanities Research, volume 440
+72
+delivering both adaptive content and adaptive navigation.
+The
+adaptive
+model
+chooses
+the
+appropriate
+learning
+material from the media space and creates a unique
+experience by controlling the flow of learning based on the
+student learning style.
+For future work, the proposed architecture may get an
+advantage by getting feedback from student interaction with
+the user interface. The proposed architecture currently
+acknowledges the student learning style based on the
+questionnaire result. However, the questionnaire result is
+probably flawed. Such a flaw may happen when the
+preference of certain styles, based on the questionnaire result,
+is
+decided
+by
+a
+small
+margin.
+While
+the
+original
+questionnaire method guarantees a result, i.e. a preference,
+such a case is considered has no real result. Learning the
+interaction of the student with the user interface may reveal
+the real student learning style.
+Developing the adaptive online module system as mobile
+application is also considered. Current technology make it
+possible to put a lot of processing power and storage capacity
+in a smartphone. A mobile application can make use of those
+benefits to provide better contents and features compared to
+web application
+ACKNOWLEDGMENT
+Researchers would like to thank to the Ministry of
+Research
+and
+Technology
+-
+Higher
+Education
+(KEMENRISTEK-DIKTI) which provide funding for this
+research.
+REFERENCES
+[1]
+Graf S., Kinshuk, Zhang Q., Maguire P., Shtern V. 2010 “An
+Architecture for Dynamic Student Modelling of Learning Styles in
+Learning Systems and its Application for Adaptivity”, Proceedings of
+the International Conference on Cognition and Exploratory Learning
+in Digital Age (CELDA2010), October, Timisoara, Romania, pp. 103-
+110.
+[2]
+Brusilovsky,
+P.
+1996”Methods
+and
+Techniques
+of
+Adaptive
+Hypermedia”, User Modelling and User-Adapted Interaction, Vol 6,
+No. 2-3, pp. 87-129.
+[3]
+Carver, C.A., Howard, R.A. and Lane, WD. 1999, “Addressing
+Different Learning Styles
+through Course Hypermedia”, IEEE
+Transactions on Education, Vol. 42, No. 1, pp. 33-38.
+[4]
+Shang, Y., Shi, H. and Chen, S.-S. 2001, “An Intelligent Distributed
+Environment for Active Learning”, ACM Jounal of Educational
+Resources in Computing, Vol. 1, No.2, 1-17.
+[5]
+Bajraktarevic, N., Hall, W. and Fullick, P. 2003, “Incorporating
+Learning Styles in Hypermedia Environment : Empirical Evaluation”,
+Proceedings of the Workshop on Adaptive Hypermedia and Adaptive
+Web-Based Systems, Nottingham, UK, Eindhoven University, pp. 41-
+52.
+[6]
+Brown, E., Stewart, C., Brailsford, T. 2006“Adapting form visual and
+verbal learning styles in AEH”, Proceedings of the Sixth International
+Conference
+on
+Advanced
+Learning
+Technologies
+(ICALT'06),
+Kerkrade, The Netherlands, July 5 - 7, 1145-1147.
+[7]
+Felder, RM. And Silverman, L.K. 1998, “Learning and Teaching
+Styles in Engineering Education”, Engineering Education, Vol. 78,
+No. 7, pp. 674-681.
+[8]
+Kuljis, J. and Liu, F. 2005, “A Comparison of Learning Style
+Theories on Suitability for E-learning”, Proceedings of the Iasted
+Conference on Web Technologies, Applications, and Services,
+Calgary, Alberta, ACPTA Press, pp. 191-197.
+[9]
+Brusilovsky, P. 2001, “Adaptive Hypermedia”, User Modeling and
+User-Adapted Interaction, Vol 11, No. 1, pp. 87-110.
+[10] Felder, R.M. and Soloman, B.A., 1997, Index of Learning Styles
+questionnaire.
+Retrieved
+11
+January,
+2016,
+from
+http://www.engr.ncsu.edu/learningstyles/ ilsweb.html.
+[11] Sangineto, E. 2008,“An
+Adaptive
+E-Learning Platform for
+Personalized Course Generation”. In Claus Pahl.(ed)
+Architecture
+Solutions for E-Learning Systems. IGI Publishing. 2008.
+Advances in Social Science, Education and Humanities Research, volume 440
+73

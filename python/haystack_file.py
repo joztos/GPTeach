@@ -2,6 +2,7 @@ import logging
 from pathlib import Path
 import os 
 import time
+import sys
 
 from haystack.document_stores import ElasticsearchDocumentStore
 from haystack.nodes import PDFToTextConverter, EmbeddingRetriever, OpenAIAnswerGenerator
@@ -12,8 +13,7 @@ logging.basicConfig(format="%(levelname)s - %(name)s -  %(message)s", level=logg
 logging.getLogger("haystack").setLevel(logging.WARNING)
 
 documents = []
-pdf_path = Path("python\pdfs")
-
+pdf_path = Path("./pdfs")
 
 host = os.environ.get("ELASTICSEARCH_HOST", "localhost")
 
@@ -52,5 +52,6 @@ generator = OpenAIAnswerGenerator(
 
 pipeline = GenerativeQAPipeline(generator=generator, retriever=retriever)
 
-input = input("Enter your question: ")
-result = pipeline.run(query=input, top_k_retriever=10, top_k_reader=5)
+user_query = sys.argv[1]
+
+result = pipeline.run(query=user_query, top_k_retriever=10, top_k_reader=5)

@@ -1,0 +1,1534 @@
+Decoupling Knowledge from Memorization:
+Retrieval-augmented Prompt Learning
+Xiang Chen1,2∗, Lei Li1,2∗, Ningyu Zhang1,2†, Xiaozhuan Liang1,2, Shumin Deng1,2,
+Chuanqi Tan3, Fei Huang3, Luo Si3, Huajun Chen1,2†
+1Zhejiang University & AZFT Joint Lab for Knowledge Engine, China
+2Hangzhou Innovation Center, Zhejiang University, China
+3Alibaba Group, China
+{xiang_chen, leili21, zhangningyu, liangxiaozhuan, 231sm, huajunsir}@zju.edu.cn,
+{chuanqi.tcq, f.huang, luo.si}@alibaba-inc.com
+Abstract
+Prompt learning approaches have made waves in natural language processing by
+inducing better few-shot performance while they still follow a parametric-based
+learning paradigm; the oblivion and rote memorization problems in learning may
+encounter unstable generalization issues. Speciﬁcally, vanilla prompt learning may
+struggle to utilize atypical instances by rote during fully-supervised training or over-
+ﬁt shallow patterns with low-shot data. To alleviate such limitations, we develop
+RETROPROMPT with the motivation of decoupling knowledge from memorization
+to help the model strike a balance between generalization and memorization. In
+contrast with vanilla prompt learning, RETROPROMPT constructs an open-book
+knowledge-store from training instances and implements a retrieval mechanism
+during the process of input, training and inference, thus equipping the model with
+the ability to retrieve related contexts from the training corpus as cues for enhance-
+ment. Extensive experiments demonstrate that RETROPROMPT can obtain better
+performance in both few-shot and zero-shot settings. Besides, we further illustrate
+that our proposed RETROPROMPT can yield better generalization abilities with
+new datasets. Detailed analysis of memorization indeed reveals RETROPROMPT
+can reduce the reliance of language models on memorization; thus, improving
+generalization for downstream tasks3.
+1
+Introduction
+Large parametric language models [46, 7, 23, 32] have achieved dramatic empirical success in
+natural language processing (NLP). Notably, pre-trained language models (PLMs) have learned a
+substantial amount of in-depth knowledge from data, and have archived tremendous promise in
+few-shot/zero-shot learning ability with the natural language prompts [13, 51, 58]. However, Recent
+studies [38, 40, 60] observe that prompt learning with PLMs usually generalizes unstably in an
+extremely low-resource setting or emerging domains. One potential reason is that, it is non-trivial
+for parametric models to learn rare or hard patterns well with rote memorization, thus, resulting in
+inefﬁcient generalizable performance.
+Intuitively, if we regard the whole training set as a book and the test phase as the examination, the
+current training-test procedure of prompt learning (based on batch data training) can be viewed as
+∗
+Equal contribution.
+†
+Corresponding Author.
+3Code is available in https://github.com/zjunlp/PromptKG/tree/main/research/
+RetroPrompt.
+36th Conference on Neural Information Processing Systems (NeurIPS 2022).
+arXiv:2205.14704v3  [cs.CL]  11 Oct 2022
+page-by-page memorization and closed-book examination [43]. During training, vanilla prompt
+learning may struggle to memorize atypical instances in a fully-supervised setting or overﬁt shallow
+patterns with low-shot data [64, 10]. Speciﬁcally, recent studies[11, 12] have proposed a long-
+tail theory, which notes that when the training set has a long-tail distribution and contain small
+“sub-populations” with atypical instances, then PLMs indeed predict on the test data through rote
+memorizing these atypical instances rather than learning the common patterns [64, 57].
+The limitations of rote memorization remind us of the human learning process of “learn by analogy”
+and the proverb that “the palest ink is better than the best memory”. Note that humans can perform
+associative learning to recall relevant skills in deep memories for reinforcing each other, thus, owning
+the extraordinary abilities to solve few-shot and zero-shot tasks. Motivated by these, we endeavor to
+improve the generalization ability of prompt learning with retrieval and association. Our intuition is
+that the difﬁculty of resolving the above limitations can be substantially alleviated if we can decouple
+the knowledge from memorization by constructing an open-book knowledge-store from the training
+data; thus, referring to related knowledge could provide a strong enhancement signal to help the
+model strike a balance between generalization and memorization.
+Book1
+Book2
+Book3
+Demonstration
+NN Incorporated Prediction
+Open-book 
+Knowledge-store
+negative
+NN Guided Training
+Memorization vs. Generalization
+Decoupling Knowledge
+Figure 1: Decoupling knowledge from memorization.
+Speciﬁcally, we introduce a novel retrieval-
+augmented framework based on prompt
+learning (RETROPROMPT) as shown in
+Figure 1. The open-book knowledge store
+(K, V), deﬁned as the set of key: prompt-
+based example embeddings and value: cor-
+responding label words constructed from
+the training data, are served as additional
+references for the model to decouple knowl-
+edge from pure memorization to some ex-
+tent.
+Speciﬁcally, to integrate retrieved
+knowledge into the input, Firstly, we design to incorporate neural demonstrations into the input
+sequences as in-context augmentation, where the demonstration is retrieved from the knowledge-store.
+Then, we apply a non-parametric algorithm kNN over the input query and knowledge store, and
+regard kNN results as an indication of easy vs. hard instances. Moreover, we automatically force
+the model to emphasize the hard instances identiﬁed by kNN by assigning a scaling during training.
+Lastly, the kNN results are further employed at the output of the PLM head to participate in masked
+prediction. The model conducts inference through linearly interpolating the non-parametric nearest
+neighbor distribution with the output of prompt learning, which regards the Top-k nearest reference
+instances as cues from (K, V).
+The considerable performance gains on nine tasks in few-shot and zero-shot settings demonstrate that
+our systemic retrieval mechanism helps the model generalize better with scarce data. Experiments in
+the fully-supervised setting with long-tail distribution illustrate that our RETROPROMPT can deal
+with atypical instances more robustly. We further adopt self-inﬂuence [28] as our memorization
+scoring function to analyze the memorization process between ﬁne-tuning, prompt learning and our
+RETROPROMPT. The ﬁnal analysis results show that 1) the training samples having the highest
+memorization scores are mostly atypical, 2) RETROPROMPT generalize better than ﬁne-tuning and
+convention prompt-tuning with decoupling knowledge from memorization to alleviate the rote of
+PLMs. In a nutshell, our work may open up new avenues to improve the generalization of prompting
+PLMs by decoupling knowledge from memorization.
+2
+Preliminaries of Prompt Learning
+Assuming that M, T respectively denotes the PLM and the template function for prompt tuning.
+Formally, the text classiﬁcation task takes a query sentence x = (x0, x1, ..., xn) as input. Then,
+classify it into the label y ∈ Y. While prompt learning converts the task into a MLM problem with
+cloze-style objectives. Speciﬁcally, the template function T inserts text pieces into x as ˆx = T (x),
+where ˆx refers to the input of M with a [MASK] token. For instances, when we have to classify the
+text x =“The movie makes absolutely no sense.” into label NEGATIVE (labeled as 0) or POSITIVE
+(labeled as 1), we wrap it into
+ˆx = [CLS]x It was [MASK][SEP]
+(1)
+2
+Transformer Layers
+terrible
+terrible 
+great 
+Label words
+great
+[CLS]The movie ... sense. It was[MASK][SEP]
+Transformer Layers 
+e(M)
+h(M)
+···
+terrible
+great
+great
+terrible
+Key
+Value
+Open-book
+Knowledge-store
+Update
+ Original input 
+ Template 
+[CLS]The movie ... sense. It was[MASK][SEP]
+ Original input 
+ Template 
+e(t)
+e(g)
+ Demonstrations 
+···
+Nearest Representation
+h(M)
+MLM 
+Head
+ for label:positive 
+Demonstrations
+ for label:negative 
+prompt-based
+representation
+Open-book  
+knowledge-store
+Retrieve Nerual Demonstration
+Retrieve NN
+terrible
+terrible
+great
+Query
+Similarity
+100
+60
+65
+···
+Normalization
+terrible
+terrible
+great
+0.7
+0.1
+0.15
+···
+···
+Aggregation
+terrible
+great
+0.2
+terrible 
+great 
+Label words
+✘
+✔ 
+NEGATIVE
+b. Creation and refresh of open-book knowledge-store
+a. Retrieval-augmented prompt learning
+stale 
+refresh 
+Asynchronously
+refresh 
+···
+e(M)
+···
+Verbalizer
+Prediction
+0.8
+×(1+
+(
+))
+NN Incorporated Prediction
+NN Guided Training
+Figure 2: Overview of RETROPROMPT. Note that e(·) denotes word embedding function in the PLM
+M, while “M”,“t” and “g” in e(·) speciﬁcally refers to “[MASK]”, “terrible” and “great”.
+The verbalizer f : Y �→ V is deﬁned as a mapping from the label space Y to those words in the
+vocabulary, which constructs the label word set V. The base component of M produces the sequence
+representation over ˆx, and we choose the hidden vector at the [MASK] position as the contextual
+representation hˆx ∈ Rd, where d is the dimension of hidden states. Then the MLM head of M
+can operate on hˆx to calculate each word v’s probability in the vocabulary being ﬁlled in [MASK]
+PM([MASK] = v|ˆx). We let Vy to represent the subset of V which is connected with a unique label
+y, ∪y∈YVy = V. Finally, the probability distribution over the label y is calculated as:
+P(y|x)=g (PM([MASK]=v|T (x))|v ∈ Vy) ,
+(2)
+where g refers to the function converting the probability of label words to the probability of classes.
+3
+RETROPROMPT: Retrieval-augmented Prompt Learning
+We introduce a simple and general retrieval-augmented framework for prompt learning, named
+RETROPROMPT, whose basis is the dense retriever (§3.1) with an open-book knowledge-store to
+decouple knowledge from memorization. As shown in Figure 2, RETROPROMPT consists of three
+components: retrieval of neural demonstration for enhancing input (§3.2), the kNN guided training
+(§3.3) and the kNN-based probability for cloze-style prediction (§3.4).
+3.1
+Dense Retriever
+Open-book Knowledge-store
+The ﬁrst step of our proposed framework is to build a knowledge-
+store for retrieval that can decouple from memorization and captures the semantics of the instance
+from the training set C. Speciﬁcally, we leverage the encoder to embed instance representation
+over the C to construct the knowledge-store. Given the i-th example (ci, yi) in the training data
+C, we obtain the key-value pair (hˆci, vi), in which ˆci = T (ci), hˆci ∈ Rd is the embedding of
+the [MASK] token in the last layer of the PLM, and vi = f(yi) denotes the label word of the i-th
+example. Compared with kNN-LM [27] that constructing with sliding generative corpus and tokens,
+our knowledge-store is more suitable for prompt learning. We store all pairs (hˆc, v) in a key-value
+datastore (K, V) where hˆc serves as key and v as value as follows:
+(K, V) = {(hˆci, vi) | (ci, yi) ∈ C}
+(3)
+The knowledge-store maye be ﬂexible to edit, add or delete any instances and can be asynchronously
+updated during the training procedure. Note that our knowledge-store is constructed from few-shot
+trainsets in the corresponding few-shot settings rather than the whole available training data.
+Efﬁcient Searching
+Considering that the size of the training data C can be enormous, we must
+ensure an efﬁcient retrieval process. As shown in the above creation of open-book knowledge-store,
+3
+we can build the matrix D ∈ R|C|×d as the index of training examples. Given a query set Q, we
+ﬁrst encode each query example with template mapping function T (·) to get a set of prompt-based
+query vectors hˆq for retrieval augmentation on the ﬂy. Then, we utilize query vectors to search for
+the closest examples over the index D via maximum inner product search (MIPS). For the retrieval
+process, we choose FAISS [22] to query the open-book knowledge-store efﬁciently. FAISS is an
+excellent open-sourced toolkit for fast nearest neighbor retrieval.
+Asynchronous Refresh of the Knowledge-store
+Since the neural demonstration may lead to the
+variable contextual representation of instance as the parameters of the PLM are continually updated,
+we thus propose to “refresh” the index of retrieval by asynchronously re-embedding and re-indexing
+all embeddings in an open-book knowledge-store every j training epochs 4. In § 4.6, we empirically
+demonstrate that this procedure results in performance improvement.
+3.2
+Retrieval of Neural Demonstration
+To enhance the PLMs with the ability to learn by analogy through the knowledge-store, we further
+propose neural demonstrations that can be concatenated with input instance at the embedding layer to
+improve the generalization ability of our RETROPROMPT. For the t-th query instance qt, we ﬁrst
+utilize prompt-based representation hˆqt to query the cached representations of open-book knowledge-
+store. Then we retrieve m nearest neighbors {{c(1)
+1 , ..., c(1)
+m }, ..., {c(L)
+1
+, ..., c(L)
+m }} of qt for each
+class, where the superscript L denotes the total number of the classes and the c(l)
+i
+is retrieved as the
+i-th nearest neighbor in the l-th class. After the model retrieves the Top-m candidates for each class,
+their corresponding representation h(l)
+ˆci and label word v(l) from knowledge-store will be incorporated
+into the encoder to act as a demonstration learning. Since the h(l)
+ˆci is already vector, we intuitively
+aggregate the m neighbor vectors for each class according to their similarity and incorporate the
+demonstration into the input representation of ˆx after the word embedding layer of the M as follows:
+I = e(ˆx) ⊕ [
+�
+i∈[1:m]
+α(1)
+i
+h(1)
+ˆci , e(v(1))] ⊕ ... ⊕ [
+�
+i∈[1:m]
+α(L)
+i
+h(L)
+ˆci , e(v(L))]; α(l)
+i
+=
+e
+h ˆ
+q·h(l)
+ˆci
+�
+i∈[1:m] e
+h ˆ
+q·h(l)
+ˆci
+(4)
+where e(·) represents the word embedding layer of M, ⊕ denotes the concatenation of input se-
+quences, α(l)
+i
+is the softmax score for the i-th retrieval belonging to l-th class label to denote their
+relevance with ˆq, and I is the sequence features for inputting the next layer of PLM. As shown in
+the above equation, we encode demonstration representation with the weighted sum of the retrieval
+representation. Thus, retrieval scores are directly used in the ﬁnal representation, making the frame-
+work differentiable. To this end, we denote this style of demonstration as neural demonstration,
+signiﬁcantly different from prior work of discrete demonstration [13].
+Neural vs. Discrete Demonstration Compared with prior discrete demonstrations described in
+[13, 36, 50, 29], retrieving weighted neural demonstrations from the knowledge-store to augment
+prompt learning has advantages in the following three major aspects: (1) neural demonstrations
+could be more tolerant of the model’s maximum input length than discrete demonstrations, while the
+discrete demonstration is usually not suitable for multi-class classiﬁcation tasks due to the limitation
+of input length, such as relation extraction, etc. (2) the model needs to deal with large retrieval tokens
+for discrete demonstration, making it time-consuming and computationally intensive to perform
+cross-attention operations due to the quadratic attention complexity. In contrast, dealing with much
+shorter instance representations as neural demonstrations unleashes the potential of cross-attention
+and accelerates the inference. (3) when sampling examples based on the similarity between instances,
+our cloze-style contextual representation is more informative and consistent than the contextual
+representation from [CLS] of Sentence-BERT [48] (adopted in LM-BFF).
+3.3
+Retrieve kNN for Guiding Training
+Eager learners (e.g., PLMs) are optimized to learn a global function that maps from the text to
+semantic label space. Lazy learners such as k-nearest neighbor classiﬁers, on the contrary, aims to
+4Speciﬁcally, we refresh the knowledge-store for each epoch in our experiments.
+4
+approximating the neighborhoods around those test examples [2]. Since kNN can easily predict for
+each encountered query instance based on pre-trained representation without an extra classiﬁer, it is
+intuitively to leverage the kNN’s classiﬁcation results as the prior external knowledge to guide the
+PLMs’ parameters attending to hard examples (hard samples usually refer to atypical samples) during
+the training process (also referred as kNN-train for the abbreviation). Particularly, our intuition is
+to differentiate between easy and hard examples according to the prediction of kNN. Given the t-th
+query instance qt, we leverage the hqt querying the open-book knowledge-store (K, V) to retrieve the
+k-nearest neighbors N of qt according to a similarity function d(·, ·), where d(·, ·) typically adopt the
+inner product similarity. Then, we compute the distribution over neighbors according to the softmax
+of their similarities and aggregate probability mass for each label word across its occurrences in the
+retrieved targets:
+PkNN (y | qt) ∝
+�
+(ci,yi)∈N
+1y=yi exp (d (h ˆqt, hˆci)) .
+(5)
+Given the probability pkNN of the query instance qt being predicted as the gold class (also as the
+probability value of the gold class in the PkNN), we propose to retrieve the kNN for guiding the
+training process of prompt learning. The kNN guider reweights the cross-entropy loss LCE by
+adjusting the relative loss for the correctly-classiﬁed or misclassiﬁed instances identiﬁed by kNN,
+respectively. Speciﬁcally, we apply the negative log-likelihood as the modulating factor F(pkNN).
+The ﬁnal loss L is deﬁned as:
+F(pkNN) = − log (pkNN),
+L = (1 + βF(pkNN)) LCE,
+(6)
+where β denotes a scalar to determine the proportion of each loss term. Note that pkNN is computed
+using the leave-one-out distribution on the training set due to the fact that each example in the training
+set cannot retrieve itself. The motivation of modulating factor is inspired by Focal-loss [35], while
+we focus on exploit leveraging k-NN’s results for calibrating the training of LMs.
+3.4
+kNN based probability for Cloze-style Prediction
+Apart from the neural demonstration on the input side and kNN guided training process (also referred
+as kNN-test for the abbreviation), we further present kNN based probability for Cloze-style prediction
+on the inference process, providing the PLM ability to retrieve nearest neighbors for decisions rather
+than making predictions only based on memorized parameters. Given the non-parametric k nearest
+neighbor distribution PkNN of the query instance qt being predicted as y, we follow [14, 27, 17]
+to reformulate the P(y | qt) by interpolating the PkNN with the already-trained base PLM’s MLM
+prediction PM using parameter λ to produce the ﬁnal probability of the label:
+P(y | qt) = λPkNN(y | qt) + (1 − λ)g (PM([MASK] = v|T (qt))) .
+(7)
+Different from kNN-LM [27, 17] that mainly retrieve tokens to augment the language modeling, we
+focus on leveraging prompt-based kNN’s distribution for reference at test time, which can unlock the
+model prediction process as an open-book examination for prompt learning.
+4
+Experiments
+4.1
+Datasets and Baselines
+Datasets We evaluate RETROPROMPT on several types of natural language understanding tasks,
+including single sentence classiﬁcation tasks (SST-2 [55], MR [44], and CR [20]) and sentence pair
+classiﬁcation tasks (MNLI [59], QNLI [47], and QQP5). To further evaluate the effectiveness of the
+proposed approach with multi-class classiﬁcation, we also conduct experiments on the information
+extraction tasks, including FewNERD [9], SemEval 2010 Task 8 (SemEval) [18], and TACRED [63].
+The detailed statistics of the datasets are shown in Appendix A.
+Baselines We compare with LM-BFF [13] for single sentence and sentence pair classiﬁcation tasks
+and adopt SOTA prompt learning model KnowPrompt [6] as the baseline for information extraction
+tasks. Note that the discrete demonstration method cannot be applied to multi-class classiﬁcation tasks
+due to the input length limitations; thus, we leave out the experimental table about the results of KnPr
+(D-demo). We also compare our RETROPROMPT with the knowledge-enhanced prompt learning
+5https://www.quora.com/q/quoradata/.
+5
+Table 1: Results across 9 NLU datasets in the few-shot and zero-shot setting. We report mean
+(and standard deviation) results over ﬁve different few-shot splits. “D-demo” refers to discrete
+demonstration, and “KnPr” is the abbreviation of KnowPrompt. LOTClass [42] is the SOTA model
+in unsupervised text classiﬁcation with self-training. † donates the model uses extra knowledge and
+♣ means they train the PLM on the whole unlabeled trainset, while we and the other baselines only
+leverage the vanilla PLM to test without training. The average scores with ∗ denote that we reuse the
+results of the “non-demo” version of the related model to ﬁll in the default values.
+St.
+Model
+Single Sentence
+Sentence Pair
+Model
+Information Extraction
+Avg.
+SST-2
+MR
+CR
+MNLI
+QNLI
+QQP
+FewN
+SemEval
+TACRED
+(acc)
+(acc)
+(acc)
+(acc)
+(acc)
+(F1)
+(acc)
+(acc)
+(F1)
+16
+FT
+81.4 (3.8)
+76.9 (5.9)
+75.8 (3.2)
+45.8 (6.4)
+60.2 (6.5)
+60.7 (4.3)
+FT
+52.7 (2.2)
+66.1 (1.2)
+25.8 (2.8)
+60.6
+LM-BFF (man)
+91.6 (1.2 )
+87.0 (2.0)
+90.3 (1.6)
+64.3 (2.5)
+64.6 (5.4 )
+65.4 (5.3)
+KnPr
+65.3 (1.1)
+80.9 (2.5)
+33.2 (2.0)
+71.4
+LM-BFF (D-demo)
+91.8 (1.2 )
+86.6 (1.8)
+90.2 (1.4)
+64.8 (2.3)
+69.2 (5.4)
+68.2 (3.2)
+KnPr (D-demo)
+—
+—
+—
+72.2∗
+KPT †
+90.3 (1.6)
+86.8 (1.8)
+88.8 (3.7)
+61.4 (2.1)
+61.5 (2.8)
+71.6 (2.7)
+KPT †
+65.9 (1.5)
+78.8 (2.1)
+32.8 (1.7)
+70.9
+Ours
+93.9 (0.4)
+88.0 (0.8)
+91.9 (0.7)
+71.1 (1.8)
+71.6 (1.8)
+74.0 (2.0)
+Ours
+67.3 (0.9)
+81.5 (1.3)
+40.7 (0.7)
+75.6
+4
+FT
+60.2 (2.8)
+57.6 (1.4)
+66.4 (5.5)
+35.0 (0.3)
+54.2 (3.9)
+52.8 (4.7)
+FT
+32.7 (2.9)
+38.8 (2.0)
+14.7 (2.8)
+45.8
+LM-BFF (man)
+90.7 (0.8)
+85.2 (2.8)
+89.9 (1.8)
+51.0 (2.5)
+61.1 (6.1)
+48.0 (4.9)
+KnPr
+52.5 (1.5)
+58.4 (3.7)
+28.8 (2.5)
+62.8
+LM-BFF (D-demo)
+90.2 (1.5)
+85.5 (2.1)
+89.7 (0.6)
+56.1 (1.0)
+61.7 (7.6)
+63.2 (5.6)
+KnPr (D-demo)
+—
+—
+—
+65.1∗
+KPT †
+88.2 (5.7)
+83.4 (1.5)
+87.2 (2.5)
+53.7 (2.7)
+59.2 (2.8)
+54.9 (7.9)
+KPT †
+58.8 (2.2)
+57.2 (3.2)
+27.5 (2.2)
+63.3
+Ours
+91.5 (1.8)
+87.4 (0.5)
+91.4 (0.6)
+57.6 (5.5)
+62.2 (6.0)
+66.1 (4.1)
+Ours
+60.9 (1.9)
+59.2 (3.0)
+32.1 (2.0)
+67.6
+0
+LOTClass♣
+71.8
+81.7
+50.1
+50.4
+36.5
+55.9
+LOTClass♣
+11.5
+9.8
+2.5
+41.1
+FT
+49.1
+50.0
+49.8
+34.4
+49.5
+31.6
+FT
+10.0
+6.2
+0.5
+31.2
+LM-BFF (man)
+83.5
+80.3
+78.4
+49.7
+50.5
+49.7
+KnPr
+15.9
+10.3
+2.3
+46.7
+LM-BFF (D-demo)
+82.9
+80.7
+81.4
+52.2
+53.5
+44.0
+KnPr (D-demo)
+—
+—
+—
+47.0∗
+KPT †
+78.4
+81.9
+71.4
+37.1
+55.3
+47.5
+KPT †
+24.6
+11.6
+0.8
+45.7
+Ours
+86.8
+83.5
+79.7
+53.7
+56.2
+56.7
+Ours
+41.3
+12.2
+2.8
+52.5
+method KPT [21] since KPT leverages the external knowledge base for enhancing prompt learning
+while we focus on utilizing internal trainsets as a knowledge-store. You can refer to Appendix B for
+detailed introduction of baseline methods.
+4.2
+Evaluation protocols and details
+The experiments are implemented on 1 NVIDIA V100 and utilize Pytorch [45] as the base library. We
+adopt RoBERTalarge [39] as the PLM and employ AdamW as the optimizer for all experiments. To
+mitigate the inﬂuence of diverse templates, we conduct baselines and RETROPROMPT with the same
+templates for each dataset. We list the speciﬁc experimental settings and tuning retrieve parameters
+in Appendix C and D. As for few-shot and zero-shot experiments, we leverage different settings,
+respectively.
+SST-2
+QNLI
+SEMEVAL
+87.0
+88.5
+90.0
+91.5
+93.0
+94.5
+96.0
+97.5
+Performance(%)
+FT
+LM-BFF(man)
+LM-BFF(demo)
+KPT
+Ours
+Knowprompt
+Figure 3:
+Performance on
+fully-supervised datasets.
+Few-shot Setting. We follow the few-shot setting of LM-BFF [13]
+to conduct 4-shot and 16-shot experiments and evaluate the average
+performance with a ﬁxed set of seeds, Sseed, across several differ-
+ent sampled Dtrain for each task. Note that our knowledge-store is
+constructed with the few-shot training set in this setting.
+Zero-shot Setting6. We leverage vanilla RoBERTalarge for all base-
+lines (except LOTClass [42]) to directly inference on the test set.
+To take advantage of retrieval mechanism, RETROPROMPT follows
+LOTClass [42] to utilize unlabeled trainsets for retrieval. Speciﬁ-
+cally, we take the vanilla RoBERTalarge to tag the pseudo labels on
+unlabeled trainset and create the open-book knowledge-store with
+the unlabeled trainsets and pseudo labels. Lastly, RETROPROMPT
+make predictions on the test set based on the constructed datastore
+without tuning any of the model parameters.
+4.3
+Experimental Results
+Few-shot Results.
+As shown in Table 1, we ﬁnd RETROPROMPT consistently outperforms baseline
+method LM-BFF and KnowPrompt, both in 4-shot and 16-shot experiments. Especially for informa-
+tion extraction tasks with multiple classes, discrete demonstrations cannot be applied to the input
+due to the limited input sequence length, while our neural demonstration can also work and achieves
+6Note that it is not a strict zero-shot sense.
+6
+improvement on these multi-class datasets. Moreover, RETROPROMPT obtain better performance
+compared with KPT. Compared with KPT with external knowledge, we only focus on referencing the
+internal few-shot trainsets without visiting the external knowledge base. Besides, we observe that
+RETROPROMPT has a relatively lower standard deviation than the baselines. The reason may lie that
+the retrieval mechanism can compensate for instabilities in parametric predictions.
+Table 2: Results of model generalization to
+new domains.
+Model
+Source
+Target Domain
+16-shot MR
+SST-2
+CR
+FT
+76.9
+71.4
+64.7
+LM-BFF (man)
+87.0
+88.9
+86.9
+LM-BFF (D-demo)
+86.6
+89.3
+87.5
+KPT
+86.8
+86.8
+86.7
+RETROPROMPT
+88.0
+91.4
+88.8
+16-shot QQP
+MRPC
+RTE
+FT
+60.7
+43.7
+48.0
+LM-BFF (man)
+65.4
+20.9
+65.5
+LM-BFF (D-demo)
+68.2
+38.8
+66.2
+KPT
+71.6
+42.3
+65.8
+RETROPROMPT
+74.0
+49.4
+67.3
+Zero-shot Results.
+From Table 1, we also observe
+that RETROPROMPT achieves improvements in the
+zero-shot setting.
+Another notable point is that
+RETROPROMPT performs even better than KPT in the
+zero-shot setting, revealing that exploring own data
+to decouple knowledge from memorization has more
+potential than leveraging external knowledge. More-
+over, we achieve superior performance to LOTClass
+even though we utilize the vanilla RoBERTalarge with-
+out any training.
+Fully-supervised Results.
+As shown in Figure 3,
+the experiments in fully-supervised settings with
+long-tail distribution illustrate that RETROPROMPT
+achieves improvement compared with baselines. This
+indicates that our retrieval mechanism extends the
+LM’s ability to learn hard examples in the fully-
+supervised datasets.
+4.4
+Model Generalization to New Domains
+The scarce data may bring the overﬁtting problem for the lots of memory parameters of PLMs, even
+though prompt learning. Thus, we conduct cross-domain experiments to validate the generalization
+of our RETROPROMPT. Speciﬁcally, we utilize the model trained on the source datasets and directly
+test on the other target datasets. From Table 2, we can ﬁnd that our method consistently outperforms
+baselines. This ﬁnding illustrates that RETROPROMPT achieves great model generalization to new
+domains.
+4.5
+Analysis of Memorization
+It is necessary and interesting to further explore the memorization mechanism to help us better
+understand the utility of retrieval for memorization in NLP.
+Deﬁnition of Memorization Measurement.
+Inspired by the idea of [11] in the computer vision
+area, we deﬁne memorization measures as to how the classiﬁcation varies when a training instance z
+is deleted from the trainset. We follow [28, 64] to deﬁne and derive the memorization score for a
+training instance z as follows:
+Sdelate(z)
+def
+= −dP(y|x; ˆθξ,−z)
+dξ
+����
+ξ=0
+= −∇θP(y|x; ˆθ)⊤ dˆθξ,−z
+dξ
+����
+ξ=0
+= −∇θP(y|x; ˆθ)⊤H−1
+ˆθ ∇θL(z, ˆθ),
+(8)
+where ˆθξ,−z denotes the parameters trained with the instance z down-weighted by ξ, ˆθ refers to the
+parameters of the model trained with all instances and Hˆθ = 1
+n
+�n
+i=1 ∇2
+θL(zi, ˆθ). Thus Sdelate(z)
+refers to the amount of change of P(y|x; θ) when the instance z is down-weighted by ξ.
+Top-memorized Instances: Typical or Atypical?
+Since the SST-2 dataset provides the annota-
+tions of phrase-level sentiment polarity labels, we adopt SST-2 to analyze the memorization by
+judging the atypical of an instance by checking the percentage of positive phrases. We achieve such
+statistics from SST-2 and observe that a typical positive instance has a relatively high percentage of
+positive phrases, and a typical negative instance should have a relatively low percentage of positive
+phrases. Based on the above observation, we apply the memorization score deﬁned in Eq. 8 to select
+Top-10% and Bottom-10% memorized instances from the trainset and collect the average percentage
+of positive phrases in these instances.
+As shown in Table 3,we can conclude following ﬁndings: (1) The PLM tends to give atypical
+samples deeper memory attention. Speciﬁcally, no matter LM-BFF or our method, the top-10%
+7
+Table 3: The upper part shows the average percentage of positive phrases over different memory
+groups of positive/negative instances. The lower part denotes the mean values of memorization score
+on the SST-2 dataset.
+Mem Group
+Negative
+Postive
+FT
+LM-BFF
+OURS
+FT
+LM-BFF
+OURS
+Top-10%
+34.29
+32.78
+30.23
+68.75
+69.71
+75.67
+ALL
+23.40
+86.39
+Bottom-10%
+17.63
+16.25
+14.42
+95.92
+95.08
+94.53
+FT
+LM-BFF
+OURS
+MEM SCORE
+4.597
+0.121
+0.032
+memorized negative instances have a higher percentage of positive phrases than the average per-
+centage of positive phrases of all negative instances. 2) LM-BFF has lower memorization scores
+on hard samples than ﬁne-tuning. We think it owns to prompt learning can help PLMs recall
+what they learned from pre-training without strengthening memory for downstream data. 3)
+RETROPROMPT further has lower average memorization scores than ﬁne-tuning and LM-BFF, which
+illustrates that our method is less memory dependent. This result may be attributed to decoupling
+knowledge from memorization through retrieval to alleviating the rote of PLMs.
+Table 4: Detailed ablation experiments in
+few-shot settings. “N-demo” donates the neu-
+ral demonstration, and “refresh” refers to the
+asynchronous refresh of the knowledge-tore.
+Model
+16-shot
+SST-2
+CR
+MNLI
+QQP
+TACRED
+OURS
+93.9
+91.9
+71.1
+74.0
+40.7
+w/o kNN-test
+93.2
+91.2
+70.4
+73.0
+38.2
+w/o kNN-train
+92.0
+90.2
+68.8
+71.3
+36.5
+w/o N-demo
+92.4
+91.0
+70.1
+72.7
+37.9
+w/o refresh
+93.5
+91.5
+70.7
+73.6
+39.9
+Case Analysis.
+As shown in Table 6, we manu-
+ally list the bottom-ranked and top-ranked training
+instances of SST-2 according to our model. It re-
+veals that the top-ranked memorized instances seem
+to show universal opinions indirectly. Thus, we in-
+spect them as atypical/hard for sentiment classiﬁca-
+tion. While those instances with 0 memorization
+scores are straightforward to show their opinion for
+sentiment classiﬁcation, representing the typical in-
+stance. Note that F(pkNN) is deﬁned to represent
+the difﬁculty of the sample discriminated by kNN dis-
+tribution. And the Table 6 also shows that F(pkNN)
+indeed reﬂect atypicality of examples, which vali-
+dates the effectiveness of the kNN guided training.
+4.6
+Ablation Study
+Component Ablation.
+As shown in Table 4, the performance of component ablation experiments
+with four variants has a clear drop, which validates the power of our retrieval component. We also
+ﬁnd that neural demonstration and kNN-train have more improvement in the few-shot setting than
+kNN-test. Note that kNN-test is similar to kNN-LM [27, 17] and the results reveals that simply
+incorporate kNN in the test process of prompt learning has little inﬂuence in a few-shot setting.
+Table 5: Performance on 16-shot CR
+and TACRED with different represen-
+tations of key and calculate function
+of kNN distribution.
+Key Repres.
+kNN Acq.
+CR
+TAC.
+Prompt
+Rep-similar
+91.9
+40.7
+[CLS]
+Rep-similar
+89.0
+37.2
+Prompt
+BM25
+89.5
+38.8
+[CLS]
+BM25
+88.7
+36.1
+Key Representation and kNN Acquisition.
+We study
+the effect of using different representations of the key in the
+knowledge-store. We experiment with two types of repre-
+sentations: (1) prompt-based representation, which is the
+default setting, and (2) [CLS] based representation of current
+LM. We also experiment with two types of calculation of
+kNN distribution: (1) representation based similarity score
+(refer as rep-similar), which is the default setting, and (2)
+BM25 based score , which calculates the correlation score
+between the query and each key examples with BM25 [49]
+algorithm. Results in Table 5 show that using prompt-based
+representations for key and representation based similarity
+scores for kNN leads to the best performance. It suggests that prompt learn better representations for
+context similarity and the representation similarity based kNN distribution is better than BM25 based
+scores.
+8
+Table 6: Case examples of Top-3 and Bottom-3 memorized instance of ours from trainset of SST-2.
+Negative
+Positive
+Content
+Mem F(pkNN)
+Content
+Mem F(pkNN)
+Although god is great addressed interesting
+matters of identity and heritage, it’s hard to
+shake the feeling that it was intend to be a
+different kind of ﬁlm.
+0.066
+1.17
+A b-movie you can sit through, enjoy on a
+certain level and then forget.
+0.020
+0.18
+A standard police-oriented drama that, were
+it not for deniro’s participation, would have
+likely wound up a tnt original.
+0.011
+1.48
+A ﬁlm that will be best appreciated by those
+willing to endure its extremely languorous
+rhythms, waiting for happiness is ultimately
+thoughtful without having much dramatic
+impact.
+0.010
+0.43
+A hit and miss affair, consistently amusing
+but not as outrageous or funny as cho may
+have intended or as imaginative as one might
+have hoped.
+0.010
+2.74
+What’s invigorating about is that it doesn’t
+give a damn.
+0.003
+0.06
+It’s a loathsome movie, it really is and it
+makes absolutely no sense.
+0.00
+0.00
+A fun family movie that’s suitable for all
+ages– a movie that will make you laugh, cry
+and realize, ‘it’s never too late to believe in
+your dreams.’
+0.00
+0.00
+It is that rare combination of bad writing,
+bad direction and bad acting – the trifecta of
+badness.
+0.00
+0.00
+It’s a cool event for the whole family.
+0.00
+0.00
+This thing is virtually unwatchable.
+0.00
+0.00
+Good fun, good action, good acting, good
+dialogue, good pace, good cinematography.
+0.00
+0.00
+5
+Related Work
+Retrieval-enhanced PLMs.
+Our pipeline is partly inspired by discrete demonstration methods
+such as [13, 36, 29, 30] that retrieves few training examples in a natural language prompt, while
+we propose neural demonstration for enhancing the input to alleviate the limitations of input length.
+Another line researches of retrieval augmentation [15, 24, 33, 50, 3] retrieve useful information from
+a external knowledge corpus (e.g., Wikipedia) for a particular task (e.g., an open-domain question).
+Unlike these works, we focus on retrieving examples from the internal training data. Besides, semi-
+parametric methods [27, 17, 26, 25, 1, 43] have risen to leverage k-nearest neighbor classiﬁer, a
+classic non-parametric algorithm that makes the prediction based on representation similarities, to
+enhance pre-trained language models in various tasks However, unlike these models using nearest
+neighbors only for augmenting the process of prediction, we aim to develop a comprehensive retrieval
+mechanism for input, training and test process.
+Prompt learning for PLMs.
+With the birth of GPT-3 [4], prompt learning [37] has recently arisen
+to ﬁll the gap between masked LM objective of PLMs and downstream ﬁne-tuning objective. Prompt
+learning has achieves very impressive performance on various tasks, such as text classiﬁcation [52, 54],
+named entity recognition [5, 41], relation extraction [16, 6], event extraction [19, 61], machine
+translation [56] and language generation [53], especially under the setting of few-shot learning.
+Moreover, continuous prompts have also been proposed [34, 31, 38] to reduce prompt engineering,
+which directly appends a series of learnable continuous embeddings as prompts into the input
+sequence. Our work is orthogonal to previous prompt learning approaches, which aim to optimize
+prompts, while we focus on the systematic study of retrieving related examples from training data to
+enhance prompt learning.
+6
+Conclusion and Future Work
+We propose RETROPROMPT that decouples knowledge from memorization by introducing retrieval
+augmentation to further improve the generalization ability of prompt learning on the input side and
+the whole process of model training and prediction. RETROPROMPT, is a straightforward yet effective
+retrieval method that combines both neural demonstrations, kNN guider for training and prediction.
+Our extensive results show that it outperforms other demonstration-enhanced prompt methods and
+knowledge-enhanced prompt methods in few-shot, zero-shot and fully-supervised settings. Analyzing
+the essence of memorization validates the effectiveness of decoupling knowledge from memorization.
+Interesting future directions include: 1) apply to other tasks, such as QA and NLG, 2) explore the
+noise data mining for unsupervised learning, 3) further improve the retrieve efﬁciency for large
+datasets, etc.
+9
+Acknowledgments
+We want to express gratitude to the anonymous reviewers for their kind comments. This work
+was supported by National Natural Science Foundation of China (No.62206246, 91846204 and
+U19B2027), Zhejiang Provincial Natural Science Foundation of China (No. LGG22F030011),
+Ningbo Natural Science Foundation (2021J190), and Yongjiang Talent Introduction Programme
+(2021A-156-G).
+References
+[1] Uri Alon, Frank F. Xu, Junxian He, Sudipta Sengupta, Dan Roth, and Graham Neubig. Neuro-
+symbolic language modeling with automaton-augmented retrieval, 2022.
+[2] Gianluca Bontempi, Hugues Bersini, and Mauro Birattari. The local paradigm for modeling
+and control: from neuro-fuzzy to lazy learning. Fuzzy sets and systems, 121(1):59–72, 2001.
+[3] Sebastian Borgeaud, Arthur Mensch, Jordan Hoffmann, Trevor Cai, Eliza Rutherford, Katie
+Millican, George van den Driessche, Jean-Baptiste Lespiau, Bogdan Damoc, Aidan Clark,
+Diego de Las Casas, Aurelia Guy, Jacob Menick, Roman Ring, Tom Hennigan, Saffron Huang,
+Loren Maggiore, Chris Jones, Albin Cassirer, Andy Brock, Michela Paganini, Geoffrey Irving,
+Oriol Vinyals, Simon Osindero, Karen Simonyan, Jack W. Rae, Erich Elsen, and Laurent Sifre.
+Improving language models by retrieving from trillions of tokens. In Kamalika Chaudhuri,
+Stefanie Jegelka, Le Song, Csaba Szepesvári, Gang Niu, and Sivan Sabato, editors, International
+Conference on Machine Learning, ICML 2022, 17-23 July 2022, Baltimore, Maryland, USA,
+volume 162 of Proceedings of Machine Learning Research, pages 2206–2240. PMLR, 2022.
+[4] Tom B. Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal,
+Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel
+Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel M.
+Ziegler, Jeffrey Wu, Clemens Winter, Christopher Hesse, Mark Chen, Eric Sigler, Mateusz
+Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec
+Radford, Ilya Sutskever, and Dario Amodei. Language models are few-shot learners. In
+Proceedings of NeurIPS 2020, 2020.
+[5] Xiang Chen, Ningyu Zhang, Lei Li, Xin Xie, Shumin Deng, Chuanqi Tan, Fei Huang, Luo Si,
+and Huajun Chen. Lightner: A lightweight generative framework with prompt-guided attention
+for low-resource NER. CoRR, abs/2109.00720, 2021.
+[6] Xiang Chen, Ningyu Zhang, Xin Xie, Shumin Deng, Yunzhi Yao, Chuanqi Tan, Fei Huang,
+Luo Si, and Huajun Chen. Knowprompt: Knowledge-aware prompt-tuning with synergistic
+optimization for relation extraction. CoRR, abs/2104.07650, 2021.
+[7] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: pre-training of
+deep bidirectional transformers for language understanding. In Jill Burstein, Christy Doran, and
+Thamar Solorio, editors, Proceedings of the 2019 Conference of the North American Chapter of
+the Association for Computational Linguistics: Human Language Technologies, NAACL-HLT
+2019, Minneapolis, MN, USA, June 2-7, 2019, Volume 1 (Long and Short Papers), pages
+4171–4186. Association for Computational Linguistics, 2019.
+[8] Ning Ding, Yulin Chen, Xu Han, Guangwei Xu, Pengjun Xie, Hai-Tao Zheng, Zhiyuan Liu,
+Juanzi Li, and Hong-Gee Kim. Prompt-learning for ﬁne-grained entity typing. arXiv preprint
+arXiv:2108.10604, 2021.
+[9] Ning Ding, Guangwei Xu, Yulin Chen, Xiaobin Wang, Xu Han, Pengjun Xie, Haitao Zheng,
+and Zhiyuan Liu. Few-nerd: A few-shot named entity recognition dataset. In Chengqing Zong,
+Fei Xia, Wenjie Li, and Roberto Navigli, editors, Proceedings of the 59th Annual Meeting of
+the Association for Computational Linguistics and the 11th International Joint Conference on
+Natural Language Processing, ACL/IJCNLP 2021, (Volume 1: Long Papers), Virtual Event,
+August 1-6, 2021, pages 3198–3213. Association for Computational Linguistics, 2021.
+10
+[10] Aparna Elangovan, Jiayuan He, and Karin Verspoor. Memorization vs. generalization : Quanti-
+fying data leakage in NLP performance evaluation. In Proceedings of the 16th Conference of
+the European Chapter of the Association for Computational Linguistics: Main Volume, pages
+1325–1335, Online, April 2021. Association for Computational Linguistics.
+[11] Vitaly Feldman. Does learning require memorization? a short tale about a long tail. In Konstantin
+Makarychev, Yury Makarychev, Madhur Tulsiani, Gautam Kamath, and Julia Chuzhoy, editors,
+Proccedings of the 52nd Annual ACM SIGACT Symposium on Theory of Computing, STOC
+2020, Chicago, IL, USA, June 22-26, 2020, pages 954–959. ACM, 2020.
+[12] Vitaly Feldman and Chiyuan Zhang. What neural networks memorize and why: Discovering
+the long tail via inﬂuence estimation. In Hugo Larochelle, Marc’Aurelio Ranzato, Raia Hadsell,
+Maria-Florina Balcan, and Hsuan-Tien Lin, editors, Advances in Neural Information Processing
+Systems 33: Annual Conference on Neural Information Processing Systems 2020, NeurIPS
+2020, December 6-12, 2020, virtual, 2020.
+[13] Tianyu Gao, Adam Fisch, and Danqi Chen. Making pre-trained language models better few-shot
+learners. In Proceedings of ACL, 2021.
+[14] Edouard Grave, Moustapha Cissé, and Armand Joulin. Unbounded cache model for online
+language modeling with open vocabulary. In Isabelle Guyon, Ulrike von Luxburg, Samy Bengio,
+Hanna M. Wallach, Rob Fergus, S. V. N. Vishwanathan, and Roman Garnett, editors, Advances
+in Neural Information Processing Systems 30: Annual Conference on Neural Information
+Processing Systems 2017, December 4-9, 2017, Long Beach, CA, USA, pages 6042–6052, 2017.
+[15] Kelvin Guu, Kenton Lee, Zora Tung, Panupong Pasupat, and Ming-Wei Chang. REALM:
+retrieval-augmented language model pre-training. CoRR, abs/2002.08909, 2020.
+[16] Xu Han, Weilin Zhao, Ning Ding, Zhiyuan Liu, and Maosong Sun. PTR: prompt tuning with
+rules for text classiﬁcation. CoRR, abs/2105.11259, 2021.
+[17] Junxian He, Graham Neubig, and Taylor Berg-Kirkpatrick. Efﬁcient nearest neighbor language
+models. In Proc. of EMNLP, 2021.
+[18] Iris Hendrickx, Su Nam Kim, Zornitsa Kozareva, Preslav Nakov, Diarmuid Ó Séaghdha,
+Sebastian Padó, Marco Pennacchiotti, Lorenza Romano, and Stan Szpakowicz. SemEval-2010
+task 8: Multi-way classiﬁcation of semantic relations between pairs of nominals. In Proceedings
+of SemEval, pages 33–38, 2010.
+[19] I Hsu, Kuan-Hao Huang, Elizabeth Boschee, Scott Miller, Prem Natarajan, Kai-Wei Chang,
+Nanyun Peng, et al.
+Event extraction as natural language generation.
+arXiv preprint
+arXiv:2108.12724, 2021.
+[20] Minqing Hu and Bing Liu. Mining and summarizing customer reviews. In Won Kim, Ron
+Kohavi, Johannes Gehrke, and William DuMouchel, editors, Proceedings of the Tenth ACM
+SIGKDD International Conference on Knowledge Discovery and Data Mining, Seattle, Wash-
+ington, USA, August 22-25, 2004, pages 168–177. ACM, 2004.
+[21] Shengding Hu, Ning Ding, Huadong Wang, Zhiyuan Liu, Juanzi Li, and Maosong Sun. Knowl-
+edgeable prompt-tuning: Incorporating knowledge into prompt verbalizer for text classiﬁcation.
+CoRR, abs/2108.02035, 2021.
+[22] Jeff Johnson, Matthijs Douze, and Hervé Jégou. Billion-scale similarity search with gpus. IEEE
+Trans. Big Data, 7(3):535–547, 2021.
+[23] Mandar Joshi, Danqi Chen, Yinhan Liu, Daniel S. Weld, Luke Zettlemoyer, and Omer Levy.
+Spanbert: Improving pre-training by representing and predicting spans. Trans. Assoc. Comput.
+Linguistics, 8:64–77, 2020.
+[24] Vladimir Karpukhin, Barlas Oguz, Sewon Min, Patrick S. H. Lewis, Ledell Wu, Sergey Edunov,
+Danqi Chen, and Wen-tau Yih. Dense passage retrieval for open-domain question answering.
+In Bonnie Webber, Trevor Cohn, Yulan He, and Yang Liu, editors, Proceedings of the 2020
+Conference on Empirical Methods in Natural Language Processing, EMNLP 2020, Online,
+November 16-20, 2020, pages 6769–6781. Association for Computational Linguistics, 2020.
+11
+[25] Nora Kassner and Hinrich Schütze. Bert-knn: Adding a knn search component to pretrained
+language models for better QA. In Findings of EMNLP, 2020.
+[26] Urvashi Khandelwal, Angela Fan, Dan Jurafsky, Luke Zettlemoyer, and Mike Lewis. Nearest
+neighbor machine translation. In 9th International Conference on Learning Representations,
+ICLR 2021, Virtual Event, Austria, May 3-7, 2021. OpenReview.net, 2021.
+[27] Urvashi Khandelwal, Omer Levy, Dan Jurafsky, Luke Zettlemoyer, and Mike Lewis. Gen-
+eralization through memorization: Nearest neighbor language models. In 8th International
+Conference on Learning Representations, ICLR 2020, Addis Ababa, Ethiopia, April 26-30, 2020.
+OpenReview.net, 2020.
+[28] Pang Wei Koh and Percy Liang. Understanding black-box predictions via inﬂuence functions.
+In International Conference on Machine Learning, 2017.
+[29] Sawan Kumar and Partha Talukdar. Reordering examples helps during priming-based few-shot
+learning. In Findings of the Association for Computational Linguistics: ACL-IJCNLP 2021,
+pages 4507–4518, Online, 2021. Association for Computational Linguistics.
+[30] Dong-Ho Lee, Mahak Agarwal, Akshen Kadakia, Jay Pujara, and Xiang Ren. Good examples
+make A faster learner: Simple demonstration-based learning for low-resource NER. CoRR,
+abs/2110.08454, 2021.
+[31] Brian Lester, Rami Al-Rfou, and Noah Constant. The power of scale for parameter-efﬁcient
+prompt tuning. arXiv preprint arXiv:2104.08691, 2021.
+[32] Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer
+Levy, Veselin Stoyanov, and Luke Zettlemoyer. BART: denoising sequence-to-sequence pre-
+training for natural language generation, translation, and comprehension. In Proceedings of
+ACL 2020, 2020.
+[33] Patrick S. H. Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, Naman
+Goyal, Heinrich Küttler, Mike Lewis, Wen-tau Yih, Tim Rocktäschel, Sebastian Riedel, and
+Douwe Kiela. Retrieval-augmented generation for knowledge-intensive NLP tasks. In Hugo
+Larochelle, Marc’Aurelio Ranzato, Raia Hadsell, Maria-Florina Balcan, and Hsuan-Tien Lin,
+editors, Advances in Neural Information Processing Systems 33: Annual Conference on Neural
+Information Processing Systems 2020, NeurIPS 2020, December 6-12, 2020, virtual, 2020.
+[34] Xiang Lisa Li and Percy Liang. Preﬁx-tuning: Optimizing continuous prompts for generation.
+In Proceedings of ACL/IJCNLP 2021, 2021.
+[35] Tsung-Yi Lin, Priya Goyal, Ross B. Girshick, Kaiming He, and Piotr Dollár. Focal loss for
+dense object detection. In IEEE Trans. Pattern Anal. Mach. Intell., volume 42, pages 318–327,
+2020.
+[36] Jiachang Liu, Dinghan Shen, Yizhe Zhang, Bill Dolan, Lawrence Carin, and Weizhu Chen.
+What makes good in-context examples for gpt-3? CoRR, abs/2101.06804, 2021.
+[37] Pengfei Liu, Weizhe Yuan, Jinlan Fu, Zhengbao Jiang, Hiroaki Hayashi, and Graham Neubig.
+Pre-train, prompt, and predict: A systematic survey of prompting methods in natural language
+processing. arXiv preprint arXiv:2107.13586, 2021.
+[38] Xiao Liu, Yanan Zheng, Zhengxiao Du, Ming Ding, Yujie Qian, Zhilin Yang, and Jie Tang.
+GPT understands, too. CoRR, abs/2103.10385, 2021.
+[39] Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy,
+Mike Lewis, Luke Zettlemoyer, and Veselin Stoyanov. Roberta: A robustly optimized BERT
+pretraining approach. CoRR, abs/1907.11692, 2019.
+[40] Yao Lu, Max Bartolo, Alastair Moore, Sebastian Riedel, and Pontus Stenetorp. Fantastically
+ordered prompts and where to ﬁnd them: Overcoming few-shot prompt order sensitivity. CoRR,
+abs/2104.08786, 2021.
+12
+[41] Ruotian Ma, Xin Zhou, Tao Gui, Yiding Tan, Qi Zhang, and Xuanjing Huang. Template-free
+prompt tuning for few-shot NER. CoRR, abs/2109.13532, 2021.
+[42] Yu Meng, Yunyi Zhang, Jiaxin Huang, Chenyan Xiong, Heng Ji, Chao Zhang, and Jiawei
+Han. Text classiﬁcation using label names only: A language model self-training approach. In
+Proceedings of EMNLP, 2020.
+[43] Yuxian Meng, Shi Zong, Xiaoya Li, Xiaofei Sun, Tianwei Zhang, Fei Wu, and Jiwei Li.
+GNN-LM: language modeling based on global contexts via GNN. CoRR, abs/2110.08743,
+2021.
+[44] Bo Pang and Lillian Lee. Seeing stars: Exploiting class relationships for sentiment categorization
+with respect to rating scales. In Kevin Knight, Hwee Tou Ng, and Kemal Oﬂazer, editors, ACL
+2005, 43rd Annual Meeting of the Association for Computational Linguistics, Proceedings of the
+Conference, 25-30 June 2005, University of Michigan, USA, pages 115–124. The Association
+for Computer Linguistics, 2005.
+[45] Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory Chanan,
+Trevor Killeen, Zeming Lin, Natalia Gimelshein, Luca Antiga, Alban Desmaison, Andreas
+Köpf, Edward Yang, Zachary DeVito, Martin Raison, Alykhan Tejani, Sasank Chilamkurthy,
+Benoit Steiner, Lu Fang, Junjie Bai, and Soumith Chintala. Pytorch: An imperative style,
+high-performance deep learning library. In Hanna M. Wallach, Hugo Larochelle, Alina Beygelz-
+imer, Florence d’Alché-Buc, Emily B. Fox, and Roman Garnett, editors, Advances in Neural
+Information Processing Systems 32: Annual Conference on Neural Information Processing
+Systems 2019, NeurIPS 2019, December 8-14, 2019, Vancouver, BC, Canada, pages 8024–8035,
+2019.
+[46] Alec Radford, Karthik Narasimhan, Tim Salimans, and Ilya Sutskever. Improving language
+understanding by generative pre-training. OpenAI, 2018.
+[47] Pranav Rajpurkar, Jian Zhang, Konstantin Lopyrev, and Percy Liang. Squad: 100, 000+
+questions for machine comprehension of text. In Jian Su, Xavier Carreras, and Kevin Duh,
+editors, Proceedings of the 2016 Conference on Empirical Methods in Natural Language
+Processing, EMNLP 2016, Austin, Texas, USA, November 1-4, 2016, pages 2383–2392. The
+Association for Computational Linguistics, 2016.
+[48] Nils Reimers and Iryna Gurevych. Sentence-bert: Sentence embeddings using siamese bert-
+networks. In Kentaro Inui, Jing Jiang, Vincent Ng, and Xiaojun Wan, editors, Proceedings of the
+2019 Conference on Empirical Methods in Natural Language Processing and the 9th Interna-
+tional Joint Conference on Natural Language Processing, EMNLP-IJCNLP 2019, Hong Kong,
+China, November 3-7, 2019, pages 3980–3990. Association for Computational Linguistics,
+2019.
+[49] Stephen E. Robertson and Hugo Zaragoza. The probabilistic relevance framework: BM25 and
+beyond. Found. Trends Inf. Retr., 3(4):333–389, 2009.
+[50] Ohad Rubin, Jonathan Herzig, and Jonathan Berant. Learning to retrieve prompts for in-context
+learning. CoRR, abs/2112.08633, 2021.
+[51] Victor Sanh, Albert Webson, Colin Raffel, Stephen H. Bach, Lintang Sutawika, Zaid Alyafeai,
+Antoine Chafﬁn, Arnaud Stiegler, Teven Le Scao, Arun Raja, Manan Dey, M. Saiful Bari,
+Canwen Xu, Urmish Thakker, Shanya Sharma, Eliza Szczechla, Taewoon Kim, Gunjan Chh-
+ablani, Nihal V. Nayak, Debajyoti Datta, Jonathan Chang, Mike Tian-Jian Jiang, Han Wang,
+Matteo Manica, Sheng Shen, Zheng Xin Yong, Harshit Pandey, Rachel Bawden, Thomas Wang,
+Trishala Neeraj, Jos Rozen, Abheesht Sharma, Andrea Santilli, Thibault Févry, Jason Alan Fries,
+Ryan Teehan, Stella Biderman, Leo Gao, Tali Bers, Thomas Wolf, and Alexander M. Rush.
+Multitask prompted training enables zero-shot task generalization. CoRR, abs/2110.08207,
+2021.
+[52] Timo Schick, Helmut Schmid, and Hinrich Schütze. Automatically identifying words that can
+serve as labels for few-shot text classiﬁcation. In Proceedings of COLING, December 2020.
+13
+[53] Timo Schick and Hinrich Schütze. Few-shot text generation with pattern-exploiting training.
+arXiv preprint arXiv:2012.11926, 2020.
+[54] Taylor Shin, Yasaman Razeghi, Robert L. Logan IV, Eric Wallace, and Sameer Singh. Auto-
+prompt: Eliciting knowledge from language models with automatically generated prompts. In
+Proceedings of EMNLP 2020, 2020.
+[55] Richard Socher, Alex Perelygin, Jean Wu, Jason Chuang, Christopher D. Manning, Andrew Y.
+Ng, and Christopher Potts. Recursive deep models for semantic compositionality over a sen-
+timent treebank. In Proceedings of the 2013 Conference on Empirical Methods in Natural
+Language Processing, EMNLP 2013, 18-21 October 2013, Grand Hyatt Seattle, Seattle, Wash-
+ington, USA, A meeting of SIGDAT, a Special Interest Group of the ACL, pages 1631–1642.
+ACL, 2013.
+[56] Zhixing Tan, Xiangwen Zhang, Shuo Wang, and Yang Liu. MSP: multi-stage prompting for
+making pre-trained language models better translators. CoRR, abs/2110.06609, 2021.
+[57] Michael Tänzer, Sebastian Ruder, and Marek Rei. Memorisation versus generalisation in
+pre-trained language models. In Proceedings of the 60th Annual Meeting of the Association for
+Computational Linguistics (Volume 1: Long Papers), pages 7564–7578, 2022.
+[58] Jason Wei, Maarten Bosma, Vincent Y. Zhao, Kelvin Guu, Adams Wei Yu, Brian Lester, Nan
+Du, Andrew M. Dai, and Quoc V. Le. Finetuned language models are zero-shot learners. CoRR,
+abs/2109.01652, 2021.
+[59] Adina Williams, Nikita Nangia, and Samuel R. Bowman. A broad-coverage challenge corpus
+for sentence understanding through inference. In Marilyn A. Walker, Heng Ji, and Amanda
+Stent, editors, Proceedings of the 2018 Conference of the North American Chapter of the
+Association for Computational Linguistics: Human Language Technologies, NAACL-HLT 2018,
+New Orleans, Louisiana, USA, June 1-6, 2018, Volume 1 (Long Papers), pages 1112–1122.
+Association for Computational Linguistics, 2018.
+[60] Sen Yang, Yunchen Zhang, Leyang Cui, and Yue Zhang. Do prompts solve NLP tasks using
+natural language? CoRR, abs/2203.00902, 2022.
+[61] Hongbin Ye, Ningyu Zhang, Zhen Bi, Shumin Deng, Chuanqi Tan, Hui Chen, Fei Huang, and
+Huajun Chen. Learning to ask for data-efﬁcient event argument extraction. arXiv preprint
+arXiv:2110.00479, 2021.
+[62] Ningyu Zhang, Luoqiu Li, Xiang Chen, Shumin Deng, Zhen Bi, Chuanqi Tan, Fei Huang,
+and Huajun Chen. Differentiable prompt makes pre-trained language models better few-shot
+learners. CoRR, abs/2108.13161, 2021.
+[63] Yuhao Zhang, Victor Zhong, Danqi Chen, Gabor Angeli, and Christopher D. Manning. Position-
+aware attention and supervised data improve slot ﬁlling. In Proceedings of EMNLP 2017,
+2017.
+[64] Xiaosen Zheng and Jing Jiang.
+An empirical study of memorization in NLP.
+CoRR,
+abs/2203.12171, 2022.
+Checklist
+1. For all authors...
+(a) Do the main claims made in the abstract and introduction accurately reﬂect the paper’s
+contributions and scope? [Yes]
+(b) Did you describe the limitations of your work? [Yes] See Appendix.
+(c) Did you discuss any potential negative societal impacts of your work? [Yes] See
+Appendix.
+(d) Have you read the ethics review guidelines and ensured that your paper conforms to
+them? [Yes]
+14
+2. If you are including theoretical results...
+(a) Did you state the full set of assumptions of all theoretical results? [N/A]
+(b) Did you include complete proofs of all theoretical results? [N/A]
+3. If you ran experiments...
+(a) Did you include the code, data, and instructions needed to reproduce the main experi-
+mental results (either in the supplemental material or as a URL)? [Yes] We include the
+source code and data in our supplemental material submission, and we outline the data
+generation procedure, the evaluation protocol, the training regime, and everything else
+necessary for reproduction either in the main body of the paper or in the appendix.
+(b) Did you specify all the training details (e.g., data splits, hyperparameters, how they
+were chosen)? [Yes] See Subsection 4.2 and Appendix.
+(c) Did you report error bars (e.g., with respect to the random seed after running experi-
+ments multiple times)? [Yes] We list the standard deviation for few-shot setting.
+(d) Did you include the total amount of compute and the type of resources used (e.g., type
+of GPUs, internal cluster, or cloud provider)? [Yes] We introduce type of resources in
+Section 4.2.
+4. If you are using existing assets (e.g., code, data, models) or curating/releasing new assets...
+(a) If your work uses existing assets, did you cite the creators? [Yes]
+(b) Did you mention the license of the assets? [No] The code and the data are proprietary.
+(c) Did you include any new assets either in the supplemental material or as a URL? [No]
+(d) Did you discuss whether and how consent was obtained from people whose data you’re
+using/curating? [No] The code and the data are proprietary.
+(e) Did you discuss whether the data you are using/curating contains personally identiﬁable
+information or offensive content? [No]
+5. If you used crowdsourcing or conducted research with human subjects...
+(a) Did you include the full text of instructions given to participants and screenshots, if
+applicable? [N/A]
+(b) Did you describe any potential participant risks, with links to Institutional Review
+Board (IRB) approvals, if applicable? [N/A]
+(c) Did you include the estimated hourly wage paid to participants and the total amount
+spent on participant compensation? [N/A]
+A
+Datasets and Templates
+In this section, we introduce the datasets as shown in Table 7 and list the templates we use in
+experiments as follows.
+Table 7: Detailed dataset statistics.
+Dataset
+Type
+# Class
+Test Size
+SST-2
+Sentiment
+2
+872
+MR
+Sentiment
+2
+2,000
+CR
+Sentiment
+2
+2,000
+MNLI
+NLI
+3
+9,815
+QNLI
+NLI
+2
+5,463
+QQP
+Paraphrase
+2
+40,431
+FewNERD
+Entity Typing
+66
+96,901
+SemEval
+Relation Extraction
+19
+2,717
+TACRED
+Relation Extraction
+42
+15,509
+SST-2, MR, CR.
+For the single sentence classiﬁcation tasks, we follow the LM-BFF [13] to design
+the templates:
+T(x) = [CLS]x It was [MASK].
+15
+We set Verbalizer: (great/terrible) → (positive/negative) for SST-2 MR and CR. For the Yahoo dataset,
+we assign the Verbalizer following the original labels.
+MNLI, QNLI, QQP.
+For the sentence pair classiﬁcation tasks, we follow LM-BFF [13] to set
+Verbalizer: (Yes/Maybe/No) → (entailment/neutral/contradiction), and deﬁne the following templates:
+T(x1, x2) = [CLS]x1?[MASK], x2
+FewNERD, SemEval, TACRED.
+FewNERD, SemEval and TACRED are datasets for information
+extraction, which require inserting the entity into the template. Therefore, we follow [8] and [6] to
+deﬁne the template and verbalizers.
+B
+Compared Baselines
+In this subsection, we introduce the baselines we compare with and re-produce them under the same
+settings with their open-source codes.
+LM-BFF uses several other tricks, such as prompt ensemble, while KPT utilizes tremendous external
+knowledge. We do not use any of these tricks and external knowledge since we get the most out of the
+data to decouple part of knowledge from parametric memorization. Our RETROPROMPT mechanism
+is orthogonal to other methodological improvements of prompt-tuning (such as continuous prompt in
+P-tuning [38] and DART [62] ) and can be combined with other prompt-tuning methods in future
+work.
+Fine-tuning (FT).
+The traditional ﬁne-tuning method regard the hidden embedding of [CLS]
+token of the PLM as the representation of the sentence and then feeds them into a classiﬁcation layer
+to make predictions.
+LM-BFF.
+LM-BFF [13] is a typical prompt-tuning method wrapping an input sentence into a
+handcrafted template. Here we re-produce LM-BFF based on their open-source codes 7 with the
+same manual prompts as RETROPROMPT for a fair comparison.
+LM-BFF (+Demo).
+This approach is the above LM-BFF [13] combined with the demonstration [4].
+Different from RETROPROMPT, it uses examples of natural language as demonstrations, which is
+restricted by the input length of the language model. Thus, LM-BFF (+demo) is not suitable for
+multi-class classiﬁcation tasks.
+KnowPrompt.
+KnowPrompt [6] is a SOTA prompt-tuning method for relation extraction tasks
+with multiple classes. We apply our RETROPROMPT over KnowPrompt on information extraction
+tasks for comparison, aiming to verify the broad applicability of our method.
+Incorporating Knowledge into Prompt (KPT). KPT [21] focuses on incorporating external knowl-
+edge into the verbalizer by reﬁning the expanded label word space to improve and stabilize prompt-
+tuning, which is a solid baseline for comparison. We follow their public codes8 to conduct experiments
+in the same setting for a fair comparison.
+LOTClass.
+LOTClass [42] is the SOTA method in unsupervised text classiﬁcation that utilizes the
+PLM to extract the label-related words from the whole unlabeled training corpus. Then it leverages
+the Masked Category Prediction task to train on the unlabeled corpus with pseudo labels.
+C
+Experimental Settings
+We report the hyper-parameters in Table 8. Most of the hyper-parameters are the default parameters
+of LM-BFF9.
+7https://github.com/princeton-nlp/LM-BFF
+8https://github.com/ShengdingHu/KnowledgeablePromptTuning
+9https://github.com/princeton-nlp/LM-BFF
+16
+Table 8: Hyper-parameter settings.
+Hyper-parameter
+Value
+maximum sequence length
+{128, 256}
+max training step
+800
+evaluation step
+80
+learning rate
+{1e-5, 2e-5, 5e-5}
+batch size
+{2, 4, 8}
+adam epsilon
+1e-8
+10-4
+10-3
+10-2
+10-1
+100
+84.0
+86.0
+88.0
+90.0
+92.0
+β (scaling factor in loss function)
+Accuracy(%)
+Results on CR dataset
+(a) β varies.
+0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9
+80.0
+82.0
+84.0
+86.0
+88.0
+λ (interpolation parameter) 
+Accuracy(%)
+Results on MR dataset
+few-shot
+zero-shot
+(b) λ varies.
+8
+16
+32
+64
+128 256 512
+76.0
+78.0
+80.0
+82.0
+84.0
+86.0
+88.0
+90.0
+k nearest neighbors to retrieve
+Accuracy(%)
+Results on MR dataset
+zero-shot
+few-shot
+(c) k varies.
+Figure 4: Effect of the hyperparameters of the retrieval.
+D
+Tuning Retrieve Parameters
+The ﬁnal distribution of the label is affected by the hyperparameters of β, k and λ when conducting
+kNN-train and kNN-test. Thus, we provide insight into the effect of β, k and λ on the ﬁnal results.
+β varies: Figure 4(a) shows the performance of the model when the β increases and reveals that
+the model performs worse as the β increases on a 16-shot CR dataset. This ﬁnding indicates that a
+moderate degree of kNN guiding training is essential since kNN can help the model attend to hard
+examples, but excessive attendance of kNN-train also can bring the noise.
+λ varies: From Figure 4(b), we observe that model achieves optimal results on a 16-shot MR dataset
+when λ is set to be 0.2 while attaining the best results on MR in the zero-shot setting when λ is set to
+be 0.7. We think the model may require more reference when there is no data for training.
+k varies: As shown in Figure 4(c), the model performance in the 16-shot MR dataset ﬂuctuates very
+little. In contrast, the result in the zero-shot MR dataset continues to improve as k increases until it
+converges when reaching a threshold (k = 256). It illustrates that the k-NN retrieval provides more
+evidence for reference in zero-setting.
+E
+Discussion of Limitation
+Analysis of Efﬁciency
+We make the comparison between LM-BFF (man), LM-BFF (+demo) and
+RETROPROMPT in speed on the MR dataset for the 16-shot setting. We observe that the speed of
+RETROPROMPT and LM-BFF (+demo) are approximately 1.12 and 20 times slower than LM-BFF
+(man) on the 16-shot MR dataset. The slow inference of LM-BFF (+demo) is due to the fact that
+they sample from the top r% instances (r = 50) for each class to use as demonstrations and vastly
+increase the length of the input, thus, increasing computational complexity signiﬁcantly. And the
+bottleneck of computational speed is general limitations of retrieval methods, and our method is no
+exception. We will leave the engineering optimization about retrieval speed in our future work.
+Analysis of memory usage
+Actually, our method adopt FAISS tools for retrieval. FAISS is an
+excellent open-source library for fast nearest neighbor retrieval in high-dimensional spaces, which
+supports searching only from RAM, which involves k-means clustering for improving memory usage
+efﬁciency. Memory usage is negligible in the few-shot settings and acceptable in the full-data settings.
+Our retrieval process is performed mainly on CPU, and we compare the utilization of CPU with and
+without retrieval in the SST-2 full setting as follows:
+17
+• The CPU utilization was 46.2% with the retrieval process and 2.5% without it (Our CPU is
+Intel(R) Xeon(R) Silver 4210R CPU @ 2.40GHz with 40 cores).
+• In terms of memory usage, adding retrieval requires about 2.5G more memory than not. One
+way to reduce resource usage is to store the datastore on the disk in advance, then read and
+release it in the retrieval process.
+18

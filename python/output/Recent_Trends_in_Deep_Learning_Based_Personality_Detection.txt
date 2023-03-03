@@ -1,0 +1,1250 @@
+Artiﬁcial Intelligence Review manuscript No.
+(will be inserted by the editor)
+Recent Trends in Deep Learning Based Personality Detection
+Yash Mehta · Navonil Majumder · Alexander
+Gelbukh · Erik Cambria
+Received: 2018-12-03 / Accepted: XXXX-XX-XX
+Abstract Recently, the automatic prediction of personality traits has received a lot of at-
+tention. Speciﬁcally, personality trait prediction from multimodal data has emerged as a hot
+topic within the ﬁeld of affective computing. In this paper, we review signiﬁcant machine
+learning models which have been employed for personality detection, with an emphasis on
+deep learning-based methods. This review paper provides an overview of the most popular
+approaches to automated personality detection, various computational datasets, its industrial
+applications, and state-of-the-art machine learning models for personality detection with
+speciﬁc focus on multimodal approaches. Personality detection is a very broad and diverse
+topic: this survey only focuses on computational approaches and leaves out psychological
+studies on personality detection.
+1 Introduction
+Personality is the combination of an individual’s behavior, emotion, motivation, and charac-
+teristics of their thought patterns. Our personality has a great impact on our lives, affecting
+our life choices, well-being, health along with our preferences and desires. Hence, the abil-
+ity to automatically detect one’s personality traits has many important practical applications.
+The Woodworth Psychoneurotic Inventory [71] is commonly cited as the ﬁrst personality
+test. It was developed during World War I for the U.S. military to screen recruits for shell
+shock risks (post-traumatic stress disorders). In the present day, a personality model which
+has an active community and is used by many is the Process Communication Model (PCM).
+Y. Mehta
+Gatsby Computational Neuroscience Unit,
+University College London
+N. Majumder and A. Gelbukh
+Centro de Investigaci´on en Computaci´on,
+Instituto Polit´ecnico Nacional
+E. Cambria
+School of Computer Science and Engineering,
+Nanyang Technological University, Singapore
+E-mail: cambria@ntu.edu.sg
+arXiv:1908.03628v2  [cs.LG]  27 Aug 2019
+2
+Yash Mehta et al.
+It was developed by Taibi Kahler with NASA funding and was initially used to assist with
+shuttle astronaut selection. This measure is now being used mainly for consultancy purposes
+in order to help individuals to become more effective in communication and even avoid or
+resolve situations where communication has gone off track.
+Instead of directly determining an individual’s personality, one may also be interested
+in knowing how they are perceived by the people around them. Unlike the case of automatic
+personality recognition, the target of perceived personality analysis is not the true personality
+of individuals, but the personality which is attributed to them by the people who interact
+with them. The surrounding people ﬁll a similar personality questionnaire on the individual,
+which then determines the perceived personality of that person. The perceived personality
+is evaluated using the same personality measures used for their ‘true’ personality (e.g., Big-
+Five). A point to be noted is that the perceived personality varies from person to person
+and is subject to their mental make or their own personality. Many studies have shown that
+people form a ﬁrst impression about a person by their facial characteristics within the ﬁrst ten
+seconds of meeting an individual. Apart from the physical characteristics of the encountered
+face, the emotional expressions, the ambient information, the psychological formation of
+the viewer also affect these impressions. First impressions inﬂuence the behavior of people
+towards a newly encountered person or a human-like agent.
+1.1 Personality Measures
+Modern trait theory [77] tries to model personality by setting of a number of classiﬁcation
+dimensions (usually following a lexical approach) and constructing a questionnaire to mea-
+sure them [65]. Researchers have used various schemes for personality modeling such as
+16PF [14], EPQ-R [67] and three trait personality model PEN [31] where there are super-
+factors Psychoticism, Extraversion, and Neuroticism (PEN) at the top of the hierarchy. The
+Myers–Briggs Type Indicator (MBTI) [7] is one of the most widely administered personal-
+ity test in the world, given millions of times a year to employees in thousands of companies.
+The MBTI personality measure categorizes people into two categories in each four dimen-
+sions: introversion versus extraversion, sensing versus intuiting, thinking versus feeling, and
+judging versus perceiving.
+The most popular measure used in the literature on automated personality detection is
+by far the Big-Five personality traits [25], which are the following binary (yes/no) values:
+– Extraversion (EXT): Is the person outgoing, talkative, and energetic versus reserved
+and solitary?
+– Neuroticism (NEU): Is the person sensitive and nervous versus secure and conﬁdent?
+– Agreeableness (AGR): Is the person trustworthy, straightforward, generous, and modest
+versus unreliable, complicated, meager and boastful?
+– Conscientiousness (CON): Is the person efﬁcient and organized versus sloppy and care-
+less?
+– Openness (OPN): Is the person inventive and curious versus dogmatic and cautious?
+As majority of the research makes use of the Big-Five personality measure for classiﬁ-
+cation, we will refer to this measure by default, unless stated otherwise.
+Recent Trends in Deep Learning Based Personality Detection
+3
+1.2 Applications
+There are various diverse industrial applications of automated personality recognition sys-
+tems in the present day scenario. We surmise that a huge market will open up in the near
+future and if models are able to measure personality accurately and consistently, there will
+be a huge demand for automated personality recognition software in the industry. As re-
+search progresses in this ﬁeld, soon better personality prediction models with much higher
+accuracies and reliability will be discovered. Artiﬁcial personality can be integrated with
+almost all human computer interactions going forward.
+Any computational devices can be equipped with some sort of personality which enables
+it to react differently to different people and situations. For example, a phone can have differ-
+ent modes with different conﬁgurable personalities. This will pave way for more interesting
+and personalized interactions. Another possibility is to use personality traits as one of the
+inputs for achieving higher accuracy in other tasks such as sarcasm detection, lie detection
+or word polarity disambiguation systems.
+– Enhanced Personal Assistants: Present day automated voice assistants such as Siri,
+Google Assistant, Alexa, etc. can be made to automatically detect personality of the user
+and, hence, give customized responses. Also, the voice assistants can be programmed
+in such a way that they display different personalities based on the user personality for
+higher user satisfaction.
+– Recommendation systems: People that share a particular personality type may have sim-
+ilar interests and hobbies. The products and services that are recommended to a person
+should be those that have been positively evaluated by other users with a similar per-
+sonality type. For example, [108] propose to model the automobile purchase intentions
+of customers based on their hobbies and personality. [106] have developed a system
+for recommending games to players based on personality which is modelled from their
+chats with other players.
+– Word polarity detection: Personality detection can be exploited for word polarity dis-
+ambiguation in sentiment lexicons, as the same concept can convey different meaning to
+different types of people. Also, incorporating user personality traits and proﬁle for dis-
+ambiguation between sarcastic and non-sarcastic content [82] gives improved accuracy
+results.
+– Specialized health care and counseling: As of 2016, nearly one-third of Americans
+have sought professional counseling for mental health related issues. This is yet another
+area where huge practical applications of personality trait prediction exists. According
+to an individual’s personality, appropriate automated counseling may be given or a psy-
+chiatrist may make use this information to give better counseling advice.
+– Forensics: If the police are aware of the personality traits of the people who were present
+at the crime scene, it may help in reducing the circle of suspects. Personality detection
+also helps in the ﬁeld of automated deception detection and can help in building lie
+detectors with higher accuracies.
+– Job screening: In human resource management, personality traits affect one’s suitabil-
+ity for certain jobs. For example, maybe a company wants to recruit someone who will
+motivate and lead a particular team. They can narrow down their screening by eliminat-
+ing candidates who are highly nervous and sensitive, i.e., those having high values of
+neuroticism trait. [60] discusses the job candidate screening problem from an interdisci-
+plinary viewpoint of psychologists and machine learning scientists.
+4
+Yash Mehta et al.
+– Psychological studies: Automated personality trait detection will help ﬁnd more com-
+plex and subtle relations between people’s behaviorism and personality traits. This will
+aid in discovering new dynamics of the human psyche.
+– Political forecasting: Large scale automated personality detection is being used as a
+guideline for politicians to come up with more effective and targeted campaigns. If an
+analytical ﬁrm is able to procure large scale behavioral data about the voters, the ﬁrm
+can then create their psychographical proﬁles. These proﬁles can give an insight to the
+kind of advertisement that would be most effective in persuading a particular person at
+a particular location for some political event.
+1.3 Fairness and Ethics
+Over the past century, various techniques to access personality have been developed and
+reﬁned by the practitioners and researchers in the ﬁeld. Several ethical guidelines have been
+set to ensure that proper procedures are followed. However, often, personality detection in-
+volves ethical dilemmas regarding appropriate utilization and interpretations [68]. Concerns
+have been raised regarding the inappropriate use of these tests with respect to invasion of
+privacy, cultural bias and conﬁdentiality.
+Recently, political parties are trying to leverage large-scale machine learning based per-
+sonality detection for political forecasting. A rather infamous example showing the use of
+personality detection in political forecasting is the Facebook’s Cambridge Analytica data
+scandal1, which involved the collection of personally identiﬁable information of 87 mil-
+lion Facebook users. Studies have shown that the political choices of voters have a strong
+correlation with their social characteristics [11]. Users’ social data were allegedly used in
+an attempt to inﬂuence voter opinion in favor of the 2016 Trump election campaign by
+identifying persuasive advertisement types effective for a particular region. It also involved
+automatically accessing personality traits of voters and using this to predict who would be
+manipulated easily by political propaganda.
+There is also concern regarding the continued use of these tests despite them lacking
+valid proof of being accurate measures of personality. These tests may have inherent biases,
+which are then inadvertently learned by the machine learning algorithm. One step to reduce
+biases in machine learning algorithms is through Algorithmic Impact Assessments (AIAs),
+as proposed by New York University’s AI Now Institute. AIAs extend from the idea that the
+black box methodology leads to a vicious cycle, continuously moving further away from
+understanding these algorithms and diminishing the ability to address any issues that may
+arise from them. AI Now suggests the use of AIAs to handle the use of machine learning
+in the public realm, creating a set of standard requirements. Through AIAs, AI Now aims
+to provide clarity to the public by publicly listing and explaining algorithm systems used
+while allowing the public to dispute these systems, developing an audit and assessment pro-
+cesses, and increasing public agencies’ internal capabilities to understand the systems they
+use. Similar to the use of AIAs to promote transparency in machine learning, the Defense
+Advanced Research Projects Agency (DARPA) suggests Explainable Artiﬁcial Intelligence
+(XAI) as a part of the solution. The goal is to produce more explainable models that users
+can understand and trust.
+1 The Great Hack, a recent documentary about the Cambridge Analytica data scandal
+Recent Trends in Deep Learning Based Personality Detection
+5
+Table 1 The various popular tools used for feature extraction for each of the modalities.
+Modality
+Tool
+Features Extracted
+Text
+LIWC
+Receptiviti API
+Freeling
+SenticNet
+Psychological and linguistic features
+Built on top of LIWC. Visual representation of personality traits
+POS tagging
+Sentiment polarity
+Audio
+Praat
+OpenSMILE
+Intensity, pitch, loudness, MFCC, jitter, shimmer, LSP
+Visual
+FACS
+CERT
+Face ++
+EmoVu
+Facial Expressions, AUs
+8 facial expressions (e.g., joy, sadness, surprise, etc.)
+Face detection, 106 facial landmarks, face attributes (e.g., gender, age)
+Face detection, emotion recognition (with intensity), face attributes
+1.4 Organization
+We have thoroughly reviewed machine learning-based personality detection, with focus on
+deep learning-based approaches. Section 2 gives the reader an idea of other review papers
+on machine learning-based automated personality detection. We have divided our analysis
+based on the modality of the input, such as text, audio, video, or multimodal. Section 3
+brieﬂy discusses the popular techniques and methods used for personality detection in each
+of these modalities. In Section 4, we analyze multiple interesting papers in-depth in each of
+these modalities. Results with analysis and conclusions follow in Section 5 and Section 6,
+respectively.
+2 Related Works
+Automated personality detection is a new and upcoming ﬁeld. There have not been many
+comprehensive literature surveys done in personality detection and our paper is the ﬁrst one
+which gives the reader a bird’s-eye view of the recent trends and developments in the ﬁeld.
+There is no recent work which gives the reader an overall perspective of the advances
+in machine learning based automated personality detection. Section 3 gives the popular
+machine learning models for each modality, which gives the reader a wide perspective in
+this ﬁeld. A review of the trends in personality detection from text using shallow learning
+techniques such as Na¨ıve Bayes, kNN, mLR, Gaussian Process is given by [1]. Post 2014,
+end-to-end deep neural network architectures and models picked up and started beating the
+state-of-the-art accuracies of these models. A review of the the various image processing
+techniques and facial feature analysis for personality detection is given by [47], in which
+their focus lies on an overview of machine learning techniques along with various facial
+image preprocessing techniques.
+Popular image preprocessing techniques in this domain include facial landmark identiﬁ-
+cation, Facial Action Coding System (FACS), which gives the AUs in the face, and the Viola
+Jones face detection algorithm [101]. Also, instead of using a standard measure of person-
+ality (such as Big-Five or MBTI), they have used slightly different metrics such as unhappy,
+weird, intelligent, conﬁdent, etc. This survey only focuses on the visual aspect whereas [100]
+gives a very systematic and clear survey of personality detection from text as well as audio.
+Instead of dividing personality detection by modality as it is done in this paper, they have
+chosen a broader topic which they call personality computing. This is further divided into 3
+6
+Yash Mehta et al.
+fundamental problems, namely Automatic Personality Perception (APP), Automatic Person-
+ality Synthesis (APS) and Automatic Personality Recognition (APR). This paper focuses on
+methods following APR and APP (similar to perceived personality). The paper cited above
+gives a very detailed insight of the different papers dealing with recognition and perception
+of personality from social media, mainly Twitter and Facebook. They present a thorough
+analysis of personality recognition from text, non-verbal communication (e.g., interpersonal
+distances, speech and body movements), social media, mobiles, wearable devices and ﬁnally
+from computer games as well. A recent paper, [52] provides a comprehensive survey on
+computer vision-based perceived personality trait analysis. [29] have made a compilation of
+the latest progress on automatic analysis of apparent personality in videos and images from
+multimedia information processing, pattern recognition and computer vision points of view.
+However, there are still several deep learning techniques, models and papers, especially for
+multimodal personality detection which have not been covered by any literature survey till
+date.
+3 Baseline Methods
+The following subsections summarize the various popular models, architectures and tech-
+niques commonly used in deep learning-based personality detection. Table 3 provides a brief
+insight into the methods described by some of the pioneering papers in the ﬁeld.
+3.1 Text
+Pertaining to the textual modality, data preprocessing is a very important step and choos-
+ing the correct technique can yield signiﬁcantly better results. Usually, features from text
+are extracted such as Linguistic Inquiry and Word Count (LIWC) [73], Mairesse, Medical
+Research Council (MRC), etc. which are then fed into standard ML classiﬁers such as Se-
+quential Minimum Optimizer, Support Vector Machine (SVM), Na¨ıve Bayes, etc. Learning
+word embeddings and representing them as vectors (with GloVe or Word2Vec) is also a very
+commonly followed approach. These word vectors may also be created by feeding the word
+character-wise into a Long Short-Term Memory (LSTM) or a Gated Recurrent Unit (GRU).
+It was observed that combining text features (LIWC, MRC) with something else such as
+commonsense knowledge, convolutions, etc. results in better performance.
+3.2 Audio
+There are relatively few methods which focus on using only audio as the sole input for
+detecting personality. It is usually combined with visual modality for bimodal personality
+detection. Standard audio features such Mel-Frequency Cepstral Coefﬁcients (MFCC), Zero
+Crossing Rate (ZCR), Logfbank, other cepstral and spectral ones serve as inputs into SVM
+and linear regressors.
+3.3 Visual
+As in the case of most visual deep learning tasks, Convolutional Neural Networks (CNN)
+are the most commonly used and yield state-of-the-art results in the ﬁeld of personality
+Recent Trends in Deep Learning Based Personality Detection
+7
+detection as well. Most approaches analyze facial features and try to ﬁnd a function which
+maps these features to personality traits. Many researchers have used pretrained deep CNNs
+(such as VGG-Face) and ﬁne tuned it for the task of personality detection (transfer learning).
+They have experimented with different ways of extracting facial features such as EigenFace,
+Histogram of Oriented Gradients (HOG) [23], FACS (extracts AUs such as raised eyebrows,
+dimples, etc.) and Viola Jones Algorithm (face identiﬁcation) to achieve higher accuracy.
+3.4 Multimodal
+Most of the multimodal approaches perform late fusion, that is, they take the average of
+individual results of predictions from the audio and visual modalities. Deep bimodal re-
+gression give state-of-the-art results by making use of slightly modiﬁed Deep Residual Net-
+works [42]. The features extracted from each of the modalities may be used together to
+come up with the personality prediction. This technique is early fusion. Present research in
+the ﬁeld takes the direction of ﬁnding more efﬁcient ways of feature extraction along with
+multimodal feature combination. We see very few models which have dealt with trimodal
+fusion of features.
+4 Detailed Overview
+In this section, we analyze individual papers in detail, discussing various techniques, ap-
+proaches and methods. On an average, we ﬁnd that features extracted from the visual modal-
+ity are most accurate in unimodal personality detection. Studies have found that combining
+inputs from more than one modality often results in a higher prediction accuracy, as one
+may expect.
+4.1 Text
+In the last decade, numerous studies have linked language use to a wide range of psycho-
+logical correlates [72,48]. Reliable correlations of writing style (e.g., frequency of word
+use) with personality were found by some of the earliest works [74]. For example, individ-
+uals scoring higher on extraversion used more positive emotion words (e.g., great, amazing,
+happy) whereas those higher in neuroticism were found to use ﬁrst-person singulars (e.g., I,
+mine, me) more frequently. Personality detection using these type of differences in the use
+of language is referred to as the closed vocabulary approach.
+One of the most common closed-vocabulary methods for personality detection from text
+(especially social media) is LIWC. It categorizes the words into various psychologically
+relevant buckets like ‘function words’(e.g., articles, conjunctions, pronouns), ‘affective pro-
+cesses’ (e.g., happy, nervous, cried) and ‘social processes’ (e.g., mate, talk, friend). It then
+counts the frequency of words in each of the buckets (over 60 psychologically relevant buck-
+ets) and then predicts the personality of the writer of the text. As this approach starts with
+predeﬁned categories of words, it has been described as ‘closed-vocabulary’ and most of the
+features extracted by LIWC are language dependent.
+Receptiviti API [35] is a tool built on LIWC which used for personality analysis from
+text. A user’s personality prediction is made using psycholinguistic features. The Recep-
+tiviti API allows users to submit a text sample which is analyzed and outputs a graphical
+8
+Yash Mehta et al.
+representation of the predicted traits which can also be viewed on a web-based interface.
+However, this API does not perform well on social media derived text as closed vocabulary
+methods have lower accuracies while dealing with micro-text in general.
+Personality traits may even be predicted from different sources of interpersonal com-
+munication (e.g., WhatsApp) on a mobile device. [87] have built an application which is in
+charge of compiling and sending information about the user to a server application, which
+then runs the classiﬁcation algorithms. One line of research this paper follows is checking
+whether personality is linked to happiness of a person, however it didn’t result in anything
+conclusive. This is one of the few research papers which uses the PEN theory for classiﬁ-
+cation instead of the Big-Five. Standard machine learning algorithms such as J48, Random
+Forrest and SVM were tested.
+In the recent years, personality detection from social media, especially Twitter sentiment
+analysis has gained a lot of popularity. This might be partially due to the fact that Twitter
+data collection is direct and easily accessible through the Twitter API. [53] have used a
+combination of social behavior of the user (average number of links, average number of
+hash tags, average number of mentions, etc.) and grammatical information (average length
+of text, average number of positive and negative words, average number of special characters
+like comma, question mark, etc.) for user personality detection. Using these attributes, a
+feature vector is constructed which is then fed into a multi-layer perceptron (MLP). The
+novelty of this approach lies in running the whole set up on the Hadoop framework (Hadoop
+Distributed File System and Map Reduce) which enables personality prediction of N users
+concurrently.
+Fig. 1
+CNN framework used by [64] makes use of Word2Vec embeddings for personality detection from
+text.
+Apart from social media data, essays are also a popular mode of text and can be used
+for author proﬁling. A popular dataset is the James Pennebaker and Laura King’s stream-
+of-consciousness essay dataset [74]. It contains 2,468 anonymous essays tagged with the
+authors’ personality based on the Big-Five traits. [64] makes use of a deep CNN for docu-
+ment level personality detection tasks. The CNN helps in extracting the monogram, bigram
+Recent Trends in Deep Learning Based Personality Detection
+9
+Table 2 Popular datasets, divided based on mode of input.
+Modality
+Dataset
+Personality
+Measure
+Description
+Text
+Essays I [74]
+Big-Five
+2,468 anonymous essays tagged with the author’s personality traits. Stream-of-consciousness
+essays written by volunteers in a controlled environment and the authors of the essays were
+asked to label their own Big-Five personality traits
+Essays II [95]
+Big-Five
+2,400 essays were labelled manually with personality scores for ﬁve different personality traits.
+The data were then tuned and the regression scores were converted into class labels of ﬁve
+different traits
+MBTI Kaggle2
+MBTI
+Contains the MBTI personality labels for over 8,600 people, along with 50 of their posts on the
+myPersonality cafe forum
+MyPersonality3
+Big-Five
+myPersonality was a Facebook App that allowed its users to participate in psychological research
+by ﬁlling in a personality questionnaire. However, from 2018 onwards they decided to stop sharing
+the data with other scholars.
+Italian
+FriendsFeed [16]
+Big-Five
+Sample of 748 Italian FriendFeed users (1,065 posts). The dataset has been collected from
+FriendFeed public URL, where new posts are publicly available
+Audio
+AMI
+Meeting Corpus [13]
+Big-Five
+Video and audio recordings of monologues, dialogues and multi-party discussions with annotations
+to perceived personality which is found by the BFI-10 questionnaire
+Aurora2 corpus [44]
+-
+Connected digit corpus which contains 8,440 sentences of clean and multi-condition training data and
+70,070 sentences of clean and noisy test data
+CMU self-recorded
+database [79]
+Big-Five
+Experimental database with a professional speaker was recorded and generated the Big-Five factor
+scores for the recordings by conducting listening test using the NEO-FFI personality inventory.
+Columbia
+deception corpus [58]
+-
+Balanced corpus includes data from 126 (previously unacquainted) subject pairs, constituting
+93.8 hours of speech in English
+Visual
+PhychoFlikr dataset [21]
+Big-Five
+Top 200 images favorited by 300 Flikr users (hence totally 60,000 images) labelled with their
+personality traits
+First Impressions V2
+(CVPR’17)4
+Big-Five
+The ﬁrst impressions data set, comprises 10,000 clips (average duration 15s) extracted from more
+than 3,000 different YouTube high-deﬁnition (HD) videos of people facing and speaking in English
+to a camera
+and trigram features from the text and the architecture of this model is shown in Fig.1. It is
+observed that the removal of neutral sentences gives a marked improvement in the predic-
+tion accuracy. Each word is represented in the input as a ﬁxed-length feature vector using
+Word2Vec [66], and sentences are represented as a variable number of word vectors. In the
+end, document level Mairesse features (LIWC, MRC, etc.), totally 84 features, are concate-
+nated with the feature vector extracted from the deep CNN. Lastly, this concatenated vector
+is then fed into a fully connected layer for the ﬁnal personality trait predictions. [43] have
+tried modeling temporal dependencies amongst sentences by feeding the input to Recurrent
+Neural Networks (RNNs). LSTMs were found to give better results compared to vanilla
+RNN, GRU, bi-LSTM. GloVe [75] word embeddings of 50D were used for predicting MBTI
+personality of people based on 50 posts on a particular social personality discussion website
+called PersonalityCafe.
+It was found that combining commonsense knowledge with psycho-linguistic features
+resulted in a remarkable improvement in the accuracy [83]. SenticNet [10] is a popular tool
+used for extracting commonsense knowledge along with associated sentiment polarity and
+affective labels from text. It is one of the most useful resources for opinion mining and sen-
+timent analysis. These features are used as inputs to ﬁve Sequential Minimal Optimization
+based supervised classiﬁers for the ﬁve personality traits, which are predicted by each of the
+classiﬁers independently.
+While most researchers assume the ﬁve personality traits to be independent of each
+other, several studies [90,51] claim that there exists certain correlations among the traits and
+it is inaccurate to build 5 completely independent classiﬁers. [114] have modeled the inter-
+10
+Yash Mehta et al.
+trait dependencies using a weighted ML-KNN algorithm which uses information entropy
+theory [49] to assign weights to the extracted features. The linguistic and correspondingly
+dependent emotional features are extracted from text which can be then discretized on the
+basis of Kohonen’s feature-maps algorithm [57].
+Instead of relying on prior word or category judgments, open-vocabulary methods rely on
+extracting a comprehensive collection of language features from text. These methods char-
+acterize a sample text by the relative use of non-word symbols (e.g., punctuation, emoti-
+cons), single uncategorized words, multi-word phrases and clusters of semantically related
+words identiﬁed through unsupervised methods (topics). Typically, Latent Dirichlet Alloca-
+tion (LDA) [6] is used for forming clusters of semantically related words.
+MyPersonality dataset is one of the famous textual social media datasets which com-
+prises of status updates of over 66,000 Facebook users. Each of these volunteers also com-
+pleted the Big-Five personality test. [72] use this dataset for automatic personality detection
+from the language used in social media. Firstly, features are extracted using standard tech-
+niques for text. Then, the dimensionality of these features is reduced followed by Ridge
+Regression [45]. There is an individual regressor for prediction of each of the ﬁve personal-
+ity traits. An end to end deep learning model was trained on a subset of this dataset (Face-
+book user status) where the authors [109] experimented with n-grams (extracted with CNN)
+and bi-directional RNNs (forward and backward GRU). Instead of using the pre-trained
+Word2Vec model, they trained the word embedding matrix using the skip-gram method [66]
+to incorporate internet slang, emoticons and acronyms. To improve accuracy, they perform
+late fusion of non-lexical features extracted from text and the penultimate layer of the neural
+network. This concatenated vector is then fed into a softmax output layer.
+[62] have used deep learning based models in combination with the atomic features
+of text, the characters. An individual’s personality traits are predicted using hierarchical,
+vector word and sentence representations. This work is based on [61], which provides a
+language independent model for personality detection. Instead of making use of standard
+word embeddings (e.g., GloVe or Word2Vec), the word vector representation is formed from
+a bi-RNN using GRU [20] as the recurrent unit. GRU is less computationally expensive than
+the LSTM, but results in similar performance. These words are fed to another bi-RNN which
+gives the representation of the sentence, followed by a feed forward neural network for the
+prediction of the values of the ﬁve traits. One of the best uses of this deep learning based
+character-level word encoding is a corpus of Tweets. The data are noisy and consist of a
+large number of micro-texts, hence this model performs much better than the conventional
+LIWC/BoW models.
+Recently, NLP tools have been developed for language-independent, unsupervised per-
+sonality recognition from unlabeled text (PR2 [17]). The PR2 system exploits language-
+independent features extracted from LIWC and MRC such as punctuation, question marks,
+quotes, exclamation marks, numbers, etc. Only feature values which are above average in
+the input text are mapped to personality traits. It was observed that text containing more
+punctuation ﬁres negative correlations with extraversion and openness to experience. This
+approach is not as accurate as the state of the art in the ﬁeld, but it much more computation-
+ally efﬁcient along with being independent of language.
+Instead of relying just on text as the only form of input, researchers at Nokia have devel-
+oped a software [19] which make use of data from smart phones including information about
+which applications were used and how often, music preferences, anonymous call logs, SMS
+logs and Bluetooth scans for personality detection. The relationship between personality
+traits and usage features was systematically analyzed using standard correlation and multi-
+Recent Trends in Deep Learning Based Personality Detection
+11
+ple regression analyses. SVM and C4.5 classiﬁers were used to classify users’ personality
+traits.
+Social media is a huge source of people’s opinions and thoughts and analyzing it can
+give important insights into people’s personality. [36] have used stylistic features which can
+be divided in two groups: character N-grams and POS N-grams. The grammatical sequence
+of the writer is obtained from POS tagging by making use of the open source tool, Freeling.
+Character N-grams and POS N-grams are extracted from the POS and class ﬁles to create a
+feature vector which is then fed into a linerSVM for personality detection.
+[94] have introduced abstract feature combination based on closely connected sentences
+which they call the Latent Sentence Group. The authors use bidirectional LSTMs, concate-
+nated with CNN to detect user’s personality using the structures of text.
+Sometimes, the input text may be a collection of chats between two individuals. Detect-
+ing personality from conversations is a harder task than with simple text as one needs to
+accurately model temporal dependencies. Interactions in dyadic conversations have various
+degrees of mutual inﬂuence caused by turn-taking dialogues between two individuals. Re-
+current networks are good for taking care of language dependencies. [92] make use of vanilla
+RNNs for modeling short term temporal evolution in conversation. A 255-dimensional lin-
+guistic feature vector is coupled Hidden Markov Model (C-HMM) is employed for detecting
+the personalities of two speakers across speaker turns in each dialog by using long-term turn-
+taking temporal evolution and cross-speaker contextual information. The Mandarin Conver-
+sational Dialog Corpus [96] was used as the dyadic conversation corpus for training and
+evaluation of the model. In many studies, how the personality ‘appears’ is approximated
+rather than the ‘true’ personality (after taking the personality questionnaire) of an individ-
+ual. Sometimes, trained judges label an individual’s perceived personality depending on
+their behavior, giving us an insight into how they are perceived by those around them.
+4.2 Audio
+We observed that majority of the recent models for personality detection from audio modal-
+ity work in two separate stages, feature extraction followed by feeding the features to a
+classiﬁer. The audio descriptors can be sub-divided into broadly 7 groups, intensity, pitch,
+loudness, formants, spectrals, MFCC and other features. Some researchers use one or more
+of these feature groups to assess personality which is derived at the utterance level [79].
+These audio features (e.g., intensity, pitch, MFCC) are extracted using Praat acoustic anal-
+ysis program and fed to a SVM classiﬁer. The authors of this paper [79] found that the ﬁve
+personality traits are interdependent and the variation in one of the traits results in observable
+changes in the other four. The dataset is created by recording the utterances and labelling
+them by having a trained speaker mimic a particular type of personality. Hence, the accuracy
+of the training and evaluation sets is solely dependent on how good the trained speaker is at
+mimicking the voice of a certain personality.
+Some researchers claim that non-linguistic features (prosody, overlaps, interruptions and
+speech activity) outperform linguistic features (dialog acts and word n-grams) for perceived
+personality detection. [98] have tested their model on spoken conversations from the AMI
+corpus dataset [12], which is a collection of meetings captured in specially instrumented
+meeting rooms along with the audio and video of each of the participants. The novelty
+of their approach lies in incorporating dialog act tags (which capture the intention of the
+speaker in the discussion) as one of the input features fed into the classiﬁer. Each speaker
+was been labeled with 14 Dialog Act tags and a correlation with their perceived personality
+12
+Yash Mehta et al.
+traits was observed (especially extraversion). Speech activity features (the total and relative
+amount of speech time per speaker, average duration of pauses per speaker, etc.) and sen-
+tence features (total number of sentences, average duration, maximum duration, etc.) are
+also included in the algorithm using a Booster algorithm with multi-class Boosting [89].
+Recently, end-to-end approaches which involve training deep neural networks have gained
+wide spread popularity. They yield the state-of-the-art accuracies along with automatically
+extracting the necessary acoustic features. [70] analyze the CNN to understand the speech
+information that is modeled between the ﬁrst two convolution layers. The ﬁrst convolutional
+layer acts as the ﬁlter bank and automatically learns to extract the relevant features from the
+unprocessed audio wave input. The key difference in this paper is that temporal raw speech
+is fed directly to the CNN instead of the conventional two step procedure of ﬁrst extracting
+the feature vectors (e.g., MFCC) followed by feeding to a classiﬁer.
+It is often observed that knowing the personality traits of an individual may in turn
+help in other tasks, such as deception detection. [59] have used AdaBoost [32] and Random
+forest for personality detection, which is then used as input to their deception detection
+algorithm. They have made use of acoustic, prosodic and linguistic features (LIWC) for
+personality prediction. The contribution of each of the LIWC features is then analyzed. It
+was found that for NEU-score, money and power dimensions are the most useful, for EXT-
+score, focusfuture and drives, for CON-score, time and work are the highest. Most of these
+are intuitive and show the power of using LIWC features for personality detection. The
+model performed better in deception detection after incorporating the personality traits of
+the subject and was evaluated on the Columbia X-Cultural Deception Corpus.
+4.3 Visual
+Physiognomy [54] is the art of determining the character or personality traits of an individual
+from the features of the body, especially the face. Researchers have found that the face pro-
+vides most of the descriptive information for perceived personality trait inference [8,105].
+A non deep learning approach which involves the analysis of facial features for personality
+prediction is given by [54]. Their focus lies on extracting physical features from images
+like shape of nose, body shape (fat, muscular, thin), shape of eyebrows and ﬁnding their
+correlation with personality. Sometimes people of similar personality tend to have similar
+preferences. [21] have explored this idea and have studied if there is a relation between the
+aesthetic preferences of a person (e.g., pictures liked by them) and their personality. Features
+extracted from the images could be divided into two types, aesthetic (colorfulness, use of
+light, GLCM-features, etc.) and content (faces, objects, GIST descriptors), which are then
+fed into a lasso regressor.
+[62] have predicted personality traits of a person from the choice of their Twitter proﬁle
+picture. The model was trained on data from more than 66,000 users whose personality type
+had been predicted from what they had tweeted previously, using the state-of-the-art tech-
+niques from text modality. A correlation was found between the aesthetic and facial features
+of the proﬁle picture (extracted using face++ and EmoVu API) and users’ personality traits.
+Agreeableness and Conscientiousness users display more positive emotions in their proﬁle
+pictures, while users high in openness prefer more aesthetic photos. Self-presentation char-
+acteristics of the user are captured by the 3D face posture, which includes the pitch, roll and
+yaw angle of the face and eye openness (using EmoVu API). Appealing images tend to have
+increased contrast, sharpness, saturation and less blur, which is the case for people high in
+Openness.
+Recent Trends in Deep Learning Based Personality Detection
+13
+As in many other computer vision problems, deep CNNs have performed remarkably
+well in the task of personality detection from images. However, despite of the success in
+terms of performance, CNN is widely regarded as the magic black box. It is not known what
+are the various internal representation which emerge in various hidden layers of the neu-
+ral network. [99] presents an in-depth study on understanding why CNN models perform
+surprisingly well in this complex problem. They make use of class activation maps for vi-
+sualization and it is observed that activation is always centered around the face as shown in
+Fig.2. The neural network speciﬁcally focuses on the facial region, mainly areas correspond-
+ing to the eyes and mouth to discriminate among different personality traits and predict their
+values.
+The deeper we go in the CNN, the more the layers are specialized in identifying high
+level features such as the eyes, nose, eyebrows, etc. Several Action Units (AU) such as raised
+eyebrows, dimple, etc. (subset of the FACS) are taken and a good correlation was observed
+between AU and perceived personality. A feature vector of the AUs was fed directly into a
+simple linear classiﬁer and accuracy close to the state of the art was achieved.
+Fig. 2 Class activation map used by [99] for interpreting CNN models.
+The contribution of different parts of the image on personality trait prediction was stud-
+ied by [38] using segment level occlusion analysis. Video frames were segmented into the
+following six regions with a deep neural network: background region, hair region, skin re-
+gion, eye region, nose region and mouth region. It was observed that each region modulates
+at least one trait, and different traits were modulated by different regions. Background, skin
+and mouth regions modulated the fewest traits. Occlusion of background region increased
+extraversion trait but decreased conscientiousness trait. Occlusion of skin region decreased
+agreeableness and conscientiousness traits. Occlusion of mouth region increased neuroti-
+cism and openness traits. Finally, the eye region negatively modulates agreeableness trait,
+and positively modulates neuroticism and openness traits. Both the face region and the back-
+ground region which includes clothing, posture and body parts have been shown to contain
+information regarding the perceived personality traits as can be seen in Fig.3.
+Psychological studies suggest that humans infer trait judgments of another person in just
+a few milliseconds after meeting them, that is from their ﬁrst impression. First impressions
+14
+Yash Mehta et al.
+Table 3 Brief description of the important personality-detection models.
+Modality
+Paper
+Architecture
+Text
+[64]
+1D convolutions to extract n-grams combined with Mairesse features
+[83]
+Combined LIWC with MRC features extracted from text along with commonsense knowledge using
+sentic computing techniques
+[43]
+GloVe embedding fed into an deep RNN (LSTM)
+[15]
+Used a subset of Mairesse features along with unsupervised learning methods to measure correlation
+between features and personality traits
+Audio
+[98]
+Audio features such as prosodic features, speech activity features, word n-grams and dialogue act
+tags were extracted and fed into simple ML classiﬁers
+[79]
+Cepstral features of speech such as MFCC, Zero Crossing Rate (ZCR), intensity, pitch, loudness,
+formants were fed into a SVM regressor
+[59]
+Combination of LIWC and prosodic features fed into ML classiﬁers such as AdaBoost
+and RandomForest
+Visual
+[86]
+Histogram of Oriented Gradients (HOG) for modeling the face, EigenFace and speciﬁc
+points on the face were taken and fed into SVM, Gradient Boosting, bTree
+[5]
+CERT used for extracting facial expressions
+followed by thresholding as well as Hidden Markov Models
+[39]
+Transfer Learning, pre-trained VGG-Face and VGG-19 to extract facial as well as background
+features followed by regularized regression with a kernel ELM classiﬁer
+[2]
+Polynomial and Radial Basis Function (RBF) kernels for SVMs
+Multimodal
+[38]
+Facial features extracted by VGG-Face, Scene features by VGG-VD19 and combined with audio
+features using Random Forest based score level fusion
+[56]
+Multi task learning of learning leadership and extraversion simultaneously
+Fig. 3 Segment-level occlusion analysis. Each image shows the changes in the prediction of the correspond-
+ing trait as a function of a predeﬁned region [38].
+and perceived personality are in-fact quite similar. One of the most important and widely
+used dataset in the ﬁeld of multimodal perceived personality recognition is the ChaLearn
+First Impressions dataset. It comprises of 10,000 clips (average duration 15s) extracted from
+more than 3,000 different YouTube high-deﬁnition (HD) videos of people facing and speak-
+ing into the camera. [18] have proposed several methods for eliminating worker bias in
+labelling large datasets and have tested their method on the ChaLearn dataset. [39] make
+use of the visual modality from this dataset for testing their model, which combines facial
+and ambient features extracted by a pre-trained deep CNN. These features are then fed into
+a kernel Extreme Learning Machine Regressor [46]. The main contribution of this work is
+the combination of facial and ambient features along with making effective use of transfer
+learning.
+A famous algorithm for detecting faces in images is the Viola Jones algorithm. [2] have
+used this algorithm in the preprocessing stages after converting the image to grayscale,
+histogram equalizations (increases contrast) and rescaling. Then, EigenFace [97] features
+are extracted and inputted to a RBF SVM trained on Sequential Minimal Optimization ap-
+proach. This approach was tested on a database created by making judges independently
+label images in the FERET corpus with the perceived personality traits. It is assumed that
+the judges have no ethnic or racial bias.
+Recent Trends in Deep Learning Based Personality Detection
+15
+[86] have studied if there are speciﬁc structural relations among facial points that pre-
+dict perception of facial traits. They have made a comparison between two approaches, ﬁrst
+which uses the whole appearance and texture of the face (holistic approach) [85] or just lo-
+cations of speciﬁc ﬁducial facial points (structural approach). The holistic approach captures
+facial appearance information in two ways. Firstly, via the EigenFaces [97] method which
+analyzes the pixel information or secondly, making use of Histogram of Oriented Gradients
+(HOG), which captures facial appearance and shape. These extracted features are then fed
+into standard ML classiﬁers such as SVM or BTrees. Instead of using the Big-Five model,
+this paper predicts 9 different personality traits such as trustworthy, dominant, extroverted,
+threatening, competence, likability, mean, attractive and frightening. It was observed that
+HOG model found more correlation between the facial features and personality traits as
+compared to EigenFace.
+A Vlog refers to a blog in which the postings are primarily in video form. A correla-
+tion between the facial expressions and personality of vloggers was analyzed by [5]. In this
+paper, Computer Expression Recognition Toolbox (CERT) was used to determine the facial
+expressions of vloggers. CERT predicts 7 universal facial expressions (joy, disgust, surprise,
+neutral, sadness, contempt and fear). They found that facial expressions of emotions with
+positive valence such as ‘joy’ and ‘smile’ showed almost exclusively positive effects with
+personality impressions. For example, ‘smile’ is correlated with extraversion and agreeable-
+ness, among others.
+Although the aforementioned approaches yield good results, they are very computation-
+ally expensive. [26] use a temporal face texture based approach for analyzing facial videos
+for job screening, which is much more computationally economical. After the preprocess-
+ing step, which involves face identiﬁcation, 2D pose correction and cropping the region of
+interest (ROI), texture features of the image are extracted using Local Phase Quantization
+(LPQ) and Binarized Statistical Image features (BSIF). These features are fed to a Pyra-
+mid Multi Layer followed by ﬁve nonlinear Support Vector Regressors, one for each of the
+Big-Five personality traits. Finally, this perceived personality prediction is then input to a
+Gaussian Process Regression (GPR) which predicts a binary value corresponding to whether
+the candidate should be called for a job interview or not.
+4.4 Bimodal
+Most of the multimodal architectures for personality trait recognition are bimodular with
+the fusion of features from the audio and visual modalities. [56] make use of multi task
+learning for recognizing extraversion and leadership traits from audio and visual modalities
+extracted from meeting videos of the Emergent Leader (ELEA) corpus. Predicting extraver-
+sion trait has attracted the attention of psychologists because it is able to explain a wide
+range of behaviors, predict performance and also assess the risk of an individual. The net-
+work architecture is initially trained on the larger VLOG corpus and afterwards on the ELEA
+corpus, hence effectively making use of transfer learning. Feature selection techniques such
+as Maximum Relevance Minimum Redundancy (MRMR) ﬁltering feature selection results
+in a slight increase (about 2%) in performance.
+Visualizing Deep Residual Networks (DRN) used for perceived personality analysis is
+done by [38] with the focus on explaining the workings of this end-to-end deep architecture.
+This DRN is a 2 stream network with one stream for the visual modality and the other one for
+the audio modality. What information do perceived personality trait recognition models rely
+on to make predictions? [38] concluded that female faces with high levels of all traits seemed
+16
+Yash Mehta et al.
+to be more colorful with higher contrast compared to those with low levels, who were more
+uniformly colored with lower contrast. Furthermore, looking at the unisex average faces, a
+bias for female faces for the high levels and male faces for the low levels was observed, more
+so in the case of average faces based on annotations. For instance, high levels of all traits
+were more bright and colorful, and with more positive expressions in line with the results
+observed by [103].
+Fig. 4 Deep Bimodal LSTM Model Architecture used by [107].
+The Deep Bimodal Regression (DBR) [111] framework achieved the highest accuracy
+in the ChaLearn Challenge 2016 for perceived personality analysis. DBR consists of three
+main parts: the visual modality regression, audio modality regression and the last part is the
+ensemble process for fusing information of the two modalities. The network is trained end-
+to-end without the usage of any feature engine. The traditional CNN architecture is modiﬁed
+by discarding the fully connected layers. Also, the deep descriptors of the last convolution
+layer are both averaged and max pooled, followed by concatenation into a single 1024D
+vector (512 values from max pool and the other 512 values from average pooling). Finally,
+a regression (fc+sigmoid) layer is added for end-to-end training. This modiﬁed CNN model
+is called Descriptor Aggregation Network (DAN). For the audio modality, the log ﬁlter
+bank (logfbank) [24] features are extracted from the original audio of each video. Based on
+the logfbank features, a linear regressor is trained to obtain the Big-Five trait predictions.
+Finally, the two modalities are lately fused by averaging the ﬁve predicted scores of the
+visual and audio model.
+Recent Trends in Deep Learning Based Personality Detection
+17
+[84] propose a much more computationally efﬁcient bimodal regression framework for
+the same, however with a slight decrease in accuracy. Instead of a single 15s audio clip, mul-
+tiple audio segments (2-3 seconds length) are extracted from each video which increases the
+number of training samples resulting in considerably better results. FFMPEG is used for
+extracting audio clips from the original videos, followed by the OpenSMILE framework
+for extracting audio features. There are many studies [90,51] which claim that the Big-Five
+personality traits are not independent of each other. The strength of a particular trait is quan-
+tiﬁed by the combination of two components, i.e., a global component and a trait speciﬁc
+component. In this model, each trait speciﬁc model is learned using a global component
+along with a trait speciﬁc component. Six models are created to predict the ﬁve personal-
+ity traits where one model represents the global component and the other ﬁve represent the
+trait-speciﬁc components.
+[3] have combined audio and text modalities for personality detection. The authors use
+acoustic-prosodic low level descriptor (LLD) features, word category features from LIWC
+and word scores for pleasantness, activation and imagery from the Dictionary of Affect in
+Language (DAL) [104]. A concatenation of these features are then fed into a MLP. They
+have compared this with a network consisting of word embedding with LSTM, and showed
+that the bimodal MLP network performs best on the myPersonality corpus. The MLP gen-
+eralizes better when faced with out-of-vocabulary words. This points to the promise of
+acoustic-prosodic features, which are more robust with respect to language. They also ﬁnd
+that models with early and late fusion of features achieve similar performance.
+[93] makes use of temporally ordered deep audio and stochastic visual features for bi-
+modal ﬁrst impressions recognition. The novel idea of this paper is predicting perceived
+personality traits by making use of volumetric 3D convolution [50] based deep neural net-
+work. The temporal patterns in the audio and visual features are learned using a LSTM based
+deep RNN. Both the models concatenate the features extracted from audio and visual data
+in a later stage and ﬁnally feed into a fully connected layer.
+[107] follows a similar approach in trying to model the temporal dependencies by mak-
+ing use of LSTM. Audio features such as ZCR, MFCC and chroma vectors are extracted us-
+ing PyAudio Analysis, whereas images are fed to a ResNet34 [42] architecture after random
+cropping and normalization. This architecture is shown in Fig.4 and achieves state-of-the-art
+performance for conscientiousness and openness traits. [40] achieve state-of-the-art perfor-
+mance in this ﬁeld by feeding the extracted feature vectors to a Extreme Learning Machine
+(ELM) and then fusing their predictions.
+Acoustic features are extracted via the popularly used openSMILE tool while pre-trained
+Deep Convolutional Neural Network, VGG-VD-19 [91] was used to extract facial emotion
+and ambient information from images. Local Gabor Binary Patterns from Three Orthogonal
+Planes (LGBP-TOP) [112] along with VGGFace was used for facial feature extraction. The
+best results are achieved with multi-level fusion of one acoustic and three visual sub-systems
+which are fed into an ELM and then combined with score level fusion.
+Apart from perceived personality analysis of the Big-Five traits, an individual’s atti-
+tudes such as amusement, impatience, friendliness, enthusiasm, frustration can also be esti-
+mated using similar architectures. [63] automatically recognizes attitudes of Vloggers using
+prosodic and visual feature analysis. Prosodic features of audio such as pitch, intensity, qual-
+ity, duration of utterance, etc. were extracted using TCL/TK script. Prosodic analysis of the
+attitudes shows impatience having the highest pitch whereas frustration the lowest. How-
+ever, the analysis of visual modality is simply done by correlating the absolute movement of
+landmarks (eyebrows, mouth, etc.) of the face with respect to attitude.
+18
+Yash Mehta et al.
+[113] is one of the only papers to computationally study the inﬂuence of personality
+traits on emotion. The authors have jointly modeled physiological signals with person-
+ality. They have presented Vertex-weighted Multimodal Multitask Hypergraph Learning
+(VM2HL) learning model, where vertices are (subject, stimuli) pairs. Hyperedges formulate
+the relationship between personality and physiological signals. Hyperedges, modalities and
+vertices are given different levels of importance by introducing weights which are learned
+during training.
+4.5 Trimodal
+While most of the work focuses on fusion of inputs from audio and visual sources, [37]
+creates an additional stream that incorporates input from the text modality. These personality
+predictions are then used for automated screening of job candidates. They have achieved
+comparable performance to state-of-the-art while making use of a fully connected neural
+network with only 2 hidden layers. Facial features are extracted using OpenFace [4], an
+open source facial feature extractor toolkit. Audio features such as MFCC, ZCR, spectral
+energy distribution and speaking rate are extracted using OpenSMILE [30] and SenticNet is
+used for polarity detection from text.
+Fig. 5 Hierarchical architecture for extracting context- dependent multimodal utterance features [81].
+[81] carries out multimodal sentiment analysis and make use of LSTMs to capture the
+context along with dependencies in between utterances. Initially, context independent fea-
+tures are extracted from each of the modalities. Features from the visual modality are ex-
+tracted using 3D-CNN, OpenSMILE is used to capture low level descriptors from audio and
+Word2Vec embeddings followed by CNN for the text modality. To capture the ﬂow of infor-
+mational triggers across utterances, a LSTM-based RNN is used in a hierarchical scheme.
+Lastly, this is then fed to a dense layer for the ﬁnal output. This architecture performs better
+Recent Trends in Deep Learning Based Personality Detection
+19
+Table 4 Performance of the state-of-the-art methods on popular personality-detection datasets.
+Modality
+Dataset
+Personality Measure
+Mean Best Accuracy
+Paper
+Text
+Essays I [74]
+Big 5
+57.99
+[64]
+Essays II [95]
+Big 5
+63.6
+[83]
+MBTI Kaggle
+MBTI
+67.77
+[43]
+Italian FriendsFeed [16]
+Big 5
+63.1
+[15]
+Audio
+The AMI Meeting Corpus [13]
+Big 5
+64.84
+[98]
+CMU self recorded database [79]
+Big 5
+-
+[79]
+Columbia deception corpus [58]
+-
+-
+[59]
+Visual
+Face Evaluation [69]
+-
+-
+[86]
+YouTube Vlogs
+Big 5
+0.092 (R-squared)
+[5]
+ChaLearn First Impressions Dataset [80]
+Big 5
+90.94
+[39]
+Color FERET database [78]
+Big 5
+65
+[2]
+Multimodal
+ChaLearn First Impressions Dataset [80]
+Big 5
+91.7
+[38]
+ELEA (Emergent LEAder) corpus [88]
+Leadership / Extraversion
+81.3
+[56]
+than the state of the art on IEMOCAP [9], MOUD [76] and MOSI [110] datasets and is
+shown in Fig.5.
+Deep networks being trained on multimodal data are generally very computationally
+intensive. [102] have proposed a multimodal neural network architecture that combines dif-
+ferent type of input data of various sizes with Discriminant Correlation Analysis (DCA) [41]
+Feature Fusion layer with low computational complexity. The fused features are used as in-
+puts for layers in the Mixture Density Network to adjust for the information loss due to
+feature fusion. The ﬁnal prediction is made using a state-of-art cascade network built on
+advanced gradient boosting algorithms.
+Instead of having different trained neural networks for each of the 5 personality traits,
+[55] train a single neural network with a multiclass approach with 3 channels (one for each
+of the modalities). Features are extracted from each of the 3 modalities using CNNs. The
+authors have experimented with using early fusion (concatenation of vectors to obtain shared
+representations of the input data) along with late fusion (each of the modalities makes an
+individual prediction and the prediction of the network is some weighted average of these
+predictions).
+5 Results and Discussions
+Table 4 provides a systematic overview of the classiﬁcation performance on popular personality-
+detection datasets. There has been a large increase in the number of works published in the
+ﬁeld of personality detection in the last couple of years. This is due to the huge number of
+industrial applications of personality detection, as discussed in Section 1.2. Recently, sys-
+tematically annotated datasets have been made publicly available and, hence, research can
+now be focused on creating better models and architectures rather than on data procurement
+and preprocessing. The CVPR First Impressions dataset [22] is the most popular multimodal
+dataset in personality detection. We see that there are many datasets for the Big-Five per-
+sonality measure, however other personality measures (e.g., MBTI, PEN, 16PF) are lacking
+resources. The reliability of personality tests comes into question as it sometimes happens
+that when a person takes the test it gives a certain personality, however when the same
+person takes the same test again, it gives a different type of personality. [28,27] study the
+interpretability and explainability of deep learning models in the context of computer vision
+20
+Yash Mehta et al.
+for looking at people tasks. The MBTI personality measure is the most popular personal-
+ity measure used across the world right now. [33] have examined the relationship between
+subjects’ actual test derived scores and their estimates of what those scores would be. Re-
+sults showed signiﬁcant positive correlations in majority of the dimensions. MBTI traits are
+harder and more complex to predict than the Big-Five traits [34], but we see current deep
+learning models are starting to achieve good accuracy in this area as well.
+We see that the state of the art in personality detection has been achieved using deep
+learning techniques along with multimodal fusion of features. Techniques involving bimodal
+fusion are currently very popular. One can see that there is lot of scope for research and
+exploration for trimodal fusion for personality detection as presently, relatively few works
+have explored the fusion of all 3 modalities. If an individual’s personality could be predicted
+with a little more reliability, there is scope for integrating automated personality detection in
+almost all agents dealing with human-machine interaction such as voice assistants, robots,
+cars, etc. Research in this ﬁeld is moving from detecting personality solely from textual data
+to visual and multimodal data.
+We have seen the practical potential for automated personality detection is huge in the
+present day scenario. We expect that many of the deep learning models discussed in this
+paper will be implemented for industrial applications in the next few years. For training
+these models there will be a need for large publicly available datasets of various personality
+measures. In the last 5 years, we have seen a tremendous rise in the number of deep learning
+models that have been used for automated personality detection. The best performance in
+most modalities (especially visual) have been achieved by deep neural networks. We expect
+this trend to continue in the future with smarter and more robust deep learning models to
+follow.
+6 Conclusion
+As discussed in this paper, there are many diverse applications of automated personality de-
+tection which can be used in the industry, hence making it a very hot and upcoming ﬁeld.
+However, machine learning models are as powerful as the data used to train them. For a
+large number of cases in this ﬁeld, enough labelled data are not available to train huge neu-
+ral networks. There is a dire need of larger, more accurate and more diverse datasets for
+personality detection. Almost all of the current datasets focus on the Big-Five personality
+model and very few for other personality measures such as the MBTI or PEN. Normally,
+personality is measured by answering multiple questions in a survey. Assuming that every-
+one taking the survey answers honestly, the credibility of this survey in correctly labelling an
+individual’s personality is still in question. A more accurate and efﬁcient way of labelling
+personality traits needs to be explored. Most of the current methods for creating person-
+ality detection datasets rely on manual annotation through crowd sourcing using Amazon
+Mechanical Turk.
+Recent multimodal deep learning techniques have performed well and are starting to
+make reliable personality predictions. Deep learning offers a way to harness the large amount
+of data and computation power at our disposal with little engineering by hand. Various deep
+models have become the new state-of-the-art methods not only for personality detection, but
+in other ﬁelds as well. We expect this trend to continue with deeper models and new archi-
+tectures which are able to map very complex functions. We expect to see more personality
+detection architectures that rely on efﬁcient multimodal fusion.
+Recent Trends in Deep Learning Based Personality Detection
+21
+7 Acknowledgement
+We would like to thank Prof. Bharat M Deshpande for his valuable guidance. A. Gelbukh
+recognizes the support of the Instituto Politecnico Nacional via the Secretaria de Investiga-
+cion y Posgrado projects SIP 20196437 and SIP 20196021.
+References
+1. Agarwal, B.: Personality detection from text: A review. International Journal of Computer System 1,
+1–4 (2014)
+2. Al Moubayed, N., Vazquez-Alvarez, Y., McKay, A., Vinciarelli, A.: Face-based automatic personality
+perception. In: Proceedings of the 22nd ACM international conference on Multimedia, pp. 1153–1156.
+ACM (2014)
+3. An, G., Levitan, R.: Lexical and acoustic deep learning model for personality recognition. In: Proc.
+Interspeech 2018, pp. 1761–1765 (2018). DOI 10.21437/Interspeech.2018-2263. URL http://dx.
+doi.org/10.21437/Interspeech.2018-2263
+4. Baltrusaitis, T., Robinson, P., Morency, L.P.: Openface: an open source facial behavior analysis toolkit.
+In: Applications of Computer Vision (WACV), 2016 IEEE Winter Conference on, pp. 1–10. IEEE
+(2016)
+5. Biel, J.I., Teijeiro-Mosquera, L., Gatica-Perez, D.: Facetube: predicting personality from facial ex-
+pressions of emotion in online conversational video. In: Proceedings of the 14th ACM international
+conference on Multimodal interaction, pp. 53–56. ACM (2012)
+6. Blei, D.M., Ng, A.Y., Jordan, M.I.: Latent dirichlet allocation. Journal of machine Learning research
+3(Jan), 993–1022 (2003)
+7. Briggs Myers, I.: Introduction to type: A guide to understanding your results on the myers-briggs type
+indicator (revised by lk kirby & kd myers). palo alto (1993)
+8. Bruce, V., Young, A.: Understanding face recognition. British journal of psychology 77(3), 305–327
+(1986)
+9. Busso, C., Bulut, M., Lee, C.C., Kazemzadeh, A., Mower, E., Kim, S., Chang, J.N., Lee, S., Narayanan,
+S.S.: Iemocap: Interactive emotional dyadic motion capture database. Language resources and evalua-
+tion 42(4), 335 (2008)
+10. Cambria, E., Poria, S., Hazarika, D., Kwok, K.: SenticNet 5: Discovering conceptual primitives for
+sentiment analysis by means of context embeddings. In: AAAI, pp. 1795–1802 (2018)
+11. Caprara, G.V., Schwartz, S., Capanna, C., Vecchione, M., Barbaranelli, C.: Personality and politics:
+Values, traits, and political choice. Political psychology 27(1), 1–28 (2006)
+12. Carletta, J.: Unleashing the killer corpus: experiences in creating the multi-everything ami meeting
+corpus. Language Resources and Evaluation 41(2), 181–190 (2007)
+13. Carletta, J., Ashby, S., Bourban, S., Flynn, M., Guillemot, M., Hain, T., Kadlec, J., Karaiskos, V., Kraaij,
+W., Kronenthal, M., et al.: The ami meeting corpus: A pre-announcement. In: International Workshop
+on Machine Learning for Multimodal Interaction, pp. 28–39. Springer (2005)
+14. Cattell, H.E., Mead, A.D.: The sixteen personality factor questionnaire (16pf). The SAGE handbook of
+personality theory and assessment 2, 135–178 (2008)
+15. Celli, F.: Unsupervised personality recognition for social network sites. In: Proc. of sixth international
+conference on digital society (2012)
+16. Celli, F., Di Lascio, F.M.L., Magnani, M., Pacelli, B., Rossi, L.: Social network data and practices:
+the case of friendfeed. In: International Conference on Social Computing, Behavioral Modeling, and
+Prediction, pp. 346–353. Springer (2010)
+17. Celli, F., Poesio, M.: Pr2: A language independent unsupervised tool for personality recognition from
+text. arXiv preprint arXiv:1402.2796 (2014)
+18. Chen, B., Escalera, S., Guyon, I., Ponce-L´opez, V., Shah, N., Sim´on, M.O.: Overcoming calibration
+problems in pattern labeling with pairwise ratings: application to personality traits. In: European Con-
+ference on Computer Vision, pp. 419–432. Springer (2016)
+19. Chittaranjan, G., Blom, J., Gatica-Perez, D.: Who’s who with big-ﬁve: Analyzing and classifying per-
+sonality traits with smartphones. In: Wearable Computers (ISWC), 2011 15th Annual International
+Symposium on, pp. 29–36. IEEE (2011)
+20. Chung, J., Gulcehre, C., Cho, K., Bengio, Y.: Empirical evaluation of gated recurrent neural networks
+on sequence modeling. arXiv preprint arXiv:1412.3555 (2014)
+22
+Yash Mehta et al.
+21. Cristani, M., Vinciarelli, A., Segalin, C., Perina, A.: Unveiling the multimedia unconscious: Implicit
+cognitive processes and multimedia content analysis. In: Proceedings of the 21st ACM international
+conference on Multimedia, pp. 213–222. ACM (2013)
+22. CVPR: Chalearn dataset looking at people challenge (2017). URL http://chalearnlap.cvc.
+uab.es/dataset/24/description/
+23. Dalal, N., Triggs, B.: Histograms of oriented gradients for human detection. In: Computer Vision and
+Pattern Recognition, 2005. CVPR 2005. IEEE Computer Society Conference on, vol. 1, pp. 886–893.
+IEEE (2005)
+24. Davis, S.B., Mermelstein, P.: Comparison of parametric representations for monosyllabic word recog-
+nition in continuously spoken sentences. In: Readings in speech recognition, pp. 65–74. Elsevier (1990)
+25. Digman, J.M.: Personality structure: Emergence of the ﬁve-factor model. Annual review of psychology
+41(1), 417–440 (1990)
+26. Eddine Bekhouche, S., Dornaika, F., Ouaﬁ, A., Taleb-Ahmed, A.: Personality traits and job candidate
+screening via analyzing facial videos. In: Proceedings of the IEEE Conference on Computer Vision
+and Pattern Recognition Workshops, pp. 10–13 (2017)
+27. Escalante, H.J., Guyon, I., Escalera, S., Jacques, J., Madadi, M., Bar´o, X., Ayache, S., Viegas, E.,
+G¨uc¸l¨ut¨urk, Y., G¨uc¸l¨u, U., et al.: Design of an explainable machine learning challenge for video inter-
+views. In: 2017 International Joint Conference on Neural Networks (IJCNN), pp. 3688–3695. IEEE
+(2017)
+28. Escalante, H.J., Kaya, H., Salah, A.A., Escalera, S., Gucluturk, Y., Guclu, U., Bar´o, X., Guyon, I.,
+Junior, J.J., Madadi, M., et al.: Explaining ﬁrst impressions: modeling, recognizing, and explaining
+apparent personality from videos. arXiv preprint arXiv:1802.00745 (2018)
+29. Escalera, S., Bar´o, X., Guyon, I., Escalante, H.J.: Guest editorial: apparent personality analysis. IEEE
+Transactions on Affective Computing (3), 299–302 (2018)
+30. Eyben, F., Wollmer, M., Schuller, B.: Opensmile: the munich versatile and fast open-source audio fea-
+ture extractor. In: Proceedings of the 18th ACM international conference on Multimedia, pp. 1459–
+1462. ACM (2010)
+31. Eysenck, H.J.: A model for personality. Springer Science & Business Media (2012)
+32. Freund, Y., Schapire, R.E., et al.: Experiments with a new boosting algorithm. In: Icml, vol. 96, pp.
+148–156. Bari, Italy (1996)
+33. Furnham, A.: Can people accurately estimate their own personality test scores? European Journal of
+Personality 4(4), 319–327 (1990)
+34. Furnham, A.: The big ﬁve versus the big four: the relationship between the myers-briggs type indicator
+(mbti) and neo-pi ﬁve factor model of personality. Personality and Individual Differences 21(2), 303–
+307 (1996)
+35. Golbeck, J.: Predicting personality from social media text. AIS Transactions on Replication Research
+2(1), 2 (2016)
+36. Gonzalez-Gallardo, C.E., Montes, A., Sierra, G., Nunez-Juarez, J.A., Salinas-Lopez, A.J., Ek, J.:
+Tweets classiﬁcation using corpus dependent tags, character and pos n-grams. In: CLEF (Working
+Notes) (2015)
+37. Gorbova, J., Lusi, I., Litvin, A., Anbarjafari, G.: Automated screening of job candidate based on mul-
+timodal video processing. In: Proceedings of the IEEE Conference on Computer Vision and Pattern
+Recognition Workshops, pp. 29–35 (2017)
+38. Gucluturk, Y., Guclu, U., Perez, M., Balderas, H.J.E., Baro, X., Guyon, I., Andujar, C., Junior, J.,
+Madadi, M., Escalera, S., et al.: Visualizing apparent personality analysis with deep residual networks.
+In: International Conference on Computer Vision-ICCV 2017 (2017)
+39. Gurpinar, F., Kaya, H., Salah, A.A.: Combining deep facial and ambient features for ﬁrst impression
+estimation. In: European Conference on Computer Vision, pp. 372–385. Springer (2016)
+40. Gurpinar, F., Kaya, H., Salah, A.A.: Multimodal fusion of audio, scene, and face features for ﬁrst
+impression estimation. In: Pattern Recognition (ICPR), 2016 23rd International Conference on, pp.
+43–48. IEEE (2016)
+41. Haghighat, M., Abdel-Mottaleb, M., Alhalabi, W.: Discriminant correlation analysis: Real-time feature
+level fusion for multimodal biometric recognition. IEEE Transactions on Information Forensics and
+Security 11(9), 1984–1996 (2016)
+42. He, K., Zhang, X., Ren, S., Sun, J.: Deep residual learning for image recognition. In: Proceedings of
+the IEEE conference on computer vision and pattern recognition, pp. 770–778 (2016)
+43. Hernandez, R.K., Scott, I.: Predicting myers-briggs type indicator with text
+44. Hirsch, H.G., Pearce, D.: The aurora experimental framework for the performance evaluation of speech
+recognition systems under noisy conditions. In: ASR2000-Automatic Speech Recognition: Challenges
+for the new Millenium ISCA Tutorial and Research Workshop (ITRW) (2000)
+Recent Trends in Deep Learning Based Personality Detection
+23
+45. Hoerl, A.E., Kennard, R.W.: Ridge regression: Biased estimation for nonorthogonal problems. Tech-
+nometrics 12(1), 55–67 (1970)
+46. Huang, G.B., Zhou, H., Ding, X., Zhang, R.: Extreme learning machine for regression and multiclass
+classiﬁcation. IEEE Transactions on Systems, Man, and Cybernetics, Part B (Cybernetics) 42(2), 513–
+529 (2012)
+47. Ilmini, K., Fernando, T.L.: Persons ’ personality traits recognition using machine learning algorithms
+and image processing techniques (2016)
+48. Ireland, M.E., Pennebaker, J.W.: Language style matching in writing: Synchrony in essays, correspon-
+dence, and poetry. Journal of personality and social psychology 99(3), 549 (2010)
+49. Jaynes, E.T.: On the rationale of maximum-entropy methods. Proceedings of the IEEE 70(9), 939–952
+(1982)
+50. Ji, S., Xu, W., Yang, M., Yu, K.: 3d convolutional neural networks for human action recognition. IEEE
+transactions on pattern analysis and machine intelligence 35(1), 221–231 (2013)
+51. Judge, T.A., Higgins, C.A., Thoresen, C.J., Barrick, M.R.: The big ﬁve personality traits, general mental
+ability, and career success across the life span. Personnel psychology 52(3), 621–652 (1999)
+52. Junior, J., Jacques, C., G¨uc¸l¨ut¨urk, Y., P´erez, M., G¨uc¸l¨u, U., Andujar, C., Bar´o, X., Escalante, H.J.,
+Guyon, I., van Gerven, M.A., et al.: First impressions: A survey on computer vision-based apparent
+personality trait analysis. arXiv preprint arXiv:1804.08046 (2018)
+53. Kalghatgi, M.P., Ramannavar, M., Sidnal, N.S.: A neural network approach to personality prediction
+based on the big-ﬁve model. International Journal of Innovative Research in Advanced Engineering
+(IJIRAE) 2(8), 56–63 (2015)
+54. Kamenskaya, E., Kukharev, G.: Recognition of psychological characteristics from face. Metody Infor-
+matyki Stosowanej 1(1), 59–73 (2008)
+55. Kampman, O., Barezi, E.J., Bertero, D., Fung, P.: Investigating audio, video, and text fusion methods
+for end-to-end automatic personality prediction. In: Proceedings of the 56th Annual Meeting of the
+Association for Computational Linguistics (Volume 2: Short Papers), vol. 2, pp. 606–611 (2018)
+56. Kindiroglu, A.A., Akarun, L., Aran, O.: Multi-domain and multi-task prediction of extraversion and
+leadership from meeting videos. EURASIP Journal on Image and Video Processing 2017(1), 77 (2017)
+57. Kohonen, T.: The self-organizing map. Proceedings of the IEEE 78(9), 1464–1480 (1990)
+58. Levitan, S.I., An, G., Wang, M., Mendels, G., Hirschberg, J., Levine, M., Rosenberg, A.: Cross-cultural
+production and detection of deception from speech. In: Proceedings of the 2015 ACM on Workshop on
+Multimodal Deception Detection, pp. 1–8. ACM (2015)
+59. Levitan, S.I., Levitan, Y., An, G., Levine, M., Levitan, R., Rosenberg, A., Hirschberg, J.: Identifying
+individual differences in gender, ethnicity, and personality from dialogue for deception detection. In:
+Proceedings of the Second Workshop on Computational Approaches to Deception Detection, pp. 40–44
+(2016)
+60. Liem, C.C., Langer, M., Demetriou, A., Hiemstra, A.M., Wicaksana, A.S., Born, M.P., K¨onig, C.J.: Psy-
+chology meets machine learning: Interdisciplinary perspectives on algorithmic job candidate screening.
+In: Explainable and Interpretable Models in Computer Vision and Machine Learning, pp. 197–253.
+Springer (2018)
+61. Ling, W., Luis, T., Marujo, L., Astudillo, R.F., Amir, S., Dyer, C., Black, A.W., Trancoso, I.: Finding
+function in form: Compositional character models for open vocabulary word representation. arXiv
+preprint arXiv:1508.02096 (2015)
+62. Liu, L., Preotiuc-Pietro, D., Samani, Z.R., Moghaddam, M.E., Ungar, L.H.: Analyzing personality
+through social media proﬁle picture choice. In: ICWSM, pp. 211–220 (2016)
+63. Madzlan, N.A., Han, J., Bonin, F., Campbell, N.: Automatic recognition of attitudes in video blogs—
+prosodic and visual feature analysis.
+In: Fifteenth Annual Conference of the International Speech
+Communication Association (2014)
+64. Majumder, N., Poria, S., Gelbukh, A., Cambria, E.: Deep learning-based document modeling for per-
+sonality detection from text. IEEE Intelligent Systems 32(2), 74–79 (2017)
+65. Matthews, G., Deary, I.J., Whiteman, M.C.: Personality traits. Cambridge University Press (2003)
+66. Mikolov, T., Chen, K., Corrado, G., Dean, J.: Efﬁcient estimation of word representations in vector
+space. arXiv preprint arXiv:1301.3781 (2013)
+67. Miles, J., Hempel, S.: The eysenck personality scales: The eysenck personality questionnaire–revised
+(epq–r) and the eysenck personality proﬁler (epp). Comprehensive handbook of psychological assess-
+ment 2, 99–107 (2004)
+68. Mukherjee, S., Kumar, U.: Ethical issues in personality assessment. The Wiley Handbook of Personality
+Assessment pp. 415–426 (2016)
+69. Oosterhof, N.N., Todorov, A.: The functional basis of face evaluation. Proceedings of the National
+Academy of Sciences 105(32), 11087–11092 (2008)
+24
+Yash Mehta et al.
+70. Palaz, D., Magimai.-Doss, M., Collobert, R.: Analysis of cnn-based speech recognition system using
+raw speech as input. Tech. rep., Idiap (2015)
+71. Papurt, M.J.: A study of the woodworth psychoneurotic inventory with suggested revision. The Journal
+of Abnormal and Social Psychology 25(3), 335 (1930)
+72. Park, G., Schwartz, H.A., Eichstaedt, J.C., Kern, M.L., Kosinski, M., Stillwell, D.J., Ungar, L.H., Selig-
+man, M.E.: Automatic personality assessment through social media language. Journal of personality
+and social psychology 108(6), 934 (2015)
+73. Pennebaker, J.W., Francis, M.E., Booth, R.J.: Linguistic inquiry and word count: Liwc 2001. Mahway:
+Lawrence Erlbaum Associates 71(2001), 2001 (2001)
+74. Pennebaker, J.W., King, L.A.: Linguistic styles: Language use as an individual difference. Journal of
+personality and social psychology 77(6), 1296 (1999)
+75. Pennington, J., Socher, R., Manning, C.: Glove: Global vectors for word representation. In: Proceedings
+of the 2014 conference on empirical methods in natural language processing (EMNLP), pp. 1532–1543
+(2014)
+76. Perez-Rosas, V., Mihalcea, R., Morency, L.P.: Utterance-level multimodal sentiment analysis. In: Pro-
+ceedings of the 51st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long
+Papers), vol. 1, pp. 973–982 (2013)
+77. Pervin, L.A., John, O.P.: Handbook of personality: Theory and research. Elsevier (1999)
+78. Phillips, P.J., Wechsler, H., Huang, J., Rauss, P.J.: The feret database and evaluation procedure for
+face-recognition algorithms. Image and vision computing 16(5), 295–306 (1998)
+79. Polzehl, T., Moller, S., Metze, F.: Automatically assessing personality from speech. In: Semantic Com-
+puting (ICSC), 2010 IEEE Fourth International Conference on, pp. 134–140. IEEE (2010)
+80. Ponce-L´opez, V., Chen, B., Oliu, M., Corneanu, C., Clap´es, A., Guyon, I., Bar´o, X., Escalante, H.J.,
+Escalera, S.: Chalearn lap 2016: First round challenge on ﬁrst impressions-dataset and results. In:
+European Conference on Computer Vision, pp. 400–418. Springer (2016)
+81. Poria, S., Cambria, E., Hazarika, D., Majumder, N., Zadeh, A., Morency, L.P.: Context-dependent senti-
+ment analysis in user-generated videos. In: Proceedings of the 55th Annual Meeting of the Association
+for Computational Linguistics (Volume 1: Long Papers), vol. 1, pp. 873–883 (2017)
+82. Poria, S., Cambria, E., Hazarika, D., Vij, P.: A deeper look into sarcastic tweets using deep convolutional
+neural networks. In: COLING, pp. 1601–1612 (2016)
+83. Poria, S., Gelbukh, A., Agarwal, B., Cambria, E., Howard, N.: Common sense knowledge based per-
+sonality recognition from text. In: Mexican International Conference on Artiﬁcial Intelligence, pp.
+484–496. Springer (2013)
+84. Rai, N.: Bi-modal regression for apparent personality trait recognition. In: Pattern Recognition (ICPR),
+2016 23rd International Conference on, pp. 55–60. IEEE (2016)
+85. Roberto, B., Poggio, T.: Face recognition: Features versus templates. IEEE Transactions on pattern
+Analysis and machine Intelligence 15(10), 1042–1052 (1993)
+86. Rojas, M., Masip, D., Todorov, A., Vitria, J.: Automatic prediction of facial trait judgments: Appearance
+vs. structural models. PloS one 6(8), e23323 (2011)
+87. Saez, Y., Navarro, C., Mochon, A., Isasi, P.: A system for personality and happiness detection. IJIMAI
+2(5), 7–15 (2014)
+88. Sanchez-Cortes, D., Aran, O., Gatica-Perez, D.: An audio visual corpus for emergent leader analysis.
+ICMI-MLMI), Multimodal Corpora for Machine Learning, Nov pp. 14–18 (2011)
+89. Schapire, R.E., Singer, Y.: Boostexter: A boosting-based system for text categorization. Machine learn-
+ing 39(2-3), 135–168 (2000)
+90. Shaver, P.R., Brennan, K.A.: Attachment styles and the” big ﬁve” personality traits: Their connections
+with each other and with romantic relationship outcomes. Personality and Social Psychology Bulletin
+18(5), 536–545 (1992)
+91. Simonyan, K., Zisserman, A.: Very deep convolutional networks for large-scale image recognition.
+arXiv preprint arXiv:1409.1556 (2014)
+92. Su, M.H., Wu, C.H., Zheng, Y.T.: Exploiting turn-taking temporal evolution for personality trait per-
+ception in dyadic conversations. IEEE/ACM Transactions on Audio, Speech, and Language Processing
+24(4), 733–744 (2016)
+93. Subramaniam, A., Patel, V., Mishra, A., Balasubramanian, P., Mittal, A.: Bi-modal ﬁrst impressions
+recognition using temporally ordered deep audio and stochastic visual features. In: European Confer-
+ence on Computer Vision, pp. 337–348. Springer (2016)
+94. Sun, X., Liu, B., Cao, J., Luo, J., Shen, X.: Who am i? personality detection based on deep learning for
+texts. In: 2018 IEEE International Conference on Communications (ICC), pp. 1–6. IEEE (2018)
+95. Tausczik, Y.R., Pennebaker, J.W.: The psychological meaning of words: Liwc and computerized text
+analysis methods. Journal of language and social psychology 29(1), 24–54 (2010)
+Recent Trends in Deep Learning Based Personality Detection
+25
+96. Tseng, S.C.: Processing mandarin spoken corpora. Traitement Automatique des Langes pp. 89–108
+(2004)
+97. Turk, M., Pentland, A.: Eigenfaces for recognition. Journal of cognitive neuroscience 3(1), 71–86
+(1991)
+98. Valente, F., Kim, S., Motlicek, P.: Annotation and recognition of personality traits in spoken conver-
+sations from the ami meetings corpus. In: Thirteenth Annual Conference of the International Speech
+Communication Association (2012)
+99. Ventura, C., Masip, D., Lapedriza, A.: Interpreting cnn models for apparent personality trait regression.
+In: Computer Vision and Pattern Recognition Workshops (CVPRW), 2017 IEEE Conference on, pp.
+1705–1713. IEEE (2017)
+100. Vinciarelli, A., Mohammadi, G.: A survey of personality computing. IEEE Transactions on Affective
+Computing 5(3), 273–291 (2014)
+101. Viola, P., Jones, M.J.: Robust real-time face detection. International journal of computer vision 57(2),
+137–154 (2004)
+102. Vo, N.N., Liu, S., He, X., Xu, G.: Multimodal mixture density boosting network for personality mining.
+In: Paciﬁc-Asia Conference on Knowledge Discovery and Data Mining, pp. 644–655. Springer (2018)
+103. Walker, M., Vetter, T.: Changing the personality of a face: Perceived big two and big ﬁve personality
+factors modeled in real photographs. Journal of personality and social psychology 110(4), 609 (2016)
+104. Whissell, C., Fournier, M., Pelland, R., Weir, D., Makarec, K.: A dictionary of affect in language: Iv.
+reliability, validity, and applications. Perceptual and Motor Skills 62(3), 875–888 (1986)
+105. Willis, J., Todorov, A.: First impressions: Making up your mind after a 100-ms exposure to a face.
+Psychological science 17(7), 592–598 (2006)
+106. Yang, H.C., Huang, Z.R.: Mining personality traits from social messages for game recommender sys-
+tems. Knowledge-Based Systems 165, 157–168 (2019)
+107. Yang, K., Mall, S., Glaser, N.: Prediction of personality ﬁrst impressions with deep bimodal lstm (2017)
+108. Yin, H., Wang, Y., Li, Q., Xu, W., Yu, Y., Zhang, T.: A network-enhanced prediction method for auto-
+mobile purchase classiﬁcation using deep learning (2018)
+109. Yu, J., Markov, K.: Deep learning based personality recognition from facebook status updates. In:
+Awareness Science and Technology (iCAST), 2017 IEEE 8th International Conference on, pp. 383–
+387. IEEE (2017)
+110. Zadeh, A., Zellers, R., Pincus, E., Morency, L.P.: Mosi: multimodal corpus of sentiment intensity and
+subjectivity analysis in online opinion videos. arXiv preprint arXiv:1606.06259 (2016)
+111. Zhang, C.L., Zhang, H., Wei, X.S., Wu, J.: Deep bimodal regression for apparent personality analysis.
+In: European Conference on Computer Vision, pp. 311–324. Springer (2016)
+112. Zhang, W., Shan, S., Gao, W., Chen, X., Zhang, H.: Local gabor binary pattern histogram sequence
+(lgbphs): a novel non-statistical model for face representation and recognition. In: Computer Vision,
+2005. ICCV 2005. Tenth IEEE International Conference on, vol. 1, pp. 786–791. IEEE (2005)
+113. Zhao, S., Gholaminejad, A., Ding, G., Gao, Y., Han, J., Keutzer, K.: Personalized emotion recognition
+by personality-aware high-order learning of physiological signals. ACM Transactions on Multimedia
+Computing, Communications, and Applications (TOMM) 15(1s), 14 (2019)
+114. Zuo, X., Feng, B., Yao, Y., Zhang, T., Zhang, Q., Wang, M., Zuo, W.: A weighted ml-knn model for
+predicting users’ personality traits. In: Proc. Int. Conf. Inf. Sci. Comput. Appl.(ISCA), pp. 345–350
+(2013)
