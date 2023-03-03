@@ -1,0 +1,54 @@
+version: ignore
+
+components:    # define all the building-blocks for Pipeline
+  - name: DocumentStore
+    type: ElasticsearchDocumentStore
+    params:
+      host: 127.0.0.1
+      embedding_dim: 1536
+      recreate_index: True
+  - name: Retriever
+    type: EmbeddingRetriever
+    params:
+      api_key: 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
+      document_store: DocumentStore
+      embedding_model: text-embedding-ada-002
+  - name: QAReader
+    type: OpenAIAnswerGenerator
+    params:
+      api_key: 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
+      model: text-davinci-003
+      max_tokens: 200
+      top_k: 1
+  - name: FileTypeClassifier
+    type: FileTypeClassifier
+  - name: TextFileConverter
+    type: TextConverter
+  - name: Preprocessor
+    type: PreProcessor
+    params:
+      split_by: word
+      split_length: 180
+      split_overlap: 40
+      split_respect_sentence_boundary: False
+
+pipelines:
+  - name: query    # a sample extractive-qa Pipeline
+    nodes:
+      - name: Retriever
+        inputs: [Query]
+      - name: QAReader
+        inputs: [Retriever]
+  - name: indexing
+    nodes:
+      - name: FileTypeClassifier
+        inputs: [File]
+        inputs: [File]
+      - name: TextFileConverter
+        inputs: [FileTypeClassifier.output_1]
+      - name: Preprocessor
+        inputs: [TextFileConverter]
+      - name: Retriever
+        inputs: [Preprocessor]
+      - name: DocumentStore
+        inputs: [Retriever]
