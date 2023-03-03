@@ -12,12 +12,15 @@ logging.basicConfig(format="%(levelname)s - %(name)s -  %(message)s", level=logg
 logging.getLogger("haystack").setLevel(logging.WARNING)
 
 documents = []
+pdf_path = Path("python\pdfs")
 
 
 host = os.environ.get("ELASTICSEARCH_HOST", "localhost")
 
 converter = PDFToTextConverter(remove_numeric_tables=True, valid_languages=["en"])
-docs = converter.convert(file_path=Path("python\pdfs\9781785040207.pdf"), meta={"name": "test"})
+for pdf_file in pdf_path.glob("*.pdf"):
+    text = converter.convert(file_path=pdf_file, meta={"name": pdf_file.name})
+    documents.append(text)
 
 
 document_store = ElasticsearchDocumentStore(
@@ -25,7 +28,6 @@ document_store = ElasticsearchDocumentStore(
     username="",
     password="",
     index="document-small-test",
-    search_fields=["title","text"],
     embedding_field="embedding",
     excluded_meta_data=["embedding"],
     embedding_dim=768,
@@ -38,10 +40,10 @@ retriever = EmbeddingRetriever(
     max_seq_len=500,
     )
 
-document_store.write_documents(docs)
+document_store.write_documents(documents=documents)
 document_store.update_embeddings(retriever)
 
-print(docs[0].embedding)
+print(documents[0].embedding)
 
 generator = OpenAIAnswerGenerator(
     model="text-davinci-003", 
