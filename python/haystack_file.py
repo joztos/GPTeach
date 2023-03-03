@@ -20,8 +20,6 @@ converter = PDFToTextConverter(remove_numeric_tables=True, valid_languages=["en"
 docs = converter.convert(file_path=Path("python\pdfs\9781785040207.pdf"), meta={"name": "test"})
 
 
-time.sleep(30)
-
 document_store = ElasticsearchDocumentStore(
     host = host,
     username="",
@@ -46,11 +44,11 @@ document_store.update_embeddings(retriever)
 print(docs[0].embedding)
 
 generator = OpenAIAnswerGenerator(
-    model="text-davinchi-003", 
+    model="text-davinci-003", 
     api_key="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"
     )
 
-pipeline = GenerativeQAPipeline(reader=generator, retriever=retriever)
+pipeline = GenerativeQAPipeline(generator=generator, retriever=retriever)
 
 input = input("Enter your question: ")
 result = pipeline.run(query=input, top_k_retriever=10, top_k_reader=5)
