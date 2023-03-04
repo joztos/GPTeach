@@ -36,7 +36,7 @@ document_store = ElasticsearchDocumentStore(
 retriever = EmbeddingRetriever(
     document_store=document_store, 
     embedding_model="text-embedding-ada-002",
-    api_key="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",
+    api_key=openAI_apikey,
     max_seq_len=500,
     )
 
@@ -47,7 +47,7 @@ print(documents[0].embedding)
 
 generator = OpenAIAnswerGenerator(
     model="text-davinci-003", 
-    api_key="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"
+    api_key=openAI_apikey
     )
 
 pipeline = GenerativeQAPipeline(generator=generator, retriever=retriever)
