@@ -10,13 +10,13 @@ components:    # define all the building-blocks for Pipeline
   - name: Retriever
     type: EmbeddingRetriever
     params:
-      api_key: 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
+      api_key: openAI_apikey
       document_store: DocumentStore
       embedding_model: text-embedding-ada-002
   - name: QAReader
     type: OpenAIAnswerGenerator
     params:
-      api_key: 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
+      api_key: openAI_apikey
       model: text-davinci-003
       max_tokens: 200
       top_k: 1
