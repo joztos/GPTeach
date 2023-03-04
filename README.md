@@ -2,6 +2,8 @@
 
 GPTeach/NAVI is a web-based learning platform for learning and interacting with subjects and topics of interest. The project was developed during the lablab.ai openAi hackathon in February 2023.
 
+The beta version can be found at https://navitutor.com
+
 The responses provided by NAVI are reliable as they derive from curated information sources stored as dense vectors in an elasticsearch document store instsance. In addition to the use of davinci-003 as a generative model, the pipeline also uses text-embedding-retriever as an embedding retriever model.
 This was made possible through the usage of the haystack open-source NLP framework. https://github.com/deepset-ai/haystack
 
