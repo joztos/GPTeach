@@ -1,3 +1,5 @@
+If you are a hackathon judge, please contact olesia to get credentials that would allow you access to the server that hosts both the backend and frontend of this solution.
+
 # NAVI (GPTeach)
 
 GPTeach/NAVI is a web-based learning platform for learning and interacting with subjects and topics of interest. The project was developed during the lablab.ai openAi hackathon in February 2023.
