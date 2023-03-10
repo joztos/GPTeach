@@ -4,7 +4,7 @@ GPTeach/NAVI is a web-based learning platform for learning and interacting with 
 
 The beta version can be found at https://navitutor.com
 
-The answers provided by NAVI as a tutor are considered reliable as they derive from curated information sources stored as dense vectors in an elasticsearch document store instance. In addition to the use of davinci-003 as a generative model, the pipeline also uses text-embedding-retriever as an embedding retriever model.
+The answers provided by NAVI as a tutor are considered reliable as they derive from curated information sources stored as dense vectors in an elasticsearch document store instance. In addition to the use of davinci-003 as a generative model, the pipeline also uses text-embedding-ada002 as an embedding retriever model.
 This was made possible through the usage of the haystack open-source NLP framework. https://github.com/deepset-ai/haystack
 
 ## Solution Design
